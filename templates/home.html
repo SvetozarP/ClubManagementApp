@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="staticfiles/styles/styles.css">
+    <title>Archery Club | Croesoswallt Archers</title>
+</head>
+<body>
+    <header>
+        <nav class="main-navigation">
+            <ul>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="history.html">History</a></li>
+                <li><a href="membership.html">Membership</a></li>
+            </ul>
+            <div class="main-logo"><a href="home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
+            <ul>
+                <li><a href="news.html">News</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact-us.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="hero-top">
+            <h1>Welcome to Croesoswallt Archers!</h1>
+        </section>
+        <section class="introduction">
+            <div class="intro-media"><img src="staticfiles/images/croesoswalltintro.webp"></div>
+            <div class="intro-text">
+                <h3>Our Mission Statement</h3>
+                <p>To be the Archery club of choice in North Shropshire. To create the environment where all archers will be welcome and can maximise their potential, from beginners, through to intermediate and onto an elite level. Working within our community with schools, clubs and other groups, will always be an integral part of our vision.</p>
+            </div>
+        </section>
+        <section class="events">
+            <h2>What next?</h2>
+            <div class="event">
+                <h3>Events</h3>
+                <ul>
+                    <li class="event-card">
+                        <h3>2022-04-15</h3>
+                        <p>Archery Competition</p>
+                        <p>Hosted by: the British Ironwork Centre Oswestry</p>
+                        <p>Location: British Ironwork Centre Oswestry SY114JH</p>
+                        <p>Time: 19:00 - 22:00</p>
+                        <p>Description: Non-Record-status competition. National round.</p>
+                    </li>
+                    <li class="event-card">
+                        <h3>2022-05-01</h3>
+                        <p>National Archery Day</p>
+                        <p>Hosted by: the British Ironwork Centre Oswestry</p>
+                        <p>Location: British Ironwork Centre Oswestry SY114JH</p>
+                        <p>Time: 10:00 - 12:00</p>
+                        <p>Description: Archery competition held annually in May.</p>
+                    </li>
+                    <li class="event-card">
+                        <h3>2022-05-15</h3>
+                        <p>Cross-Country Championships</p>
+                        <p>Hosted by: the British Ironwork Centre Oswestry</p>
+                        <p>Location: British Ironwork Centre Oswestry SY114JH</p>
+                        <p>Time: 15:00 - 18:00</p>
+                        <p>Description: Cross-country competition held annually in May.</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="news">
+                <h3>News</h3>
+                <ul>
+                    <li class="news-card">
+                        <h3>2022-04-15</h3>
+                        <p>Title 1</p>
+                        <p>Posted by: Joe bloggs</p>
+                        <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint libero magnam perspiciatis</p>
+                    </li>
+                    <li class="news-card">
+                        <h3>2022-04-15</h3>
+                        <p>Title 1</p>
+                        <p>Posted by: Joe bloggs</p>
+                        <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint libero magnam perspiciatis</p>
+                    </li>
+                    <li class="news-card">
+                        <h3>2022-04-15</h3>
+                        <p>Title 1</p>
+                        <p>Posted by: Joe bloggs</p>
+                        <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint libero magnam perspiciatis</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="on-the-field">
+                <h3>Today we have:</h3>
+                <p>6 members shooting on the field.</p>
+            </div>
+        </section>
+        <section class="get-in-touch">
+            <h2>Get in touch</h2>
+            <div class="get-in-touch-wrapper">
+                <div class="testimonials">
+                    <h3>A few words from our beginners:</h3>
+                    <ul class="carousel-list">
+                        <li class="carousel-item">
+                            <p class="testimonial">“…My family completed the beginner's course today and are interested in becoming full club members. I'd also like to say we have really enjoyed the beginner's course, thanks to the friendliness and patience of the coaches…..”</p>
+                            <p>Jo. 09 April 2022</p>
+                        </li>
+                        <li class="carousel-item">
+                            <p class="testimonial">…We have really enjoyed the archery lessons, and also just wanted to take this opportunity to say thank you for how welcoming, friendly and helpful you all were….”</p>
+                            <p>Matt. 22 May 2022</p>
+                        </li>
+                        <li class="carousel-item">
+                            <p class="testimonial">“…Following on from the very enjoyable beginners course held over the last 4 weeks……. can I please take this opportunity to thank all those involved in making my return, and my son's introduction to archery, a very pleasurable experience…..”</p>
+                            <p>Mark. 23 May 2022</p>
+                        </li>
+                        <li class="carousel-item">
+                            <p class="testimonial">“…Thank you for a great beginner's course.  Very well thought out, safe, enjoyable and very friendly…”</p>
+                            <p>Geoff. 02 July 2022</p>
+                        </li>
+                        <li class="carousel-item">
+                            <p class="testimonial">…I look forward to jointing your club and thank you all for a great 4 week course….”</p>
+                            <p>Kathryn. 03. July 2022</p>
+                        </li>
+                    </ul>
+                    <!-- Carousel navigation arrows as anchor tags -->
+                    <button class="prev" onclick="prevSlide()">&#10094;</button>
+                    <button class="next" onclick="nextSlide()">&#10095;</button>
+                    <script src="staticfiles/scripts/carousel.js"></script>
+                </div>
+                <div class="contact-us">
+                    <a href="contact-us.html">Contact us!</a>
+                </div>
+            </div>
+        </section>
+        <section class="where-are-we">
+            <div class="map-wrapper">
+                <div class="where-are-we-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2409.897009771448!2d-2.994238323036936!3d52.842240812321734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487abbc531eb3cc7%3A0x406471649ae3ea03!2sCroesoswallt%20Archers!5e0!3m2!1sen!2suk!4v1730746351480!5m2!1sen!2suk" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="map-text">
+                    <h3>Our range is based at the British Ironwork Centre Oswestry SY114JH</h3>
+                    <p>Our club has three Ranges The main Range has 16 lanes permanently set out for both Metric and Imperial shooting which covers all distances required for competitions. A Training Range used for Beginner courses and Taster sessions and a full-length Clout Range. Although we do not have an indoor range on site, we do hire a sports hall over the winter period only in the local village of St Martins shooting an 18m distance.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <ul>
+            <li><div class="ssas-media"><a href="http://www.shropshirearcherysociety.co.uk/"><img src="staticfiles/images/county-logo_400px.webp" alt="Shropshire Archery Society Logo"></a></div></li>
+            <li><div class="agb-media"><a href="http://www.archerygb.org/"><img src="staticfiles/images/agb_logo.webp" alt="Archery GB Logo" /></a></div></li>
+            <li><div class="ontarget-media"><a href="https://archerygb.org/files/A5-ontarget-community-brochure-WEB-single-pages.pdf"><img src="staticfiles/images/ONTARGET-Community-logo1.webp" alt="OnTarget Community logo"></a></div></li>
+        </ul>
+        <ul class="socials">
+            <li><a href="https://www.facebook.com/CroesoswalltArchery"><i class="fa-brands fa-facebook"></i></a></li>
+            <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
+        </ul>
+    </footer>
+    
+</body>
+</html>

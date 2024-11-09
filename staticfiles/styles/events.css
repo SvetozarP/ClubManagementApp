@@ -1,0 +1,36 @@
+.event-title {
+    text-align: center;
+    font-size: 1.5em;
+    padding: 40px;
+}
+
+.event-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.event-media {
+    flex: 0 0 calc(50% - 40px);
+    align-self: end;
+}
+
+.event-media img {
+    display: block;
+    max-width: 100%;
+    max-height: 300px;
+    margin: 0 auto;
+}
+
+.event-text p {
+    font-size: 1em;
+}
+
+.event-desctiption {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

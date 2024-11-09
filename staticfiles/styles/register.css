@@ -1,0 +1,30 @@
+.register-form p:nth-of-type(9) input[type="submit"] {
+    padding: 5px 20px;
+    display: block;
+    margin: 10px auto;
+}
+
+.register-form label {
+    padding: 20px 0px;
+    color: #1E4E3B;
+}
+
+.register-form input[type="text"],
+.register-form input[type="password"],
+.register-form input[type="email"] {
+    width: 50ch;
+    margin: 10px 0px;
+    padding: 10px 5px;
+    border: 1px solid #1E4E3B;
+    border-radius: 10px;
+}
+
+.register-media {
+    width: 160px;
+    height: auto;
+}
+
+.register-media img {
+    display: block;
+    width: 100%;
+}

@@ -1,0 +1,47 @@
+.login-section-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border: 2px solid #1E4E3B;
+    border-radius: 10px;
+    width: 800px;
+    margin: 20px auto;    
+    padding: 50px;
+}
+
+.login-form p:nth-of-type(5) input[type="submit"] {
+    padding: 5px 20px;
+    display: block;
+    margin: 10px auto;
+}
+
+.login-form label {
+    padding: 20px 0px;
+    color: #1E4E3B;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="email"],
+#contact-message {
+    width: 50ch;
+    margin: 10px 0px;
+    padding: 10px 5px;
+    border: 1px solid #1E4E3B;
+    border-radius: 10px;
+}
+
+#contact-message {
+    height: 8em;
+}
+
+.login-media {
+    width: 160px;
+    height: auto;
+}
+
+.login-media img {
+    display: block;
+    width: 100%;
+}
