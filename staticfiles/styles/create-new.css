@@ -1,0 +1,38 @@
+.create-new-title {
+    margin-top: 70px;
+    background-color: #1E4E3B;
+    color: #fff;
+}
+
+.create-form-container {
+    
+    background-color: #1E4E3B;
+}
+
+.create-form-container form {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    width: 800px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+.create-form-container * {
+    color: #1E4E3B;
+}
+
+.create-form-container p {
+    text-align: center;
+}
+
+.create-form-container p label {
+    margin-right: 20px;
+}
+
+.create-form-container p input,
+.create-form-container p textarea {
+    align-self: flex-start;
+    width: 40ch;
+}

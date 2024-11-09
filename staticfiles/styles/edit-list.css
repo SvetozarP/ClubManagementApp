@@ -1,0 +1,8 @@
+.list-wrapper {
+    background-color: #1E4E3B;
+}
+
+
+.list-wrapper * {
+    color: #fff;
+}

@@ -23,7 +23,7 @@
         </nav>
     </header>
     <main>
-        <div class="profile-welcome"><h2>Welcome, Archer!</h2></div>
+        <div class="profile-welcome"><h2>Register New user</h2></div>
         <div class="profile-wrapper">
             <section class="profile-menu">
                 <ul class="profile-menu-items">
@@ -40,35 +40,19 @@
                     <li><a href="create-user.html">Create user</a></li>
                 </ul>
             </section>
-            <section class="profile-content">
-                <div class="contents-wrapper">
-                    <div class="profile-details">
-                        <h3>Profile Details</h3>
-                        <div class="profile-picture"><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile picture" /></div>
-                        <ul>
-                            <li>Name: Archer Smith</li>
-                            <li>Email: archer@croesoswallt.co.uk</li>
-                            <li>Phone: 01234 567890</li>
-                            <li>Address: 123 Main Street, Shropshire, England</li>
-                        </ul>
-                    </div>
-                    <div class="announcements">
-                        <h3>Unread announcements:</h3>
-                        <ul>
-                            <li>Archer Smith - Archery Club Application has been submitted</li>
-                            <li>Archer Smith - Membership renewal for 2023</li>
-                        </ul>
-                    </div>
-                    <div class="announcements">
-                        <h3>Upcoming events in the next 7 days:</h3>
-                        <ul>
-                            <li>Club competition - 2024-11-23 9:00</li>
-                            <li>Shooting - 2024-11-24 10:00</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-        </div>
+        <section class="login-section">
+            <div class="login-section-div">
+                <form class="register-form">
+                    <p><label for="username">Username:</label></p>
+                    <p><input type="text" id="username" placeholder="Please enter your username/email"></p>
+                    <p><label for="token">Token:</label></p>
+                    <p><input type="text" id="token" placeholder="Please enter token"></p>
+                    <p><input class="admin-submit-btn" type="submit" value="Register"></p>
+                </form>
+            </div>
+        </section>
+        
+        
     </main>
     <footer>
         <ul>
