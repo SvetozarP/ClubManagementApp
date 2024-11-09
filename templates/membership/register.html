@@ -10,44 +10,37 @@
     <header>
         <nav class="main-navigation">
             <ul>
-                <li><a href="login.html">Logout</a></li>
-                <li><a href="history.html">History</a></li>
-                <li><a href="membership.html">Profile</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="../web/history.html">History</a></li>
+                <li><a href="membership.html">Membership</a></li>
             </ul>
-            <div class="main-logo"><a href="home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
+            <div class="main-logo"><a href="../web/home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
             <ul>
-                <li><a href="news.html">News</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="contact-us.html">Club Calendar</a></li>
+                <li><a href="../news/news.html">News</a></li>
+                <li><a href="../events/events.html">Events</a></li>
+                <li><a href="../web/contact-us.html">Contact Us</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <div class="profile-welcome"><h2>Register New user</h2></div>
-        <div class="profile-wrapper">
-            <section class="profile-menu">
-                <ul class="profile-menu-items">
-                    <li><a href="#">Edit profile</a></li>
-                    <li><a href="#">Book Shooting session</a></li>
-                    <li><a href="#">Record training details</a></li>
-                    <li><a href="#">Field Bookings summary</a></li>
-                </ul>
-                <ul class="admin-functions">
-                    <li><a href="#">Members Directory</a></li>
-                    <li><a href="create-new.html">Announcements</a></li>
-                    <li><a href="create-new.html">Create news</a></li>
-                    <li><a href="create-new.html">Create events</a></li>
-                    <li><a href="create-user.html">Create user</a></li>
-                </ul>
-            </section>
+        <section class="hero-top">
+            <h1>Welcome to Croesoswallt Archers!</h1>
+        </section>
+        <h2>Register</h2>
         <section class="login-section">
+            
             <div class="login-section-div">
+                <div class="register-media"><img src="staticfiles/images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp"></div>
                 <form class="register-form">
                     <p><label for="username">Username:</label></p>
                     <p><input type="text" id="username" placeholder="Please enter your username/email"></p>
+                    <p><label for="password">Password:</label></p>
+                    <p><input type="password" id="password" placeholder="Please enter your password"></p>
+                    <p><label for="password2">Repeat Password:</label></p>
+                    <p><input type="password" id="password2" placeholder="Please repeat your password"></p>
                     <p><label for="token">Token:</label></p>
-                    <p><input type="text" id="token" placeholder="Please enter token"></p>
-                    <p><input class="admin-submit-btn" type="submit" value="Register"></p>
+                    <p><input type="text" id="token" placeholder="Please enter your token"></p>
+                    <p><input type="submit" value="Register"></p>
                 </form>
             </div>
         </section>

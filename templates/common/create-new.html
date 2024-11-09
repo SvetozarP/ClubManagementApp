@@ -10,22 +10,26 @@
     <header>
         <nav class="main-navigation">
             <ul>
-                <li><a href="login.html">Logout</a></li>
-                <li><a href="history.html">History</a></li>
-                <li><a href="membership.html">Profile</a></li>
+                <li><a href="../membership/login.html">Logout</a></li>
+                <li><a href="../web/history.html">History</a></li>
+                <li><a href="../membership/membership.html">Profile</a></li>
             </ul>
-            <div class="main-logo"><a href="home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
+            <div class="main-logo"><a href="../web/home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
             <ul>
-                <li><a href="news.html">News</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="contact-us.html">Club Calendar</a></li>
+                <li><a href="../news/news.html">News</a></li>
+                <li><a href="../events/events.html">Events</a></li>
+                <li><a href="../web/contact-us.html">Club Calendar</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <h2 class="create-new-title">Article / Event / Member / Bookings details:</h2>
-        <div class="list-wrapper">
-            <p>to see how list is displayed</p>
+        <h2 class="create-new-title">Create New Article / Event</h2>
+        <div class="create-form-container">
+            <form>
+                <p><input type="text" id="title" name="title" required placeholder="Title:"></p>
+                <p><textarea id="content" placeholder="Content:"></textarea></p>
+                <p><input type="submit"></p>
+            </form>
         </div>
     </main>
     <footer>

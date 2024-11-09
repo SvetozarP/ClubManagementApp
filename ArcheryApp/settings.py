@@ -27,6 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+MY_APPS = [
+    'ArcheryApp.web',
+    'ArcheryApp.events',
+    'ArcheryApp.fieldbookings',
+    'ArcheryApp.membership',
+    'ArcheryApp.news',
+    'ArcheryApp.training',
+]
 
 # Application definition
 
@@ -37,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + MY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,6 +132,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR /  'staticfiles',
 ]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'mediafiles/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
