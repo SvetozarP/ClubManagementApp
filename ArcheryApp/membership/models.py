@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils.crypto import get_random_string
 
+from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
+
 
 class MemberProfileManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
@@ -24,6 +26,8 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
     USERNAME_MAX_LEN = 150
     CSRF_MAX_LEN = 64
     NAME_MAX_LEN = 50
+    MAX_PICTURE_SIZE = 5 * 1024 * 1024
+    PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
 
     email = models.EmailField(
         unique=True
@@ -77,6 +81,14 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
 
     created_at = models.DateTimeField(
         auto_now_add=True,
+    )
+
+    image = models.ImageField(
+        upload_to = 'mediafiles/',
+        validators=[
+            PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
+            PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
+        ]
     )
 
     objects = MemberProfileManager()

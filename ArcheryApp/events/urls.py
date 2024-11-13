@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from ArcheryApp.events.views import CombinedBookingView, calendar_view
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/combined-bookings/', CombinedBookingView.as_view(), name='combined-bookings'),
+    path('calendar/', calendar_view, name='calendar-view'),
 ]

@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from ArcheryApp.membership.views import CreateMemberProfileView, register_user
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('create-member-profile/', CreateMemberProfileView.as_view(), name='create_member_profile'),
+    path('register-user/', register_user, name='register_user')
 ]
