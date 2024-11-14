@@ -51,5 +51,9 @@ class ClubEvents(models.Model):
         auto_now_add=True
     )
 
+    is_active = models.BooleanField(
+        default=True,
+    )
+
     def __str__(self):
         return self.event_description

@@ -1,36 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="staticfiles/styles/styles.css">
-    <title>Archery Club | Croesoswallt Archers</title>
-</head>
-<body>
-    <header>
-        <nav class="main-navigation">
-            <ul>
-                <li><a href="../membership/login.html">Login</a></li>
-                <li><a href="../web/history.html">History</a></li>
-                <li><a href="../membership/membership.html">Membership</a></li>
-            </ul>
-            <div class="main-logo"><a href="../web/home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
-            <ul>
-                <li><a href="news.html">News</a></li>
-                <li><a href="../events/events.html">Events</a></li>
-                <li><a href="../web/contact-us.html">Contact Us</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="hero-top">
-            <h1>Welcome to Croesoswallt Archers!</h1>
-        </section>
+{% extends 'common/base.html' %}
+{% block content %}
+{% load static %}
+{% include 'common/hero-top.html' %}
         <h2>News</h2>
+        {# TODO: make this list dynamic and limit to 1 week #}
         <section class="news-items">
             
             <div class="news-item">
-                <div class="news-media"><img src="staticfiles/images/Capture-768x445.webp"></div>
+                <div class="news-media"><img src="{% static 'images/Capture-768x445.webp '%}"></div>
                 <h3 class="news-title">News item title</h3>
                 <div class="news-text">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore delectus at deleniti animi qui voluptas error similique quisquam, maiores quidem vero repellendus voluptatum veniam? Nobis ipsum laborum voluptatem deserunt beatae?</p>
@@ -39,7 +16,7 @@
                 </div>
             </div>
             <div class="news-item">
-                <div class="news-media"><img src="staticfiles/images/Capture-768x445.webp"></div>
+                <div class="news-media"><img src="{% static 'images/Capture-768x445.webp' %}"></div>
                 <h3 class="news-title">News item title</h3>
                 <div class="news-text">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore delectus at deleniti animi qui voluptas error similique quisquam, maiores quidem vero repellendus voluptatum veniam? Nobis ipsum laborum voluptatem deserunt beatae?</p>
@@ -48,7 +25,7 @@
                 </div>
             </div>
             <div class="news-item">
-                <div class="news-media"><img src="staticfiles/images/Capture-768x445.webp"></div>
+                <div class="news-media"><img src="{% static 'images/Capture-768x445.webp' %}"></div>
                 <h3 class="news-title">News item title</h3>
                 <div class="news-text">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore delectus at deleniti animi qui voluptas error similique quisquam, maiores quidem vero repellendus voluptatum veniam? Nobis ipsum laborum voluptatem deserunt beatae?</p>
@@ -57,7 +34,7 @@
                 </div>
             </div>
             <div class="news-item">
-                <div class="news-media"><img src="staticfiles/images/Capture-768x445.webp"></div>
+                <div class="news-media"><img src="{% static 'images/Capture-768x445.webp' %}"></div>
                 <h3 class="news-title">News item title</h3>
                 <div class="news-text">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore delectus at deleniti animi qui voluptas error similique quisquam, maiores quidem vero repellendus voluptatum veniam? Nobis ipsum laborum voluptatem deserunt beatae?</p>
@@ -66,23 +43,8 @@
                 </div>
             </div>
         </section>
+    {# TODO: make a view for all the past news which are active #}
         <section>
             <a href="#" class="past-news">See past news...</a>
         </section>
-        
-        
-    </main>
-    <footer>
-        <ul>
-            <li><div class="ssas-media"><a href="http://www.shropshirearcherysociety.co.uk/"><img src="staticfiles/images/county-logo_400px.webp" alt="Shropshire Archery Society Logo"></a></div></li>
-            <li><div class="agb-media"><a href="http://www.archerygb.org/"><img src="staticfiles/images/agb_logo.webp" alt="Archery GB Logo" /></a></div></li>
-            <li><div class="ontarget-media"><a href="https://archerygb.org/files/A5-ontarget-community-brochure-WEB-single-pages.pdf"><img src="staticfiles/images/ONTARGET-Community-logo1.webp" alt="OnTarget Community logo"></a></div></li>
-        </ul>
-        <ul class="socials">
-            <li><a href="https://www.facebook.com/CroesoswalltArchery"><i class="fa-brands fa-facebook"></i></a></li>
-            <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
-        </ul>
-    </footer>
-    
-</body>
-</html>
+{% endblock %}

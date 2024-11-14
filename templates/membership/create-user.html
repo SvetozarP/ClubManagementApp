@@ -1,70 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="staticfiles/styles/styles.css">
-    <title>Archery Club | Croesoswallt Archers</title>
-</head>
-<body>
-    <header>
-        <nav class="main-navigation">
-            <ul>
-                <li><a href="login.html">Logout</a></li>
-                <li><a href="../web/history.html">History</a></li>
-                <li><a href="membership.html">Profile</a></li>
+{% extends 'common/base.html' %}
+{% block content %}
+{% load static %}
+    <div class="profile-welcome"><h2>Register New user</h2></div>
+    <div class="profile-wrapper">
+    {# TODO: sort menus - user menu, admin menu. Sort links. Check form format #}
+        <section class="profile-menu">
+            <ul class="profile-menu-items">
+                <li><a href="#">Edit profile</a></li>
+                <li><a href="#">Book Shooting session</a></li>
+                <li><a href="#">Record training details</a></li>
+                <li><a href="#">Field Bookings summary</a></li>
             </ul>
-            <div class="main-logo"><a href="../web/home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
-            <ul>
-                <li><a href="../news/news.html">News</a></li>
-                <li><a href="../events/events.html">Events</a></li>
-                <li><a href="../web/contact-us.html">Club Calendar</a></li>
+            <ul class="admin-functions">
+                <li><a href="#">Members Directory</a></li>
+                <li><a href="../common/create-new.html">Announcements</a></li>
+                <li><a href="../common/create-new.html">Create news</a></li>
+                <li><a href="../common/create-new.html">Create events</a></li>
+                <li><a href="create-user.html">Create user</a></li>
             </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="profile-welcome"><h2>Register New user</h2></div>
-        <div class="profile-wrapper">
-            <section class="profile-menu">
-                <ul class="profile-menu-items">
-                    <li><a href="#">Edit profile</a></li>
-                    <li><a href="#">Book Shooting session</a></li>
-                    <li><a href="#">Record training details</a></li>
-                    <li><a href="#">Field Bookings summary</a></li>
-                </ul>
-                <ul class="admin-functions">
-                    <li><a href="#">Members Directory</a></li>
-                    <li><a href="../common/create-new.html">Announcements</a></li>
-                    <li><a href="../common/create-new.html">Create news</a></li>
-                    <li><a href="../common/create-new.html">Create events</a></li>
-                    <li><a href="create-user.html">Create user</a></li>
-                </ul>
-            </section>
+        </section>
         <section class="login-section">
             <div class="login-section-div">
-                <form class="register-form">
-                    <p><label for="username">Username:</label></p>
-                    <p><input type="text" id="username" placeholder="Please enter your username/email"></p>
-                    <p><label for="token">Token:</label></p>
-                    <p><input type="text" id="token" placeholder="Please enter token"></p>
+                <form class="register-form" method="post">
+                    {#                    <p><label for="username">Username:</label></p>#}
+                    {#                    <p><input type="text" id="username" placeholder="Please enter your username/email"></p>#}
+                    {#                    <p><label for="token">Token:</label></p>#}
+                    {#                    <p><input type="text" id="token" placeholder="Please enter token"></p>#}
+                    {#                    <p><input class="admin-submit-btn" type="submit" value="Register"></p>#}
+                    {% csrf_token %}
+                    {{ form.as_p }}
                     <p><input class="admin-submit-btn" type="submit" value="Register"></p>
                 </form>
             </div>
         </section>
-        
-        
-    </main>
-    <footer>
-        <ul>
-            <li><div class="ssas-media"><a href="http://www.shropshirearcherysociety.co.uk/"><img src="staticfiles/images/county-logo_400px.webp" alt="Shropshire Archery Society Logo"></a></div></li>
-            <li><div class="agb-media"><a href="http://www.archerygb.org/"><img src="staticfiles/images/agb_logo.webp" alt="Archery GB Logo" /></a></div></li>
-            <li><div class="ontarget-media"><a href="https://archerygb.org/files/A5-ontarget-community-brochure-WEB-single-pages.pdf"><img src="staticfiles/images/ONTARGET-Community-logo1.webp" alt="OnTarget Community logo"></a></div></li>
-        </ul>
-        <ul class="socials">
-            <li><a href="https://www.facebook.com/CroesoswalltArchery"><i class="fa-brands fa-facebook"></i></a></li>
-            <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
-        </ul>
-    </footer>
-    
-</body>
-</html>
+    </div>
+{% endblock %}

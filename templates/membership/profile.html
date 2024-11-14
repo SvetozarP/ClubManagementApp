@@ -1,37 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="staticfiles/styles/styles.css">
-    <title>Archery Club | Croesoswallt Archers</title>
-</head>
-<body>
-    <header>
-        <nav class="main-navigation">
-            <ul>
-                <li><a href="login.html">Logout</a></li>
-                <li><a href="../web/history.html">History</a></li>
-                <li><a href="membership.html">Profile</a></li>
-            </ul>
-            <div class="main-logo"><a href="../web/home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
-            <ul>
-                <li><a href="../news/news.html">News</a></li>
-                <li><a href="../events/events.html">Events</a></li>
-                <li><a href="../web/contact-us.html">Club Calendar</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
+{% extends 'common/base.html' %}
+{% block content %}
+{% load static %}
+
         <div class="profile-welcome"><h2>Welcome, Archer!</h2></div>
         <div class="profile-wrapper">
             <section class="profile-menu">
+                {# TODO: fix links and make views for standard user functionality #}
                 <ul class="profile-menu-items">
                     <li><a href="#">Edit profile</a></li>
                     <li><a href="#">Book Shooting session</a></li>
                     <li><a href="#">Record training details</a></li>
                     <li><a href="#">Field Bookings summary</a></li>
                 </ul>
+                {# TODO: Make is_staff functionality, only visible to staff and amend links #}
                 <ul class="admin-functions">
                     <li><a href="#">Members Directory</a></li>
                     <li><a href="../common/create-new.html">Announcements</a></li>
@@ -40,6 +21,7 @@
                     <li><a href="create-user.html">Create user</a></li>
                 </ul>
             </section>
+            {# TODO: functionality to edit profile #}
             <section class="profile-content">
                 <div class="contents-wrapper">
                     <div class="profile-details">
@@ -53,12 +35,14 @@
                         </ul>
                     </div>
                     <div class="announcements">
+                        {# TODO: show announcements, create announcements logic #}
                         <h3>Unread announcements:</h3>
                         <ul>
                             <li>Archer Smith - Archery Club Application has been submitted</li>
                             <li>Archer Smith - Membership renewal for 2023</li>
                         </ul>
                     </div>
+                    {# TODO: show next 7 days of events #}
                     <div class="announcements">
                         <h3>Upcoming events in the next 7 days:</h3>
                         <ul>
@@ -69,18 +53,4 @@
                 </div>
             </section>
         </div>
-    </main>
-    <footer>
-        <ul>
-            <li><div class="ssas-media"><a href="http://www.shropshirearcherysociety.co.uk/"><img src="staticfiles/images/county-logo_400px.webp" alt="Shropshire Archery Society Logo"></a></div></li>
-            <li><div class="agb-media"><a href="http://www.archerygb.org/"><img src="staticfiles/images/agb_logo.webp" alt="Archery GB Logo" /></a></div></li>
-            <li><div class="ontarget-media"><a href="https://archerygb.org/files/A5-ontarget-community-brochure-WEB-single-pages.pdf"><img src="staticfiles/images/ONTARGET-Community-logo1.webp" alt="OnTarget Community logo"></a></div></li>
-        </ul>
-        <ul class="socials">
-            <li><a href="https://www.facebook.com/CroesoswalltArchery"><i class="fa-brands fa-facebook"></i></a></li>
-            <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
-        </ul>
-    </footer>
-    
-</body>
-</html>
+{% endblock %}

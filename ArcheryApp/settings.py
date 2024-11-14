@@ -57,6 +57,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ArcheryApp.membership.middleware.ProfileCompletionMiddleware'
+]
+
+AUTHENTICATION_BACKENDS = [
+    'ArcheryApp.membership.backends.EmailOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'ArcheryApp.urls'

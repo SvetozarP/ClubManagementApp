@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="staticfiles/styles/styles.css">
-    <title>Archery Club | Croesoswallt Archers</title>
-</head>
-<body>
-    <header>
-        <nav class="main-navigation">
-            <ul>
-                <li><a href="../membership/login.html">Logout</a></li>
-                <li><a href="../web/history.html">History</a></li>
-                <li><a href="../membership/membership.html">Profile</a></li>
-            </ul>
-            <div class="main-logo"><a href="../web/home.html"><img src="staticfiles/images/Logo_lrg.png" alt="Croesoswallt Archers Logo" /></a></div>
-            <ul>
-                <li><a href="../news/news.html">News</a></li>
-                <li><a href="../events/events.html">Events</a></li>
-                <li><a href="../web/contact-us.html">Club Calendar</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
+{% extends 'common/base.html' %}
+{% block content %}
+{% load static %}
+{# TODO: forms to create new article / event accessible to admins (is_staff) #}
         <h2 class="create-new-title">Create New Article / Event</h2>
         <div class="create-form-container">
             <form>
@@ -31,18 +10,4 @@
                 <p><input type="submit"></p>
             </form>
         </div>
-    </main>
-    <footer>
-        <ul>
-            <li><div class="ssas-media"><a href="http://www.shropshirearcherysociety.co.uk/"><img src="staticfiles/images/county-logo_400px.webp" alt="Shropshire Archery Society Logo"></a></div></li>
-            <li><div class="agb-media"><a href="http://www.archerygb.org/"><img src="staticfiles/images/agb_logo.webp" alt="Archery GB Logo" /></a></div></li>
-            <li><div class="ontarget-media"><a href="https://archerygb.org/files/A5-ontarget-community-brochure-WEB-single-pages.pdf"><img src="staticfiles/images/ONTARGET-Community-logo1.webp" alt="OnTarget Community logo"></a></div></li>
-        </ul>
-        <ul class="socials">
-            <li><a href="https://www.facebook.com/CroesoswalltArchery"><i class="fa-brands fa-facebook"></i></a></li>
-            <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
-        </ul>
-    </footer>
-    
-</body>
-</html>
+{% endblock %}

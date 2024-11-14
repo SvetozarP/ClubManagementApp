@@ -49,4 +49,9 @@ class Testimonials(models.Model):
     customer = models.CharField(
         max_length=CUSTOMER_MAX_LEN
     )
+
     date_given = models.DateField()
+
+    is_active = models.BooleanField(
+        default=True,
+    )
