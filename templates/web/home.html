@@ -4,7 +4,6 @@
 {% include 'common/hero-top.html' %}
 
         <section class="introduction">
-            {# TODO: dynamically include mission statement #}
             <div class="intro-media"><img src="{{ mission.image_url.url }}"></div>
             <div class="intro-text">
                 <h3>Our Mission Statement</h3>
@@ -77,7 +76,6 @@
             <h2>Get in touch</h2>
             <div class="get-in-touch-wrapper">
                 <div class="testimonials">
-                    {# TODO: dynamically include testimonials #}
                     <h3>A few words from our beginners:</h3>
                     <ul class="carousel-list">
                         {% for testimonial in testimonials %}

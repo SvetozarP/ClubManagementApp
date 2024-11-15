@@ -16,6 +16,13 @@
     margin: 10px auto;
 }
 
+.login-form p input[type="submit"] {
+    padding: 5px 20px;
+    display: block;
+    margin: 10px auto;
+}
+
+
 .login-form label {
     padding: 20px 0px;
     color: #1E4E3B;
