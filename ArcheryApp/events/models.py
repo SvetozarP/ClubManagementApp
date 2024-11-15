@@ -39,12 +39,14 @@ class ClubEvents(models.Model):
     )
 
     author = models.ForeignKey(
-        MemberProfile,
+        to=MemberProfile,
         on_delete=models.CASCADE,
+        related_name='club_events',
     )
 
     participants = models.ManyToManyField(
         MemberProfile,
+        related_name='club_events_participants',
     )
 
     created_at = models.DateTimeField(

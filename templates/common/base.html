@@ -13,11 +13,11 @@
         <nav class="main-navigation">
             <ul>
                 {# TODO: change buttons for logged in user and amend links #}
-                <li><a href="../membership/login.html">Login</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="history.html">History</a></li>
                 <li><a href="../membership/membership.html">Membership</a></li>
             </ul>
-            <div class="main-logo"><a href="home.html"><img src="{% static 'images/Logo_lrg.png' %}" alt="Croesoswallt Archers Logo" /></a></div>
+            <div class="main-logo"><a href="{% url 'home' %}"><img src="{% static 'images/Logo_lrg.png' %}" alt="Croesoswallt Archers Logo" /></a></div>
             <ul>
                 <li><a href="../news/news.html">News</a></li>
                 <li><a href="../events/events.html">Events</a></li>

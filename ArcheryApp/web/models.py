@@ -17,6 +17,9 @@ class ClubMission(models.Model):
 
     mission_text = models.TextField()
 
+    def __str__(self):
+        return f"Mission: {self.mission_text}"
+
 
 class ClubHistory(models.Model):
     HISTORY_MAX_TITLE_LEN = 100
@@ -55,3 +58,6 @@ class Testimonials(models.Model):
     is_active = models.BooleanField(
         default=True,
     )
+
+    def __str__(self):
+        return f'{self.customer} - {self.date_given}'

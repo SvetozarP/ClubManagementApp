@@ -1,6 +1,9 @@
 from django.core.exceptions import ValidationError
 from PIL import Image
+from django.utils.deconstruct import deconstructible
 
+
+@deconstructible
 class PhotoSizeValidator:
     def __init__(self, max_size=5 * 1024 * 1024):  # Default is 5 MB
         self.max_size = max_size
@@ -9,7 +12,7 @@ class PhotoSizeValidator:
         if value.size > self.max_size:
             raise ValidationError(f"File size should not exceed {self.max_size / (1024 * 1024)} MB.")
 
-
+@deconstructible
 class PhotoTypeValidator:
     def __init__(self, allowed_formats=None):
         if allowed_formats is None:

@@ -5,10 +5,10 @@
 
         <section class="introduction">
             {# TODO: dynamically include mission statement #}
-            <div class="intro-media"><img src="{% static 'images/croesoswalltintro.webp' %}"></div>
+            <div class="intro-media"><img src="{{ mission.image_url.url }}"></div>
             <div class="intro-text">
                 <h3>Our Mission Statement</h3>
-                <p>To be the Archery club of choice in North Shropshire. To create the environment where all archers will be welcome and can maximise their potential, from beginners, through to intermediate and onto an elite level. Working within our community with schools, clubs and other groups, will always be an integral part of our vision.</p>
+                <p>{{ mission.mission_text }}</p>
             </div>
         </section>
         <section class="events">
@@ -80,26 +80,12 @@
                     {# TODO: dynamically include testimonials #}
                     <h3>A few words from our beginners:</h3>
                     <ul class="carousel-list">
+                        {% for testimonial in testimonials %}
                         <li class="carousel-item">
-                            <p class="testimonial">“…My family completed the beginner's course today and are interested in becoming full club members. I'd also like to say we have really enjoyed the beginner's course, thanks to the friendliness and patience of the coaches…..”</p>
-                            <p>Jo. 09 April 2022</p>
+                            <p class="testimonial">{{ testimonial.text }}</p>
+                            <p>{{ testimonial.customer }} {{ testimonial.date_given|date:"d M Y" }}</p>
                         </li>
-                        <li class="carousel-item">
-                            <p class="testimonial">…We have really enjoyed the archery lessons, and also just wanted to take this opportunity to say thank you for how welcoming, friendly and helpful you all were….”</p>
-                            <p>Matt. 22 May 2022</p>
-                        </li>
-                        <li class="carousel-item">
-                            <p class="testimonial">“…Following on from the very enjoyable beginners course held over the last 4 weeks……. can I please take this opportunity to thank all those involved in making my return, and my son's introduction to archery, a very pleasurable experience…..”</p>
-                            <p>Mark. 23 May 2022</p>
-                        </li>
-                        <li class="carousel-item">
-                            <p class="testimonial">“…Thank you for a great beginner's course.  Very well thought out, safe, enjoyable and very friendly…”</p>
-                            <p>Geoff. 02 July 2022</p>
-                        </li>
-                        <li class="carousel-item">
-                            <p class="testimonial">…I look forward to jointing your club and thank you all for a great 4 week course….”</p>
-                            <p>Kathryn. 03. July 2022</p>
-                        </li>
+                        {% endfor %}
                     </ul>
                     <!-- Carousel navigation arrows as anchor tags -->
                     <button class="prev" onclick="prevSlide()">&#10094;</button>
