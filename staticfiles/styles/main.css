@@ -52,7 +52,7 @@ section:nth-of-type(odd) a {
 }
 
 .intro-media {
-    flex: 0 0 calc(50%-80px);
+    flex: 0 0 calc(50% - 80px);
 }
 
 .intro-media img {

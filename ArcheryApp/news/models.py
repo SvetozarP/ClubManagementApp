@@ -55,6 +55,7 @@ class ClubAnnouncements(models.Model):
         on_delete=models.CASCADE,
     )
 
+    #TODO: should this be ManyToMany or ManyToOne
     read_by = models.ManyToManyField(
         to=MemberProfile,
         related_name='read_announcements',

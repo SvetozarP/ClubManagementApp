@@ -1,12 +1,20 @@
+from datetime import datetime, timedelta
+
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, update_session_auth_hash
+from django.contrib.auth import login, authenticate, update_session_auth_hash, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 
 from .forms import UserRegistrationForm, LoginForm, CompleteProfileForm
 from .models import MemberProfile
+from ..events.models import ClubEvents
+from ..news.models import ClubAnnouncements
+
 
 class RegisterUserView(FormView):
     template_name = "membership/create-user.html"
@@ -64,3 +72,24 @@ class CompleteProfileView(LoginRequiredMixin, FormView):
 
         messages.success(self.request, "Your profile has been completed successfully.")
         return super().form_valid(form)
+
+
+
+class MemberProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "membership/profile.html"
+
+    def get_context_data(self, **kwargs):
+        next_week = datetime.now() + timedelta(days=7)
+        context = super().get_context_data(**kwargs)
+
+        context['user'] = self.request.user
+        context['unread_announcements'] = ((ClubAnnouncements.objects
+                                           .exclude(read_by__username=self.request.user.username))
+                                           .order_by('-created_at'))
+        context['upcoming_events'] = ClubEvents.objects.filter(end_date__lte=next_week)
+
+        return context
+
+def logout_view(request):
+    logout(request)
+    return redirect("home")

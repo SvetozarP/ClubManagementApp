@@ -13,15 +13,31 @@
         <nav class="main-navigation">
             <ul>
                 {# TODO: change buttons for logged in user and amend links #}
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+{#                     <li><form method="post" action="{% url 'logout' %}">#}
+{#                        {% csrf_token %}#}
+{#                        <button class="button" type="submit"><i>Logout</i></button>#}
+{#                    </form></li>#}
+                {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
                 <li><a href="history.html">History</a></li>
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'profile-view' %}">Profile</a></li>
+                {% else %}
                 <li><a href="../membership/membership.html">Membership</a></li>
+                {% endif %}
             </ul>
             <div class="main-logo"><a href="{% url 'home' %}"><img src="{% static 'images/Logo_lrg.png' %}" alt="Croesoswallt Archers Logo" /></a></div>
             <ul>
                 <li><a href="../news/news.html">News</a></li>
                 <li><a href="../events/events.html">Events</a></li>
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'calendar-view' %}">Calendar</a></li>
+                {% else %}
                 <li><a href="contact-us.html">Contact Us</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>

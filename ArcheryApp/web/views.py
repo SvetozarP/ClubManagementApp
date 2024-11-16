@@ -16,7 +16,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['mission'] = ClubMission.objects.first()
-        context['events'] = ClubEvents.objects.filter(is_active=True).order_by('-created_at')[:3]
+        context['events'] = ClubEvents.objects.filter(end_date__gte=date.today()).order_by('-created_at')[:3]
         context['news'] = ClubNews.objects.filter(is_active=True).order_by('-created_at')[:3]
         context['archers_shooting'] = FieldBookings.objects.filter(date=date.today()).count()
         context['testimonials'] = Testimonials.objects.all()

@@ -2,13 +2,22 @@
 {% block content %}
 {% load static %}
 {% include 'common/hero-top.html' %}
-
+{# TODO: DJANGO UNFOLD!; Poetry for packets #}
         <section class="introduction">
-            <div class="intro-media"><img src="{{ mission.image_url.url }}"></div>
+        {% if mission %}
+            {% if mission.image_url %}
+            <div class="intro-media"><img src="{{ mission.image_url.url }}" alt="Croesoswallt archers range"></div>
+            {% endif %}
             <div class="intro-text">
                 <h3>Our Mission Statement</h3>
                 <p>{{ mission.mission_text }}</p>
             </div>
+        {% else %}
+            <div class="intro-text">
+                <h3>Cannot find mission statement</h3>
+                <p>You can set one through the admin panel.</p>
+            </div>
+        {% endif %}
         </section>
         <section class="events">
             {# TODO: events list #}
@@ -75,6 +84,7 @@
         <section class="get-in-touch">
             <h2>Get in touch</h2>
             <div class="get-in-touch-wrapper">
+            {% if testimonials %}
                 <div class="testimonials">
                     <h3>A few words from our beginners:</h3>
                     <ul class="carousel-list">
@@ -85,11 +95,11 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <!-- Carousel navigation arrows as anchor tags -->
                     <button class="prev" onclick="prevSlide()">&#10094;</button>
                     <button class="next" onclick="nextSlide()">&#10095;</button>
                     <script src="{% static 'scripts/carousel.js' %}"></script>
                 </div>
+            {% endif %}
                 <div class="contact-us">
                     {# TODO: Contact us form with async email send to admins? #}
                     <a href="contact-us.html">Contact us!</a>

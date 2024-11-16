@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 
 from ArcheryApp.membership.models import MemberProfile
@@ -53,9 +55,13 @@ class ClubEvents(models.Model):
         auto_now_add=True
     )
 
-    is_active = models.BooleanField(
-        default=True,
-    )
+    # is_active = models.BooleanField(
+    #     default=True,
+    # )
 
     def __str__(self):
         return self.event_description
+
+    @property
+    def is_active(self):
+        return self.end_date >= date.today()

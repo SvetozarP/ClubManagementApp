@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 from ArcheryApp.common.choices import FieldDistanceChoices
@@ -60,3 +62,9 @@ class FieldBookings(models.Model):
 
     def __str__(self):
         return f"{self.date} {self.time_from} - {self.time_to}"
+
+
+    @property
+    def is_active(self):
+        event_datetime = datetime.combine(self.date, self.time_to)
+        return event_datetime >= datetime.now()
