@@ -1,12 +1,65 @@
 {# TODO: fix the whole template - part of registered user view #}
-{% extends 'common/base.html' %}
-{% block content %}
-{% include 'common/hero-top.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Calendar</title>
+    <style>
+        /* Basic styling for the calendar */
+        .calendar-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            border: 1px solid #ddd;
+        }
+        .day-header, .day-cell {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .day-header {
+            font-weight: bold;
+            background-color: #f0f0f0;
+        }
+        .day-cell {
+            min-height: 100px;
+            position: relative;
+        }
+        .event {
+            padding: 3px;
+            font-size: 0.9em;
+            margin-top: 5px;
+            border-radius: 3px;
+        }
+        
+        .clb-event {
+            background-color: #858aa5;
+        }
+        
+        .flb-event {
+            background-color: #33bd23;    
+        }
+        
+    </style>
+</head>
+<body>
 
 <div class="calendar-container">
     <div class="calendar-header">
         <button onclick="changeMonth(-1)">Previous</button>
-        <div class="cal-title-wrapper"><h2 id="month-year"></h2><button onclick="returnMonth()">Back to current month</button></div>
+        <div><h2 id="month-year"></h2><button onclick="returnMonth()">Back to current month</button></div>
         <button onclick="changeMonth(1)">Next</button>
     </div>
 
@@ -111,4 +164,6 @@
     // Initial render of the calendar
     renderCalendar();
 </script>
-{% endblock %}
+
+</body>
+</html>

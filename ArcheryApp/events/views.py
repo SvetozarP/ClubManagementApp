@@ -1,18 +1,41 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import CombinedBookingSerializer
 
-class CombinedBookingView(APIView):
-    def get(self, request, *args, **kwargs):
-        serializer = CombinedBookingSerializer()
-        return Response(serializer.data)
+from .models import ClubEvents
+from .serializers import BookingSerializer, FieldBookingSerializer
+from ..fieldbookings.models import FieldBookings
 
+
+@login_required
 def calendar_view(request):
-    # Serialize the booking data to pass to the template
-    serializer = CombinedBookingSerializer()
-    data = serializer.data
+    bookings = ClubEvents.objects.all()
+    field_bookings = FieldBookings.objects.all()
+
+    booking_serializer = BookingSerializer(bookings, many=True)
+    field_booking_serializer = FieldBookingSerializer(field_bookings, many=True)
+
+    data = {
+        "bookings": booking_serializer.data,
+        "field_bookings": field_booking_serializer.data
+    }
+
     return render(request, 'events/calendar.html', {'data': data})
+
+
+class CalendarAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        bookings = ClubEvents.objects.all()
+        field_bookings = FieldBookings.objects.all()
+
+        booking_serializer = BookingSerializer(bookings, many=True)
+        field_booking_serializer = FieldBookingSerializer(field_bookings, many=True)
+
+        return Response({
+            "bookings": booking_serializer.data,
+            "field_bookings": field_booking_serializer.data
+        })

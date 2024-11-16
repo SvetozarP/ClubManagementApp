@@ -8,10 +8,6 @@
         <div class="login-section-div">
             <div class="login-media"><img src="{% static 'images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp'%}"></div>
             <form class="login-form" method="post">
-                {#                    <p><label for="username">Username:</label></p>#}
-                {#                    <p><input type="text" id="username" placeholder="Please enter your username/email"></p>#}
-                {#                    <p><label for="password">Password:</label></p>#}
-                {#                    <p><input type="password" id="password" placeholder="Please enter your password"></p>#}
                 {% csrf_token %}
                 {{ form.as_p }}
                 <p><input type="submit" value="Login"></p>

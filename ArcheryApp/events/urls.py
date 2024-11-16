@@ -1,8 +1,8 @@
 from django.urls import path
 
-from ArcheryApp.events.views import CombinedBookingView, calendar_view
+from ArcheryApp.events.views import calendar_view, CalendarAPIView
 
 urlpatterns = [
-    path('api/combined-bookings/', CombinedBookingView.as_view(), name='combined-bookings'),
+    path('api/combined-bookings/', CalendarAPIView.as_view(), name='combined-bookings'),
     path('calendar/', calendar_view, name='calendar-view'),
 ]
