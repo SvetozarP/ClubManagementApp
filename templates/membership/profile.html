@@ -1,7 +1,10 @@
 {% extends 'common/base.html' %}
 {% block content %}
 {% load static %}
-        <div class="profile-welcome"><h2>Welcome, Archer!</h2></div>
+    {% include 'common/hero-top.html' %}
+        <div class="profile-welcome">
+{#            <h2>Welcome, Archer!</h2>#}
+        </div>
         <div class="profile-wrapper">
             <section class="profile-menu">
                 {# TODO: fix links and make views for standard user functionality #}

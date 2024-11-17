@@ -7,10 +7,9 @@
         {% for history_item in object_list %}
         <section class="history-item">
             <h3 class="history-title">{{ history_item.history_title }}</h3>
-            {# TODO: can add edit items here #}
             <div class="history-wrapper">
                 {% if history_item.image %}
-                <div class="history-media"><img src="{{ history_item.image.url }}"></div>
+                <div class="history-media"><img src="{{ history_item.image.url }}" alt="History image"></div>
                     {% endif %}
                 <div class="history-text">
                     <p>{{ history_item.history_text }}</p>
