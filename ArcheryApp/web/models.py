@@ -24,11 +24,24 @@ class ClubMission(models.Model):
 class ClubHistory(models.Model):
     HISTORY_MAX_TITLE_LEN = 100
 
+    image = models.ImageField(
+        upload_to = 'history/',
+        validators=[
+            PhotoSizeValidator(max_size=5 * 1024 * 1024),
+            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp'])
+        ],
+        blank=True,
+        null=True,
+    )
+
     history_title = models.CharField(
         max_length=HISTORY_MAX_TITLE_LEN
     )
 
     history_text = models.TextField()
+
+    def __str__(self):
+        return f"History: {self.history_title}"
 
 
 class MembershipInfo(models.Model):
@@ -36,14 +49,22 @@ class MembershipInfo(models.Model):
     PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
 
     description = models.TextField()
-    image_url = models.ImageField(
-        upload_to = 'mediafiles/',
+    image = models.ImageField(
+        upload_to = 'membershipinfo/',
         validators=[
             PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
             PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
-        ]
+        ],
+        blank=True,
+        null=True,
     )
 
+    updated_on = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return f'Last updated: {self.updated_on}'
 
 class Testimonials(models.Model):
     CUSTOMER_MAX_LEN = 100

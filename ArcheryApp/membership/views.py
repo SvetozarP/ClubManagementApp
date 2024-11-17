@@ -2,22 +2,19 @@ from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LogoutView
-from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 
-from .forms import UserRegistrationForm, LoginForm, CompleteProfileForm
+from .forms import UserRegistrationForm, LoginForm, CompleteProfileForm, MemberProfileCreationForm
 from .models import MemberProfile
 from ..events.models import ClubEvents
 from ..news.models import ClubAnnouncements
 
 
 class RegisterUserView(FormView):
-    template_name = "membership/create-user.html"
+    template_name = "membership/register.html"
     form_class = UserRegistrationForm
     success_url = reverse_lazy("complete_profile")
 
@@ -33,6 +30,36 @@ class RegisterUserView(FormView):
         login(self.request, profile)
         return super().form_valid(form)
 
+
+
+class CreateUserView(UserPassesTestMixin, FormView):
+    template_name = "membership/create-user.html"
+    form_class = MemberProfileCreationForm
+    success_url = reverse_lazy("create_user")  # Redirect back to the form on success
+
+    # Only allow access to staff members
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return redirect("login")  # Redirect to login or another page if not authorized
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get("email")
+
+        # Check if the profile already exists
+        if MemberProfile.objects.filter(email=email).exists():
+            messages.error(self.request, "A profile with this email already exists.")
+            return self.form_invalid(form)  # Re-render the form with errors
+        else:
+            # Create profile and generate CSRF token
+            profile = MemberProfile(email=email)
+            profile.generate_csrf_token()
+            profile.save()
+            messages.success(self.request, f"Profile created. CSRF token: {profile.csrf_token}")
+
+        return super().form_valid(form)
 
 def login_user(request):
     if request.method == "POST":

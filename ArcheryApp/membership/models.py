@@ -1,10 +1,17 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.crypto import get_random_string
 
 from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 from ArcheryApp.membership.managers import MemberProfileManager
 
+def validate_unique_email(value):
+    if MemberProfile.objects.filter(email=value,profile_completed=True).exists():
+        raise ValidationError(
+            'The email "%(value)s" is already in use.',
+            params={'value': value},
+        )
 
 class MemberProfile(AbstractBaseUser, PermissionsMixin):
     MAX_PHONE_NO_LEN = 11
@@ -15,7 +22,8 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
     PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
 
     email = models.EmailField(
-        unique=True
+        validators=[validate_unique_email],
+        # unique=True
     )
 
     username = models.CharField(

@@ -21,16 +21,19 @@
         </section>
         <section class="login-section">
             <div class="login-section-div">
-                <form class="register-form" method="post">
-                    {#                    <p><label for="username">Username:</label></p>#}
-                    {#                    <p><input type="text" id="username" placeholder="Please enter your username/email"></p>#}
-                    {#                    <p><label for="token">Token:</label></p>#}
-                    {#                    <p><input type="text" id="token" placeholder="Please enter token"></p>#}
-                    {#                    <p><input class="admin-submit-btn" type="submit" value="Register"></p>#}
-                    {% csrf_token %}
+            {# TODO: fix formatting #}
+                <form method="post">
+                {% csrf_token %}
                     {{ form.as_p }}
-                    <p><input class="admin-submit-btn" type="submit" value="Register"></p>
+                    <button type="submit">Create</button>
                 </form>
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </section>
     </div>

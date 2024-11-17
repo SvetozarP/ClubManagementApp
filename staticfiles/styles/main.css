@@ -92,7 +92,7 @@ section:nth-of-type(odd) a {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    justify-items: center;
+    justify-content: center;
     gap: 40px;
     align-content: center;
     padding: 40px;

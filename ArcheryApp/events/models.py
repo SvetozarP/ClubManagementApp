@@ -22,7 +22,7 @@ class ClubEvents(models.Model):
     end_date = models.DateTimeField()
 
     image = models.ImageField(
-        upload_to = 'mediafiles/',
+        upload_to = 'clubevents/',
         validators=[
             PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
             PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
@@ -49,6 +49,7 @@ class ClubEvents(models.Model):
     participants = models.ManyToManyField(
         MemberProfile,
         related_name='club_events_participants',
+        blank=True,
     )
 
     created_at = models.DateTimeField(

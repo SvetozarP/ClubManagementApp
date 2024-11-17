@@ -1,13 +1,15 @@
 from django import forms
+
 from .models import MemberProfile
 
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField()
-    csrf_token = forms.CharField(widget=forms.HiddenInput)
+    # csrf_token = forms.CharField(widget=forms.HiddenInput)
+    csrf_token = forms.CharField()
 
     class Meta:
         model = MemberProfile
-        fields = ['email']
+        fields = ['email', 'csrf_token']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -20,6 +22,8 @@ class UserRegistrationForm(forms.ModelForm):
             self.add_error(None, "Invalid or expired CSRF token.")
         return cleaned_data
 
+class MemberProfileCreationForm(forms.Form):
+    email = forms.EmailField()
 
 class CompleteProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=150)

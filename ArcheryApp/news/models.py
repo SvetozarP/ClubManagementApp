@@ -13,7 +13,7 @@ class ClubNews(models.Model):
     )
 
     image = models.ImageField(
-        upload_to = 'mediafiles/',
+        upload_to = 'clubnews/',
         validators=[
             PhotoSizeValidator(max_size=5 * 1024 * 1024),
             PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
@@ -35,6 +35,8 @@ class ClubNews(models.Model):
         default=True,
     )
 
+    def __str__(self):
+        return f'{self.title} - {self.created_at}'
 
 class ClubAnnouncements(models.Model):
     MAX_TITLE_LENGTH = 100

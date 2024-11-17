@@ -24,56 +24,47 @@
             <h2>What next?</h2>
             <div class="event">
                 <h3>Events</h3>
+                {% if events %}
+                <ul>
+                {% for event in events %}
+                    <li class="event-card">
+                        <h3>{{ event.start_date }}</h3>
+                        <p>Title: {{ event.title }}</p>
+                        <p>Hosted by: {{ event.hosted_by }}</p>
+                        <p>From: {{ event.start_date|date:"d-m-Y H:i" }}</p> 
+                        <p>To: {{ event.end_date|date:"d-m-Y H:i" }}</p>
+                        <p>Description: {{ event.event_description }}</p>
+                    </li>
+                {% endfor %}
+                </ul>
+                {% else %}
                 <ul>
                     <li class="event-card">
-                        <h3>2022-04-15</h3>
-                        <p>Archery Competition</p>
-                        <p>Hosted by: the British Ironwork Centre Oswestry</p>
-                        <p>Location: British Ironwork Centre Oswestry SY114JH</p>
-                        <p>Time: 19:00 - 22:00</p>
-                        <p>Description: Non-Record-status competition. National round.</p>
-                    </li>
-                    <li class="event-card">
-                        <h3>2022-05-01</h3>
-                        <p>National Archery Day</p>
-                        <p>Hosted by: the British Ironwork Centre Oswestry</p>
-                        <p>Location: British Ironwork Centre Oswestry SY114JH</p>
-                        <p>Time: 10:00 - 12:00</p>
-                        <p>Description: Archery competition held annually in May.</p>
-                    </li>
-                    <li class="event-card">
-                        <h3>2022-05-15</h3>
-                        <p>Cross-Country Championships</p>
-                        <p>Hosted by: the British Ironwork Centre Oswestry</p>
-                        <p>Location: British Ironwork Centre Oswestry SY114JH</p>
-                        <p>Time: 15:00 - 18:00</p>
-                        <p>Description: Cross-country competition held annually in May.</p>
+                            <h3>No upcoming events found</h3>
                     </li>
                 </ul>
+                {% endif %}
             </div>
             <div class="news">
-                {# TODO: News list #}
                 <h3>News</h3>
+                {% if news %}
                 <ul>
+                {% for news_item in news %}
                     <li class="news-card">
-                        <h3>2022-04-15</h3>
-                        <p>Title 1</p>
-                        <p>Posted by: Joe bloggs</p>
-                        <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint libero magnam perspiciatis</p>
+                        <h3>{{ news_item.created_at }}</h3>
+                        <p>{{ news_item.title }}</p>
+                        <p>Posted by: {{ news_item.author.first_name }} {{ news_item.author.last_name }}</p>
+                        <p>Description: {{ news_item.news_text }}</p>
                     </li>
-                    <li class="news-card">
-                        <h3>2022-04-15</h3>
-                        <p>Title 1</p>
-                        <p>Posted by: Joe bloggs</p>
-                        <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint libero magnam perspiciatis</p>
-                    </li>
-                    <li class="news-card">
-                        <h3>2022-04-15</h3>
-                        <p>Title 1</p>
-                        <p>Posted by: Joe bloggs</p>
-                        <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint libero magnam perspiciatis</p>
-                    </li>
+                {% endfor %}
                 </ul>
+                {% else %}
+                    <ul>
+                        <li class="news-card">
+                            <h3>No news found</h3>
+                        </li>
+                    </ul>
+                {% endif %}
             </div>
             <div class="on-the-field">
                 <h3>Today we have:</h3>

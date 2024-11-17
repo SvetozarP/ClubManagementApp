@@ -4,20 +4,33 @@
 {% include 'common/hero-top.html' %}
     {# TODO: make dynamic through membership info model, fix links #}
         <h2>Becoming a member</h2>
+    {% if membership_info %}
         <section class="event-item">
             <div class="event-wrapper">
-                <div class="event-media"><img src="{% static 'images/Logo_lrg.png' %}"></div>
+                {% if membership_info.image %}
+                <div class="event-media"><img src="{{ membership_info.image.url }}" alt="Club logo"></div>
+                {% endif %}
                 <div class="event-text">
-                    <p>To become a member of our club, please contact us via the "Contact us!" button below. Once you have passed your beginner's course, you will be handed a one-time-use token, which you need to use together with the email provided to the membership secretary to register yourself. Once you have registered successfully, you will be able to update your contact details (once). All other amends to contact details will need to be approved by the membership secretary.</p>
+                    <p>{{ membership_info.description }}</p>
                 </div>
             </div>
         </section>
+    {% else %}
+            <section class="event-item">
+            <div class="event-wrapper">
+                <div class="event-text">
+                    <p>We are sorry, but this information is not available right now. Why not contact us to receive details?</p>
+                </div>
+            </div>
+        </section>
+    {% endif %}
         <div class="membership-button-wrapper">
             <div class="membership-contact-us">
+                {# TODO: contact us emailing form with captcha #}
                 <a href="../web/contact-us.html">Contact us!</a>
             </div>
             <div class="membership-contact-us">
-                <a href="register.html">Register</a>
+                <a href="{% url 'register_user' %}">Register</a>
             </div>
         </div>
 {% endblock %}

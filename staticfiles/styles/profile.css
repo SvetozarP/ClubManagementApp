@@ -1,6 +1,7 @@
 .profile-welcome {
     margin-top: 70px;
     background-color: #1E4E3B;
+    max-width: 1920px;
 }
 
 .profile-welcome h2 {

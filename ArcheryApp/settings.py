@@ -61,8 +61,8 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
+    # 'django.contrib.auth.backends.ModelBackend',
     'ArcheryApp.membership.backends.EmailOrUsernameModelBackend',
-    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'ArcheryApp.urls'
