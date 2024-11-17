@@ -25,8 +25,8 @@
     {% endif %}
         <div class="membership-button-wrapper">
             <div class="membership-contact-us">
-                {# TODO: contact us emailing form with captcha #}
-                <a href="../web/contact-us.html">Contact us!</a>
+                {# TODO: captcha #}
+                <a href="{% url 'contact_us' %}">Contact us!</a>
             </div>
             <div class="membership-contact-us">
                 <a href="{% url 'register_user' %}">Register</a>

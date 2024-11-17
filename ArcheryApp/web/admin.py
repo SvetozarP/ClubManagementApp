@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from ArcheryApp.news.models import ClubNews
-from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, MembershipInfo
+from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, MembershipInfo, ContactRequest
 
 
 # Register your models here.
@@ -26,3 +26,8 @@ class MembershipInfoAdmin(admin.ModelAdmin):
 @admin.register(ClubNews)
 class ClubNewsAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(ContactRequest)
+class ContactRequestAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'created_at')
+    search_fields = ('name', 'email', 'message')

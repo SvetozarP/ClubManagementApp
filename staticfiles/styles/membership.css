@@ -36,7 +36,7 @@
 .contact-form input[type="text"],
 .contact-form input[type="password"],
 .contact-form input[type="email"],
-#contact-message {
+#id_message {
     width: 50ch;
     margin: 10px 0px;
     padding: 10px 5px;
@@ -49,10 +49,19 @@
     color: #1E4E3B;
 }
 
-.contact-form p:nth-of-type(8) input[type="submit"] {
+.contact-form input[type="submit"] {
     padding: 5px 20px;
     display: block;
     margin: 10px auto;
+}
+
+.contact-form input[type="submit"][disabled] {
+    border: 1px solid red;
+}
+
+#response-message {
+    margin: 0 auto;
+    text-align: center;
 }
 
 .contact-media {

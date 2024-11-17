@@ -1,11 +1,16 @@
 from datetime import date
 
+from asgiref.sync import sync_to_async
+from django.contrib.auth.decorators import user_passes_test
+from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 
 from ArcheryApp.events.models import ClubEvents
 from ArcheryApp.fieldbookings.models import FieldBookings
 from ArcheryApp.news.models import ClubNews
-from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, MembershipInfo
+from ArcheryApp.web.forms import ContactForm
+from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, MembershipInfo, ContactRequest
 
 
 # Create your views here.
@@ -47,3 +52,26 @@ class NewsListView(ListView):
 class EventsListView(ListView):
     model = ClubEvents
     template_name = 'events/events.html'
+
+async def contact_us(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+
+            await sync_to_async(ContactRequest.objects.create)(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                message=form.cleaned_data['message']
+            )
+            return JsonResponse({'success': True, 'message': 'Your message has been sent successfully!'})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+
+    form = ContactForm()
+    return render(request, 'web/contact-us.html', {'form': form})
+
+# Async view for staff to see submissions
+@user_passes_test(lambda u: u.is_staff)
+async def contact_requests(request):
+    contact_requests = await sync_to_async(list)(ContactRequest.objects.all())
+    return render(request, 'membership/profile.html', {'contact_requests': contact_requests})

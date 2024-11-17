@@ -6,18 +6,14 @@
         <section class="login-section">
             {# TODO: make contact form #}
             <div class="contact-section-div">
-                <div class="contact-media"><img src="{% static 'images/Logo_lrg.png' %}"></div>
-                <form class="contact-form">
-                    <p><label for="first-name">First name:</label></p>
-                    <p><input type="text" id="first-name" placeholder="First name"></p>
-                    <p><label for="last-name">Last name:</label></p>
-                    <p><input type="text" id="last-name" placeholder="Last name"></p>
-                    <p><label for="email">Email:</label></p>
-                    <p><input type="email" id="email" placeholder="Valid Email address"></p>
-                    <p><label for="contact-message">Message:</label></p>
-                    <textarea id="contact-message" placeholder="Please type in your message"></textarea>
+                <div class="contact-media"><img src="{% static 'images/Logo_lrg.png' %}" alt="Club logo"></div>
+                <form class="contact-form" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
                     <p><input type="submit" value="Send"></p>
                 </form>
             </div>
         </section>
+        <div id="response-message"></div>
+        <script src="{% static 'scripts/contactform.js' %}"></script>
 {% endblock %}

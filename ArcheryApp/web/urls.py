@@ -1,6 +1,6 @@
 from django.urls import path
 
-from ArcheryApp.web.views import IndexView, HistoryList, MembershipDetailsView, EventsListView, NewsListView
+from ArcheryApp.web.views import IndexView, HistoryList, MembershipDetailsView, EventsListView, NewsListView, contact_us
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('membershipinfo/', MembershipDetailsView.as_view(), name='club-membershipinfo'),
     path('events/', EventsListView.as_view(), name='club-events'),
     path('news/', NewsListView.as_view(), name='club-news'),
+    path('contact/', contact_us, name='contact_us'),
 ]
