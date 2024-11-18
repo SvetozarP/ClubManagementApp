@@ -7,6 +7,9 @@ from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 
 class ClubMission(models.Model):
 
+    class Meta:
+        verbose_name_plural = "Club Mission"
+
     image_url = models.ImageField(
         upload_to = 'mediafiles/',
         validators=[
@@ -23,6 +26,9 @@ class ClubMission(models.Model):
 
 class ClubHistory(models.Model):
     HISTORY_MAX_TITLE_LEN = 100
+
+    class Meta:
+        verbose_name_plural = "Club History"
 
     image = models.ImageField(
         upload_to = 'history/',
@@ -48,6 +54,9 @@ class MembershipInfo(models.Model):
     MAX_PICTURE_SIZE = 5 * 1024 * 1024
     PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
 
+    class Meta:
+        verbose_name_plural = "Membership Information"
+
     description = models.TextField()
     image = models.ImageField(
         upload_to = 'membershipinfo/',
@@ -69,6 +78,9 @@ class MembershipInfo(models.Model):
 class Testimonials(models.Model):
     CUSTOMER_MAX_LEN = 100
 
+    class Meta:
+        verbose_name_plural = "Testimonials"
+
     text = models.TextField()
     customer = models.CharField(
         max_length=CUSTOMER_MAX_LEN
@@ -85,8 +97,13 @@ class Testimonials(models.Model):
 
 
 class ContactRequest(models.Model):
+    NAME_MAX_LEN = 100
+
+    class Meta:
+        verbose_name_plural = "Contact Requests"
+
     name = models.CharField(
-        max_length=100
+        max_length=NAME_MAX_LEN,
     )
     email = models.EmailField()
     message = models.TextField()

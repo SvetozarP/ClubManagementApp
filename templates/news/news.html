@@ -2,7 +2,11 @@
 {% block content %}
 {% load static %}
 {% include 'common/hero-top.html' %}
+    {% if past_news %}
+        <h2>Past news</h2>
+    {% else %}
         <h2>News</h2>
+    {% endif %}
         {# TODO: Edit individual news #}
         <section class="news-items">
             {% if object_list %}
@@ -23,7 +27,6 @@
             {% endfor %}
             {% else %}
             <div class="news-item">
-{#                <div class="news-media"><img src="{% static 'images/Capture-768x445.webp' %}"></div>#}
                 <h3 class="news-title">We couldn't find any news</h3>
                 <div class="news-text">
                     <p>Please try again later.</p>
@@ -31,8 +34,12 @@
             </div>
             {% endif %}
         </section>
-    {# TODO: make a view for all the past news which are active #}
+    {# TODO: details view on news and read more #}
         <section>
-            <a href="#" class="past-news">See past news...</a>
+        {% if past_news %}
+            <a href="{% url 'club-news' %}" class="past-news">Back to recent news...</a>
+        {% else %}
+            <a href="{% url 'club-past-news' %}" class="past-news">See past news...</a>
+        {% endif %}
         </section>
 {% endblock %}

@@ -14,6 +14,9 @@ class ClubEvents(models.Model):
     PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
     MAX_HOSTED_BY_LEN = 255
 
+    class Meta:
+        verbose_name_plural = 'Club Events'
+
     title = models.CharField(
         max_length=MAX_TITLE_LENGTH
     )
@@ -56,9 +59,9 @@ class ClubEvents(models.Model):
         auto_now_add=True
     )
 
-    # is_active = models.BooleanField(
-    #     default=True,
-    # )
+    is_archived = models.BooleanField(
+        default=False,
+    )
 
     def __str__(self):
         return self.event_description

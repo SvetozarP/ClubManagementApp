@@ -3,9 +3,23 @@ from django import forms
 from .models import MemberProfile
 
 class UserRegistrationForm(forms.ModelForm):
-    email = forms.EmailField()
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'Enter your email address',
+            }
+        ),
+        label=''
+    )
     # csrf_token = forms.CharField(widget=forms.HiddenInput)
-    csrf_token = forms.CharField()
+    csrf_token = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Enter the token you have received',
+            }
+        ),
+        label=''
+    )
 
     class Meta:
         model = MemberProfile
@@ -23,7 +37,15 @@ class UserRegistrationForm(forms.ModelForm):
         return cleaned_data
 
 class MemberProfileCreationForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'Enter new user email',
+            }
+        ),
+        label=''
+    )
+
 
 class CompleteProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=150)

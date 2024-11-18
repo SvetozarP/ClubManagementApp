@@ -1,11 +1,18 @@
-.register-form p:nth-of-type(9) input[type="submit"] {
+.register-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-form-wrapper form button {
     padding: 5px 20px;
     display: block;
     margin: 10px auto;
 }
 
-.register-form label {
-    padding: 20px 0px;
+.register-form label,
+.register-form-wrapper form label {
+    padding: 20px 0;
     color: #1E4E3B;
 }
 

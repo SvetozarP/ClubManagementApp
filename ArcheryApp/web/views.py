@@ -2,6 +2,7 @@ from datetime import date
 
 from asgiref.sync import sync_to_async
 from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
@@ -21,7 +22,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['mission'] = ClubMission.objects.first()
-        context['events'] = ClubEvents.objects.filter(end_date__gte=date.today()).order_by('-created_at')[:3]
+        context['events'] = ClubEvents.objects.filter(Q(end_date__gte=date.today()) & Q(is_archived=False)).order_by('-created_at')[:3]
         context['news'] = ClubNews.objects.filter(is_active=True).order_by('-created_at')[:3]
         context['archers_shooting'] = FieldBookings.objects.filter(date=date.today()).count()
         context['testimonials'] = Testimonials.objects.all()
@@ -44,9 +45,13 @@ class MembershipDetailsView(TemplateView):
         return context
 
 
-class NewsListView(ListView):
-    model = ClubNews
+class NewsListView(TemplateView):
     template_name = 'news/news.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = ClubNews.objects.filter(is_active=True).order_by('-created_at')
+        return context
 
 
 class EventsListView(ListView):
@@ -75,3 +80,22 @@ async def contact_us(request):
 async def contact_requests(request):
     contact_requests = await sync_to_async(list)(ContactRequest.objects.all())
     return render(request, 'membership/profile.html', {'contact_requests': contact_requests})
+
+class PastNewsView(TemplateView):
+    template_name = 'news/news.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = ClubNews.objects.filter(is_active=False).order_by('-created_at')
+        context['past_news'] = True
+        return context
+
+
+class PastEventsView(TemplateView):
+    template_name = 'events/events.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = ClubEvents.objects.filter(Q(end_date__lt=date.today()) | Q(is_archived=True)).order_by('-created_at')
+        context['past_events'] = True
+        return context

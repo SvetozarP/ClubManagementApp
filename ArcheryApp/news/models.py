@@ -8,6 +8,9 @@ from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 
 class ClubNews(models.Model):
 
+    class Meta:
+        verbose_name_plural = "Club News"
+
     title = models.CharField(
         max_length=100
     )

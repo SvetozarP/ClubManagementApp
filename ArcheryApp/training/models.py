@@ -8,6 +8,9 @@ from ArcheryApp.membership.models import MemberProfile
 
 class ShootSessionDetails(models.Model):
 
+    class Meta:
+        verbose_name = 'Shoot Session Details'
+
     archer = models.ForeignKey(
         to=MemberProfile,
         on_delete=models.CASCADE,

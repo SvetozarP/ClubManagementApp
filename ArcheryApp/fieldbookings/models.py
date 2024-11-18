@@ -30,6 +30,9 @@ class FieldConfiguration(models.Model):
 
 class FieldBookings(models.Model):
 
+    class Meta:
+        verbose_name_plural = "Field Bookings"
+
     archer = models.ForeignKey(
         to=MemberProfile,
         on_delete=models.CASCADE,

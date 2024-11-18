@@ -9,7 +9,7 @@ from ArcheryApp.membership.managers import MemberProfileManager
 def validate_unique_email(value):
     if MemberProfile.objects.filter(email=value,profile_completed=True).exists():
         raise ValidationError(
-            'The email "%(value)s" is already in use.',
+            'Please enter valid email.',
             params={'value': value},
         )
 

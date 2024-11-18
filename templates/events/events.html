@@ -2,8 +2,12 @@
 {% block content %}
 {% load static %}
 {% include 'common/hero-top.html' %}
+    {% if past_events %}
+        <h2>Past events</h2>
+    {% else %}
         <h2>Events</h2>
-    {# TODO: Create view for all events (past events) #}
+    {% endif %}
+    {# TODO: details view for events and participate functionality #}
         {% if object_list %}
             {% for event in object_list %}
         <section class="event-item">
@@ -28,10 +32,16 @@
             <h3 class="event-title">No events found</h3>
             <div class="event-wrapper">
                 <div class="event-text">
-                    <p class="event-desctiption">There are no events in the near future. Please check again later.</p>
+                    <p class="event-desctiption">Please check again later.</p>
                 </div>
             </div>
         </section>
         {% endif %}
-
+        <section>
+        {% if past_events %}
+            <a href="{% url 'club-events' %}" class="past-news">Back to recent events...</a>
+        {% else %}
+            <a href="{% url 'club-past-events' %}" class="past-news">See past events...</a>
+        {% endif %}
+        </section>
 {% endblock %}

@@ -1,7 +1,8 @@
 {% extends 'common/base.html' %}
 {% block content %}
 {% load static %}
-    <div class="profile-welcome"><h2>Register New user</h2></div>
+    {% include 'common/hero-top.html' %}
+    <div class="profile-welcome"></div>
     <div class="profile-wrapper">
     {# TODO: sort menus - user menu, admin menu. Sort links. Check form format #}
         <section class="profile-menu">
@@ -19,13 +20,13 @@
                 <li><a href="create-user.html">Create user</a></li>
             </ul>
         </section>
-        <section class="login-section">
-            <div class="login-section-div">
-            {# TODO: fix formatting #}
+        <section class="create-section">
+            <div class="create-section-div">
+            <p class="create-user-title">Create new user</p>
                 <form method="post">
                 {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit">Create</button>
+                    <button type="submit" class="admin-submit-btn">Create</button>
                 </form>
                 {% if messages %}
                     <ul>
