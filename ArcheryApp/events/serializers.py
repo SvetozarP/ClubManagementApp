@@ -7,7 +7,7 @@ from ArcheryApp.fieldbookings.models import FieldBookings
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubEvents
-        fields = ['start_date', 'end_date', 'event_description']
+        fields = ['start_date', 'end_date', 'event_description', 'id']
 
 
 class FieldBookingSerializer(serializers.ModelSerializer):

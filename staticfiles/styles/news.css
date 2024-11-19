@@ -53,3 +53,18 @@ h2 {
 .author {
     font-style: italic;
 }
+
+.news-read-more a {
+    color: #000;
+    padding: 5px 20px;
+    display: block;
+    border: 1px solid #fff;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.news-read-more a:hover {
+    border: 1px solid #898989;
+    background-color: #d3d3d3;
+    transition: background-color 0.3s ease-in-out;
+}

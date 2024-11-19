@@ -45,19 +45,6 @@ class MembershipDetailsView(TemplateView):
         return context
 
 
-class NewsListView(TemplateView):
-    template_name = 'news/news.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['object_list'] = ClubNews.objects.filter(is_active=True).order_by('-created_at')
-        return context
-
-
-class EventsListView(ListView):
-    model = ClubEvents
-    template_name = 'events/events.html'
-
 async def contact_us(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -81,21 +68,5 @@ async def contact_requests(request):
     contact_requests = await sync_to_async(list)(ContactRequest.objects.all())
     return render(request, 'membership/profile.html', {'contact_requests': contact_requests})
 
-class PastNewsView(TemplateView):
-    template_name = 'news/news.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['object_list'] = ClubNews.objects.filter(is_active=False).order_by('-created_at')
-        context['past_news'] = True
-        return context
 
 
-class PastEventsView(TemplateView):
-    template_name = 'events/events.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['object_list'] = ClubEvents.objects.filter(Q(end_date__lt=date.today()) | Q(is_archived=True)).order_by('-created_at')
-        context['past_events'] = True
-        return context

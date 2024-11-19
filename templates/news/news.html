@@ -1,45 +1,46 @@
 {% extends 'common/base.html' %}
 {% block content %}
-{% load static %}
-{% include 'common/hero-top.html' %}
+    {% load static %}
+    {% include 'common/hero-top.html' %}
     {% if past_news %}
         <h2>Past news</h2>
     {% else %}
         <h2>News</h2>
     {% endif %}
-        {# TODO: Edit individual news #}
-        <section class="news-items">
-            {% if object_list %}
+    {# TODO: Edit individual news #}
+    <section class="news-items">
+        {% if object_list %}
             {% for news in object_list %}
-            <div class="news-item">
-                {% if news.image %}
-                    <div class="news-media"><img src="{{ news.image.url }}" alt="News image"></div>
+                <div class="news-item">
+                    {% if news.image %}
+                        <div class="news-media"><img src="{{ news.image.url }}" alt="News image"></div>
                     {% else %}
-                <div class="news-media"><img src="{% static 'images/Capture-768x445.webp '%}" alt="News image"></div>
+                        <div class="news-media"><img src="{% static 'images/Capture-768x445.webp ' %}" alt="News image">
+                        </div>
                     {% endif %}
-                <h3 class="news-title">{{ news.title }}</h3>
-                <div class="news-text">
-                    <p>{{ news.news_text|truncatechars:100 }}</p>
-                    <p class="date-published">Published on: {{ news.created_at|date:"d-m-Y" }}</p>
-                    <p class="author">Published by: {{ news.author.first_name }} {{ news.author.last_name }}</p>
+                    <h3 class="news-title">{{ news.title }}</h3>
+                    <div class="news-text">
+                        <p>{{ news.news_text|truncatechars:100 }}</p>
+                        <p class="date-published">Published on: {{ news.created_at|date:"d-m-Y" }}</p>
+                        <p class="author">Published by: {{ news.author.first_name }} {{ news.author.last_name }}</p>
+                        <p class="news-read-more"><a href="{% url 'club-news-detail' news.pk %}">Read more...</a></p>
+                    </div>
                 </div>
-            </div>
             {% endfor %}
-            {% else %}
+        {% else %}
             <div class="news-item">
                 <h3 class="news-title">We couldn't find any news</h3>
                 <div class="news-text">
                     <p>Please try again later.</p>
                 </div>
             </div>
-            {% endif %}
-        </section>
-    {# TODO: details view on news and read more #}
-        <section>
+        {% endif %}
+    </section>
+    <section>
         {% if past_news %}
             <a href="{% url 'club-news' %}" class="past-news">Back to recent news...</a>
         {% else %}
             <a href="{% url 'club-past-news' %}" class="past-news">See past news...</a>
         {% endif %}
-        </section>
+    </section>
 {% endblock %}

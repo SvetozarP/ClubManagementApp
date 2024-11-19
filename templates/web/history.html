@@ -1,21 +1,21 @@
 {% extends 'common/base.html' %}
 {% block content %}
-{% load static %}
-{% include 'common/hero-top.html' %}
-        <h2>Club History</h2>
+    {% load static %}
+    {% include 'common/hero-top.html' %}
+    <h2>Club History</h2>
     {% if object_list %}
         {% for history_item in object_list %}
-        <section class="history-item">
-            <h3 class="history-title">{{ history_item.history_title }}</h3>
-            <div class="history-wrapper">
-                {% if history_item.image %}
-                <div class="history-media"><img src="{{ history_item.image.url }}" alt="History image"></div>
+            <section class="history-item">
+                <h3 class="history-title">{{ history_item.history_title }}</h3>
+                <div class="history-wrapper">
+                    {% if history_item.image %}
+                        <div class="history-media"><img src="{{ history_item.image.url }}" alt="History image"></div>
                     {% endif %}
-                <div class="history-text">
-                    <p>{{ history_item.history_text }}</p>
+                    <div class="history-text">
+                        <p>{{ history_item.history_text }}</p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         {% endfor %}
     {% else %}
         <section class="history-item">
@@ -27,5 +27,5 @@
             </div>
         </section>
     {% endif %}
-    
+
 {% endblock %}

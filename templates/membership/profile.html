@@ -1,59 +1,61 @@
 {% extends 'common/base.html' %}
 {% block content %}
-{% load static %}
+    {% load static %}
     {% include 'common/hero-top.html' %}
-        <div class="profile-welcome">
-{#            <h2>Welcome, Archer!</h2>#}
-        </div>
-        <div class="profile-wrapper">
-            <section class="profile-menu">
-                {# TODO: fix links and make views for standard user functionality #}
-                <ul class="profile-menu-items">
-                    <li><a href="#">Edit profile</a></li>
-                    <li><a href="#">Book Shooting session</a></li>
-                    <li><a href="#">Record training details</a></li>
-                    <li><a href="#">Field Bookings summary</a></li>
-                </ul>
-                {# TODO: Make is_staff functionality, only visible to staff and amend links #}
-                <ul class="admin-functions">
-                    <li><a href="#">Members Directory</a></li>
-                    <li><a href="../common/create-new.html">Announcements</a></li>
-                    <li><a href="../common/create-new.html">Create news</a></li>
-                    <li><a href="../common/create-new.html">Create events</a></li>
-                    <li><a href="create-user.html">Create user</a></li>
-                </ul>
-            </section>
-            {# TODO: functionality to edit profile #}
-            <section class="profile-content">
-                <div class="contents-wrapper">
-                    <div class="profile-details">
-                        <h3>Profile Details</h3>
-                        <div class="profile-picture"><img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile picture" /></div>
-                        <ul>
-                            <li>Name: Archer Smith</li>
-                            <li>Email: archer@croesoswallt.co.uk</li>
-                            <li>Phone: 01234 567890</li>
-                            <li>Address: 123 Main Street, Shropshire, England</li>
-                        </ul>
-                    </div>
-                    <div class="announcements">
-                        {# TODO: show announcements, create announcements logic #}
-                        <h3>Unread announcements:</h3>
-                        <ul>
-                            <li>Archer Smith - Archery Club Application has been submitted</li>
-                            <li>Archer Smith - Membership renewal for 2023</li>
-                        </ul>
-                    </div>
-                    {# TODO: show next 7 days of events #}
-                    <div class="announcements">
-                        <h3>Upcoming events in the next 7 days:</h3>
-                        <ul>
-                            <li>Club competition - 2024-11-23 9:00</li>
-                            <li>Shooting - 2024-11-24 10:00</li>
-                        </ul>
-                    </div>
-                    {# TODO: contact requests display and buttons to delete / deactivate #}
+    <div class="profile-welcome">
+        {#            <h2>Welcome, Archer!</h2>#}
+    </div>
+    <div class="profile-wrapper">
+        <section class="profile-menu">
+            {# TODO: fix links and make views for standard user functionality #}
+            <ul class="profile-menu-items">
+                <li><a href="#">Edit profile</a></li>
+                <li><a href="#">Book Shooting session</a></li>
+                <li><a href="#">Record training details</a></li>
+                <li><a href="#">Field Bookings summary</a></li>
+            </ul>
+            {# TODO: Make is_staff functionality, only visible to staff and amend links #}
+            <ul class="admin-functions">
+                <li><a href="#">Members Directory</a></li>
+                <li><a href="../common/create-new.html">Announcements</a></li>
+                <li><a href="../common/create-new.html">Create news</a></li>
+                <li><a href="../common/create-new.html">Create events</a></li>
+                <li><a href="create-user.html">Create user</a></li>
+            </ul>
+        </section>
+        {# TODO: functionality to edit profile #}
+        <section class="profile-content">
+            <div class="contents-wrapper">
+                <div class="profile-details">
+                    <h3>Profile Details</h3>
+                    <div class="profile-picture"><img
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                            alt="Profile picture"/></div>
+                    <ul>
+                        <li>Name: Archer Smith</li>
+                        <li>Email: archer@croesoswallt.co.uk</li>
+                        <li>Phone: 01234 567890</li>
+                        <li>Address: 123 Main Street, Shropshire, England</li>
+                    </ul>
                 </div>
-            </section>
-        </div>
+                <div class="announcements">
+                    {# TODO: show announcements, create announcements logic #}
+                    <h3>Unread announcements:</h3>
+                    <ul>
+                        <li>Archer Smith - Archery Club Application has been submitted</li>
+                        <li>Archer Smith - Membership renewal for 2023</li>
+                    </ul>
+                </div>
+                {# TODO: show next 7 days of events #}
+                <div class="announcements">
+                    <h3>Upcoming events in the next 7 days:</h3>
+                    <ul>
+                        <li>Club competition - 2024-11-23 9:00</li>
+                        <li>Shooting - 2024-11-24 10:00</li>
+                    </ul>
+                </div>
+                {# TODO: contact requests display and buttons to delete / deactivate #}
+            </div>
+        </section>
+    </div>
 {% endblock %}

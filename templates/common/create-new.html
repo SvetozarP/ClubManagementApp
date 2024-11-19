@@ -1,13 +1,13 @@
 {% extends 'common/base.html' %}
 {% block content %}
-{% load static %}
-{# TODO: forms to create new article / event accessible to admins (is_staff) #}
-        <h2 class="create-new-title">Create New Article / Event</h2>
-        <div class="create-form-container">
-            <form>
-                <p><input type="text" id="title" name="title" required placeholder="Title:"></p>
-                <p><textarea id="content" placeholder="Content:"></textarea></p>
-                <p><input type="submit"></p>
-            </form>
-        </div>
+    {% load static %}
+    {# TODO: forms to create new article / event accessible to admins (is_staff) #}
+    <h2 class="create-new-title">Create New Article / Event</h2>
+    <div class="create-form-container">
+        <form>
+            <p><input type="text" id="title" name="title" required placeholder="Title:"></p>
+            <p><textarea id="content" placeholder="Content:"></textarea></p>
+            <p><input type="submit"></p>
+        </form>
+    </div>
 {% endblock %}

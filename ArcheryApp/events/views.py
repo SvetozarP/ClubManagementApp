@@ -1,8 +1,12 @@
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
+from django.views.generic import ListView, TemplateView, DetailView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -39,3 +43,28 @@ class CalendarAPIView(APIView):
             "bookings": booking_serializer.data,
             "field_bookings": field_booking_serializer.data
         })
+
+
+class EventsListView(ListView):
+    model = ClubEvents
+    template_name = 'events/events.html'
+
+
+class PastEventsView(TemplateView):
+    template_name = 'events/events.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = ClubEvents.objects.filter(Q(end_date__lt=date.today()) | Q(is_archived=True)).order_by('-created_at')
+        context['past_events'] = True
+        return context
+
+
+class EventDetailsView(DetailView):
+    model = ClubEvents
+    template_name = 'common/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_event'] = True
+        return context

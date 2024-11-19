@@ -1,12 +1,13 @@
 {% extends 'common/base.html' %}
 {% block content %}
-{% load static %}
-{% include 'common/hero-top.html' %}
+    {% load static %}
+    {% include 'common/hero-top.html' %}
     <h2>Login</h2>
     <section class="login-section">
-        {# TODO: check formatting #}
         <div class="login-section-div">
-            <div class="login-media"><img src="{% static 'images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp'%}"></div>
+            {# TODO: forgotten password & password update logic; Limit login attempts #}
+            <div class="login-media"><img src="{% static 'images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp' %}">
+            </div>
             <form class="login-form" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}

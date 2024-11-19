@@ -1,4 +1,4 @@
-{%  load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,50 +9,61 @@
     <title>Archery Club | Croesoswallt Archers</title>
 </head>
 <body>
-    <header>
-        <nav class="main-navigation">
-            <ul>
-                {% if request.user.is_authenticated %}
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-                <li><a href="{% url 'club-history' %}">History</a></li>
-                {% if request.user.is_authenticated %}
-                <li><a href="{% url 'profile-view' %}">Profile</a></li>
-                {% else %}
-                <li><a href="{% url 'club-membershipinfo' %}">Membership</a></li>
-                {% endif %}
-            </ul>
-            <div class="main-logo"><a href="{% url 'home' %}"><img src="{% static 'images/Logo_lrg.png' %}" alt="Croesoswallt Archers Logo" /></a></div>
-            <ul>
-                <li><a href="{% url 'club-news' %}">News</a></li>
-                <li><a href="{% url 'club-events' %}">Events</a></li>
-                {% if request.user.is_authenticated %}
-                <li><a href="{% url 'calendar-view' %}">Calendar</a></li>
-                {% else %}
-                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
-    <main>
-        
-        {% block content %}
-        {% endblock %}
-    
-        </main>
-    <footer>
+<header>
+    <nav class="main-navigation">
         <ul>
-            <li><div class="ssas-media"><a href="http://www.shropshirearcherysociety.co.uk/"><img src="{% static 'images/county-logo_400px.webp' %}" alt="Shropshire Archery Society Logo"></a></div></li>
-            <li><div class="agb-media"><a href="http://www.archerygb.org/"><img src="{% static 'images/agb_logo.webp' %}" alt="Archery GB Logo" /></a></div></li>
-            <li><div class="ontarget-media"><a href="https://archerygb.org/files/A5-ontarget-community-brochure-WEB-single-pages.pdf"><img src="{% static 'images/ONTARGET-Community-logo1.webp' %}" alt="OnTarget Community logo"></a></div></li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+            <li><a href="{% url 'club-history' %}">History</a></li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'profile-view' %}">Profile</a></li>
+            {% else %}
+                <li><a href="{% url 'club-membershipinfo' %}">Membership</a></li>
+            {% endif %}
         </ul>
-        <ul class="socials">
-            <li><a href="https://www.facebook.com/CroesoswalltArchery"><i class="fa-brands fa-facebook"></i></a></li>
-            <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
+        <div class="main-logo"><a href="{% url 'home' %}"><img src="{% static 'images/Logo_lrg.png' %}"
+                                                               alt="Croesoswallt Archers Logo"/></a></div>
+        <ul>
+            <li><a href="{% url 'club-news' %}">News</a></li>
+            <li><a href="{% url 'club-events' %}">Events</a></li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'calendar-view' %}">Calendar</a></li>
+            {% else %}
+                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+            {% endif %}
         </ul>
-    </footer>
-    
+    </nav>
+</header>
+<main>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+<footer>
+    <ul>
+        <li>
+            <div class="ssas-media"><a href="http://www.shropshirearcherysociety.co.uk/"><img
+                    src="{% static 'images/county-logo_400px.webp' %}" alt="Shropshire Archery Society Logo"></a></div>
+        </li>
+        <li>
+            <div class="agb-media"><a href="http://www.archerygb.org/"><img src="{% static 'images/agb_logo.webp' %}"
+                                                                            alt="Archery GB Logo"/></a></div>
+        </li>
+        <li>
+            <div class="ontarget-media"><a
+                    href="https://archerygb.org/files/A5-ontarget-community-brochure-WEB-single-pages.pdf"><img
+                    src="{% static 'images/ONTARGET-Community-logo1.webp' %}" alt="OnTarget Community logo"></a></div>
+        </li>
+    </ul>
+    <ul class="socials">
+        <li><a href="https://www.facebook.com/CroesoswalltArchery"><i class="fa-brands fa-facebook"></i></a></li>
+        <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
+    </ul>
+</footer>
+
 </body>
 </html>

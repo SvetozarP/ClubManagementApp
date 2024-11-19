@@ -1,114 +1,128 @@
-{# TODO: Pass event PK to template, create links to event details and give option to register participation #}
+{# TODO: Give option to register participation #}
 {% extends 'common/base.html' %}
 {% block content %}
-{% include 'common/hero-top.html' %}
+    {% include 'common/hero-top.html' %}
+    <div class="calendar-page">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button onclick="changeMonth(-1)">Previous</button>
+                <div class="cal-title-wrapper"><h2 id="month-year"></h2>
+                    <button onclick="returnMonth()">Back to current month</button>
+                </div>
+                <button onclick="changeMonth(1)">Next</button>
+            </div>
 
-<div class="calendar-container">
-    <div class="calendar-header">
-        <button onclick="changeMonth(-1)">Previous</button>
-        <div class="cal-title-wrapper"><h2 id="month-year"></h2><button onclick="returnMonth()">Back to current month</button></div>
-        <button onclick="changeMonth(1)">Next</button>
+            <div class="calendar-grid">
+
+                <div class="day-header">Sun</div>
+                <div class="day-header">Mon</div>
+                <div class="day-header">Tue</div>
+                <div class="day-header">Wed</div>
+                <div class="day-header">Thu</div>
+                <div class="day-header">Fri</div>
+                <div class="day-header">Sat</div>
+            </div>
+
+            <div class="calendar-grid" id="calendar-days"></div>
+        </div>
+
+        <div class="calendar-legend">
+            <p class="clb-event event">Event - please select an event to see more information</p>
+            <p class="flb-event event">Booking - shows if an archer is shooting on this date</p>
+        </div>
     </div>
+    <script>
 
-    <div class="calendar-grid">
-        <!-- Day headers -->
-        <div class="day-header">Sun</div>
-        <div class="day-header">Mon</div>
-        <div class="day-header">Tue</div>
-        <div class="day-header">Wed</div>
-        <div class="day-header">Thu</div>
-        <div class="day-header">Fri</div>
-        <div class="day-header">Sat</div>
-    </div>
-        <!-- Days of the month will be populated here -->
-        <div class="calendar-grid" id="calendar-days"></div>
-</div>
+        let currentDate = new Date();
+        const data = {{ data|safe }};
 
-<script>
-    // Initialize the current date
-    let currentDate = new Date();
-    const data = {{ data|safe }}; // Embedded booking data
+        function renderCalendar() {
+            const month = currentDate.getMonth();
+            const year = currentDate.getFullYear();
 
-    function renderCalendar() {
-        const month = currentDate.getMonth();
-        const year = currentDate.getFullYear();
+            document.getElementById('month-year').textContent = currentDate.toLocaleString('default', {
+                month: 'long',
+                year: 'numeric'
+            });
 
-        document.getElementById('month-year').textContent = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
 
-        // Get the first and last day of the month
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
 
-        // Calculate the starting day of the week and total days
-        const startDayOfWeek = firstDay.getDay();
-        const daysInMonth = lastDay.getDate();
 
-        // Clear the previous calendar days
-        const calendarDays = document.getElementById('calendar-days');
-        calendarDays.innerHTML = '';
+            const startDayOfWeek = firstDay.getDay();
+            const daysInMonth = lastDay.getDate();
 
-        // Fill in the blank days for the first week
-        for (let i = 0; i < startDayOfWeek; i++) {
-            calendarDays.innerHTML += '<div class="day-cell"></div>';
+
+            const calendarDays = document.getElementById('calendar-days');
+            calendarDays.innerHTML = '';
+
+
+            for (let i = 0; i < startDayOfWeek; i++) {
+                calendarDays.innerHTML += '<div class="day-cell"></div>';
+            }
+
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.classList.add('day-cell');
+                dayCell.setAttribute('data-date', `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
+                dayCell.innerHTML = `<strong>${day}</strong>`;
+                calendarDays.appendChild(dayCell);
+            }
+
+
+            populateEvents(data);
         }
 
-        // Fill in the days of the month
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayCell = document.createElement('div');
-            dayCell.classList.add('day-cell');
-            dayCell.setAttribute('data-date', `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
-            dayCell.innerHTML = `<strong>${day}</strong>`;
-            calendarDays.appendChild(dayCell);
+        function populateEvents(data) {
+
+            data.bookings.forEach(booking => {
+                const startDate = new Date(booking.start_date);
+                const dateStr = startDate.toISOString().split('T')[0];
+                const endDate = new Date(booking.end_date);
+                const endDateStr = endDate.toISOString().split('T')[0]
+                const dayCell = document.querySelector(`.day-cell[data-date="${dateStr}"]`);
+                let bookingId = Number(booking.id)
+                if (dayCell) {
+                    const anchorElement = document.createElement('a');
+                    anchorElement.href = `{% url 'club-event-detail' 0 %}`.replace('/0/', `/${bookingId}/`);
+                    const eventElement = document.createElement('div');
+                    eventElement.classList.add('clb-event');
+                    anchorElement.classList.add('event');
+                    anchorElement.textContent = `${booking.event_description} from ${dateStr} to ${endDateStr}`;
+                    eventElement.appendChild(anchorElement)
+                    dayCell.appendChild(eventElement);
+                }
+            });
+
+
+            data.field_bookings.forEach(fieldBooking => {
+                const dateStr = fieldBooking.date;
+                const dayCell = document.querySelector(`.day-cell[data-date="${dateStr}"]`);
+                if (dayCell) {
+                    const eventElement = document.createElement('div');
+                    eventElement.classList.add('event');
+                    eventElement.classList.add('flb-event')
+                    eventElement.textContent = `Archer from ${fieldBooking.time_from} to ${fieldBooking.time_to}`;
+                    dayCell.appendChild(eventElement);
+                }
+            });
         }
 
-        // Place bookings and field bookings on the calendar
-        populateEvents(data);
-    }
+        function changeMonth(step) {
+
+            currentDate.setMonth(currentDate.getMonth() + step);
+            renderCalendar();
+        }
+
+        function returnMonth() {
+
+            currentDate = new Date();
+            renderCalendar();
+        }
+
     
-    function populateEvents(data) {
-        // Populate the bookings
-        data.bookings.forEach(booking => {
-            const startDate = new Date(booking.start_date);
-            const dateStr = startDate.toISOString().split('T')[0];
-            const endDate = new Date(booking.end_date);
-            const endDateStr = endDate.toISOString().split('T')[0]
-            const dayCell = document.querySelector(`.day-cell[data-date="${dateStr}"]`);
-            if (dayCell) {
-                const eventElement = document.createElement('div');
-                eventElement.classList.add('event');
-                eventElement.classList.add('clb-event')
-                eventElement.textContent = `${booking.event_description} from ${dateStr} to ${endDateStr}`;
-                dayCell.appendChild(eventElement);
-            }
-        });
-
-        // Populate the field bookings
-        data.field_bookings.forEach(fieldBooking => {
-            const dateStr = fieldBooking.date;
-            const dayCell = document.querySelector(`.day-cell[data-date="${dateStr}"]`);
-            if (dayCell) {
-                const eventElement = document.createElement('div');
-                eventElement.classList.add('event');
-                eventElement.classList.add('flb-event')
-                eventElement.textContent = `Archer from ${fieldBooking.time_from} to ${fieldBooking.time_to}`;
-                dayCell.appendChild(eventElement);
-            }
-        });
-    }
-
-    function changeMonth(step) {
-        // Change the month by the step (+1 for next, -1 for previous)
-        currentDate.setMonth(currentDate.getMonth() + step);
         renderCalendar();
-    }
-    
-    function returnMonth() {
-        // Change the month by the step (+1 for next, -1 for previous)
-        currentDate = new Date();
-        renderCalendar();
-    }
-
-    // Initial render of the calendar
-    renderCalendar();
-</script>
+    </script>
 {% endblock %}

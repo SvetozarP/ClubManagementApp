@@ -1,17 +1,18 @@
 {% extends 'common/base.html' %}
 {% block content %}
-{% load static %}
-{% include 'common/hero-top.html' %}
-        <h2>Register</h2>
-        <section class="login-section">
-            <div class="login-section-div">
-                <div class="register-media"><img src="{% static 'images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp' %}" alt="Register user photo"></div>
-                <div class="register-form-wrapper">
-                    <form method="post" class="register-form">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit">Register</button>
-                    </form>
+    {% load static %}
+    {% include 'common/hero-top.html' %}
+    <h2>Register</h2>
+    <section class="login-section">
+        <div class="login-section-div">
+            <div class="register-media"><img src="{% static 'images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp' %}"
+                                             alt="Register user photo"></div>
+            <div class="register-form-wrapper">
+                <form method="post" class="register-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Register</button>
+                </form>
                 {% if messages %}
                     <ul>
                         {% for message in messages %}
@@ -19,7 +20,7 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-                </div>
             </div>
-        </section>
+        </div>
+    </section>
 {% endblock %}

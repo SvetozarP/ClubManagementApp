@@ -1,0 +1,24 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    {% load static %}
+    {% include 'common/hero-top.html' %}
+    {# TODO: list view for all events with ability to edit from admin #}
+    <div class="objectWrapper">
+        <h2>{{ object.title }}</h2>
+        {% if object.image %}
+            <div class="media"><img src="{{ object.image.url }}" alt="{{ object.title }} image"></div>
+        {% endif %}
+        {% if is_news %}
+            <div class="detail-text">{{ object.news_text }}</div>
+            <p class="date-published">Published on: {{ object.created_at|date:"d-m-Y" }}</p>
+            <p class="author">Published by: {{ object.author.first_name }} {{ object.author.last_name }}</p>
+        {% elif is_event %}
+            <div class="detail-text">
+                <p>Hosted by: {{ object.hosted_by }}</p>
+                <p>Start date: {{ object.start_date|date:"d-m-Y" }} at {{ object.start_date|date:"H:i" }}</p>
+                <p>End date: {{ object.end_date|date:"d-m-Y" }} at {{ object.end_date|date:"H:i" }}</p>
+                <div class="detail-text">{{ object.event_description }}</div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

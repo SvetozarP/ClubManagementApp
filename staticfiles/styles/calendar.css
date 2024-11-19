@@ -1,8 +1,14 @@
 /* Basic styling for the calendar */
+.calendar-page {
+    background-color: #1E4E3B;
+    padding: 20px;
+}
+
 .calendar-container {
     max-width: 800px;
     margin: auto;
     padding: 20px;
+    background-color: #fff;
 }
 .calendar-header {
     display: flex;
@@ -46,13 +52,29 @@
     padding: 3px;
     font-size: 0.9em;
     margin-top: 5px;
-    border-radius: 3px;
+    border-radius: 5px;
+    color: #fff;
+    overflow: hidden;
 }
 
 .clb-event {
     background-color: #858aa5;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .flb-event {
     background-color: #33bd23;
+    overflow: hidden;
+}
+
+.calendar-legend {
+    max-width: 500px;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.calendar-legend p {
+    color: #fff;
+    font-weight: bold;
 }
