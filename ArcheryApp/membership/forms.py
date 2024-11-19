@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.timezone import now
 
 from .models import MemberProfile
 
@@ -70,3 +71,37 @@ class CompleteProfileForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label="Email or Username")
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not MemberProfile.objects.filter(email=email).exists():
+            raise forms.ValidationError("Please enter valid email.")
+        return email
+
+
+class PasswordResetForm(forms.Form):
+    reset_token = forms.UUIDField()
+    new_password = forms.CharField(widget=forms.PasswordInput())
+    confirm_password = forms.CharField(widget=forms.PasswordInput())
+
+    def clean(self):
+        cleaned_data = super().clean()
+        reset_token = cleaned_data.get("reset_token")
+        new_password = cleaned_data.get("new_password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if new_password != confirm_password:
+            raise forms.ValidationError("Passwords do not match.")
+
+        # Validate token
+        try:
+            profile = MemberProfile.objects.get(reset_token=reset_token)
+            if profile.reset_token_expiry < now():
+                raise forms.ValidationError("Reset token has expired.")
+        except MemberProfile.DoesNotExist:
+            raise forms.ValidationError("Invalid reset token.")
+        return cleaned_data

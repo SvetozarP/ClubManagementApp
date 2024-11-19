@@ -5,13 +5,13 @@
     <h2>Login</h2>
     <section class="login-section">
         <div class="login-section-div">
-            {# TODO: forgotten password & password update logic; Limit login attempts #}
-            <div class="login-media"><img src="{% static 'images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp' %}">
+            <div class="login-media"><img src="{% static 'images/Croes-comp-9-p7u4u524e6cyeuqkakam744ow6w.webp' %}" alt="Archery target">
             </div>
             <form class="login-form" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <p><input type="submit" value="Login"></p>
+                <p>Forgot your password? <a href="{% url 'request_reset_token' %}">Click here</a></p>
             </form>
         </div>
     </section>

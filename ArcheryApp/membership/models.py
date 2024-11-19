@@ -1,7 +1,11 @@
+import uuid
+from datetime import timedelta
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.crypto import get_random_string
+from django.utils.timezone import now
 
 from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 from ArcheryApp.membership.managers import MemberProfileManager
@@ -90,6 +94,21 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
         default=False,
     )
 
+    reset_token = models.UUIDField(
+        null=True,
+        blank=True,
+    )
+
+    reset_token_expiry = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    last_reset_request = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
     objects = MemberProfileManager()
 
     USERNAME_FIELD = 'email'
@@ -101,4 +120,19 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
 
     def clear_csrf_token(self):
         self.csrf_token = None
+        self.save()
+
+    def generate_reset_token(self):
+        # Prevent multiple requests within an hour
+        if self.last_reset_request and self.last_reset_request > now() - timedelta(hours=1):
+            raise Exception("You can only request a reset token once per hour.")
+
+        self.reset_token = uuid.uuid4()
+        self.reset_token_expiry = now() + timedelta(hours=1)
+        self.last_reset_request = now()
+        self.save()
+
+    def clear_reset_token(self):
+        self.reset_token = None
+        self.reset_token_expiry = None
         self.save()

@@ -2,7 +2,7 @@
 {% block content %}
     {% load static %}
     {% include 'common/hero-top.html' %}
-    {# TODO: DJANGO UNFOLD!; Poetry for packets #}
+    {# TODO: DJANGO UNFOLD! #}
     <section class="introduction">
         {% if mission %}
             {% if mission.image_url %}
@@ -67,8 +67,7 @@
         </div>
         <div class="on-the-field">
             <h3>Today we have:</h3>
-            {# TODO: dynamically count number of shooting members for the day #}
-            <p>6 members shooting on the field.</p>
+            <p>{{ archers_shooting }} members shooting on the field.</p>
         </div>
     </section>
     <section class="get-in-touch">
@@ -102,7 +101,6 @@
                         style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            {# TODO: Future project - make this dynamic #}
             <div class="map-text">
                 <h3>Our range is based at the British Ironwork Centre Oswestry SY114JH</h3>
                 <p>Our club has three Ranges The main Range has 16 lanes permanently set out for both Metric and
