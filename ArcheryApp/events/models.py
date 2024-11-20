@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, datetime
+import pytz
 
 from django.db import models
 
@@ -68,4 +69,5 @@ class ClubEvents(models.Model):
 
     @property
     def is_active(self):
-        return self.end_date >= date.today()
+        today_datetime = datetime.now(pytz.UTC)
+        return self.end_date >= today_datetime

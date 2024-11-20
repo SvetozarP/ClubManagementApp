@@ -23,19 +23,19 @@
                 {% if request.user.is_staff %}
                     <p><a href="{% url 'club-event-update' object.pk %}">Edit event</a></p>
                 {% endif %}
-                {% if user.is_authenticated %}
-                    <form action="{% url 'club-event-participate' object.pk %}" method="post">
+                {% if object.is_active %}
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'club-event-participate' object.pk %}" method="post">
                         {% csrf_token %}
                         {% if user in object.participants.all %}
                             <button type="submit" class="btn btn-danger">Remove participation</button>
                         {% else %}
                             <button type="submit" class="btn btn-success">Participate</button>
                         {% endif %}
-                    </form>
+                    {% endif %}
+                </form>
                 {% endif %}
             </div>
         {% endif %}
-
-
     </div>
 {% endblock %}
