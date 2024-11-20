@@ -38,7 +38,7 @@ class RegisterUserView(FormView):
 class CreateUserView(UserPassesTestMixin, FormView):
     template_name = "membership/create-user.html"
     form_class = MemberProfileCreationForm
-    success_url = reverse_lazy("create_user")  # Redirect back to the form on success
+    success_url = reverse_lazy("create_user")
 
     # Only allow access to staff members
     def test_func(self):
@@ -46,7 +46,7 @@ class CreateUserView(UserPassesTestMixin, FormView):
 
     def handle_no_permission(self):
         messages.error(self.request, "You do not have permission to access this page.")
-        return redirect("login")  # Redirect to login or another page if not authorized
+        return redirect("login")
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")

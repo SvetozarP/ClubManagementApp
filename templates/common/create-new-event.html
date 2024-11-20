@@ -1,0 +1,23 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    {% load static %}
+    {% include 'common/hero-top.html' %}
+    {# TODO: forms to create new article / event accessible to admins (is_staff) #}
+    <h2 class="create-new-title">Create New Event</h2>
+    <div class="create-form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.title }}</p>
+            <p>{{ form.start_date }}</p>
+            <p>{{ form.start_date.help_text }}</p>
+            <p>{{ form.end_date }}</p>
+            <p>{{ form.end_date.help_text }}</p>
+            <p>{{ form.image }}</p>
+            <p>{{ form.image.help_text }}</p>
+            <p>{{ form.hosted_by }}</p>
+            <p>{{ form.event_description }}</p>
+            <p><input type="submit" value="Create"></p>
+        </form>
+    
+    </div>
+{% endblock %}

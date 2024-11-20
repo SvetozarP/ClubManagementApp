@@ -1,5 +1,4 @@
 .create-new-title {
-    margin-top: 70px;
     background-color: #1E4E3B;
     color: #fff;
 }
@@ -25,14 +24,24 @@
 
 .create-form-container p {
     text-align: center;
+    color: #fff;
 }
 
 .create-form-container p label {
     margin-right: 20px;
+    color: #fff;
+    align-self: flex-start;
 }
 
 .create-form-container p input,
 .create-form-container p textarea {
-    align-self: flex-start;
     width: 40ch;
+    color: #fff;
+    border-radius: 7px;
+    outline: none;
+    padding: 5px;
+}
+
+.create-form-container p input {
+    color: #1E4E3B;
 }

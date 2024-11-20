@@ -1,15 +1,18 @@
 from datetime import date
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic import ListView, TemplateView, DetailView, CreateView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from .forms import CreateEventForm
 from .models import ClubEvents
 from .serializers import BookingSerializer, FieldBookingSerializer
 from ..fieldbookings.models import FieldBookings
@@ -68,3 +71,20 @@ class EventDetailsView(DetailView):
         context = super().get_context_data(**kwargs)
         context['is_event'] = True
         return context
+
+
+class CreateNewEventView(UserPassesTestMixin, CreateView):
+    model = ClubEvents
+    form_class = CreateEventForm
+    template_name = 'common/create-new-event.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return redirect("login")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
