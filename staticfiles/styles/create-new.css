@@ -36,7 +36,7 @@
 .create-form-container p input,
 .create-form-container p textarea {
     width: 40ch;
-    color: #fff;
+    color: #1E4E3B;
     border-radius: 7px;
     outline: none;
     padding: 5px;
@@ -44,4 +44,8 @@
 
 .create-form-container p input {
     color: #1E4E3B;
+}
+
+.error {
+    color: red;
 }

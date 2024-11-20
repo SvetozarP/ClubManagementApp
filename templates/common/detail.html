@@ -2,7 +2,6 @@
 {% block content %}
     {% load static %}
     {% include 'common/hero-top.html' %}
-    {# TODO: list view for all events with ability to edit from admin #}
     <div class="objectWrapper">
         <h2>{{ object.title }}</h2>
         {% if object.image %}
@@ -12,13 +11,31 @@
             <div class="detail-text">{{ object.news_text }}</div>
             <p class="date-published">Published on: {{ object.created_at|date:"d-m-Y" }}</p>
             <p class="author">Published by: {{ object.author.first_name }} {{ object.author.last_name }}</p>
+            {% if request.user.is_staff %}
+                <p><a href="{% url 'club-news-edit' object.pk %}">Edit news</a></p>
+            {% endif %}
         {% elif is_event %}
             <div class="detail-text">
                 <p>Hosted by: {{ object.hosted_by }}</p>
                 <p>Start date: {{ object.start_date|date:"d-m-Y" }} at {{ object.start_date|date:"H:i" }}</p>
                 <p>End date: {{ object.end_date|date:"d-m-Y" }} at {{ object.end_date|date:"H:i" }}</p>
                 <div class="detail-text">{{ object.event_description }}</div>
+                {% if request.user.is_staff %}
+                    <p><a href="{% url 'club-event-update' object.pk %}">Edit event</a></p>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <form action="{% url 'club-event-participate' object.pk %}" method="post">
+                        {% csrf_token %}
+                        {% if user in object.participants.all %}
+                            <button type="submit" class="btn btn-danger">Remove participation</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-success">Participate</button>
+                        {% endif %}
+                    </form>
+                {% endif %}
             </div>
         {% endif %}
+
+
     </div>
 {% endblock %}

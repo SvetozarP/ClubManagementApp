@@ -13,13 +13,15 @@ class EventBaseForm(forms.ModelForm):
             'image': '',
             'hosted_by': '',
             'event_description': '',
+            'author': 'Event author:',
+            'is_archived': 'Archive:',
         }
         help_texts = {
             'image': 'Please upload image (optional). Max size 5mb',
             'start_date': 'Please enter the start date and time',
             'end_date': 'Please enter the end date and time',
         }
-        exclude = ['author', 'participants', 'is_archived']
+        exclude = ['participants']
 
         widgets = {
             'title': forms.TextInput(
@@ -52,5 +54,10 @@ class EventBaseForm(forms.ModelForm):
 
 
 class CreateEventForm(EventBaseForm):
+    class Meta(EventBaseForm.Meta):
+        exclude = ['is_archived', 'author',]
+
+
+class UpdateEventForm(EventBaseForm):
     class Meta(EventBaseForm.Meta):
         pass

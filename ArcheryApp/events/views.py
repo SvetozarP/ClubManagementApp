@@ -4,15 +4,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView, DetailView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, TemplateView, DetailView, CreateView, UpdateView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .forms import CreateEventForm
+from .forms import CreateEventForm, UpdateEventForm
 from .models import ClubEvents
 from .serializers import BookingSerializer, FieldBookingSerializer
 from ..fieldbookings.models import FieldBookings
@@ -52,6 +53,10 @@ class EventsListView(ListView):
     model = ClubEvents
     template_name = 'events/events.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = ClubEvents.objects.filter(Q(end_date__gte=date.today()) & Q(is_archived=False)).order_by('-created_at')
+        return context
 
 class PastEventsView(TemplateView):
     template_name = 'events/events.html'
@@ -77,6 +82,7 @@ class CreateNewEventView(UserPassesTestMixin, CreateView):
     model = ClubEvents
     form_class = CreateEventForm
     template_name = 'common/create-new-event.html'
+    success_url = reverse_lazy('club-events')  # Redirect back to the events list on success
 
     def test_func(self):
         return self.request.user.is_staff
@@ -88,3 +94,30 @@ class CreateNewEventView(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class UpdateEventView(UserPassesTestMixin, UpdateView):
+    model = ClubEvents
+    template_name = 'common/create-new-event.html'
+    form_class = UpdateEventForm
+    success_url = reverse_lazy('club-events')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return redirect("login")
+
+@login_required
+def participation_functionality(request, pk: int):
+    event_object = get_object_or_404(ClubEvents, id=pk)
+
+    if request.user in event_object.participants.all():
+
+        event_object.participants.remove(request.user)
+    else:
+
+        event_object.participants.add(request.user)
+
+    return redirect('club-event-detail', pk=pk)

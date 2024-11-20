@@ -7,5 +7,5 @@ urlpatterns = [
     path('history/', HistoryList.as_view(), name='club-history'),
     path('membershipinfo/', MembershipDetailsView.as_view(), name='club-membershipinfo'),
 
-    path('contact/', contact_us, name='contact_us'),
+    path('contact/', contact_us, name='contact-us'),
 ]

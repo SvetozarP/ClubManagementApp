@@ -31,7 +31,7 @@
             {% if request.user.is_authenticated %}
                 <li><a href="{% url 'calendar-view' %}">Calendar</a></li>
             {% else %}
-                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                <li><a href="{% url 'contact-us' %}">Contact Us</a></li>
             {% endif %}
         </ul>
     </nav>

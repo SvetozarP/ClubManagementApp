@@ -1,6 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import DetailView, TemplateView
+from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, TemplateView, CreateView, UpdateView
 
+from ArcheryApp.news.forms import CreateNewsForm, UpdateNewsForm
 from ArcheryApp.news.models import ClubNews
 
 
@@ -32,3 +36,35 @@ class NewsDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['is_news'] = True
         return context
+
+
+class CreateNewsView(UserPassesTestMixin, CreateView):
+    model = ClubNews
+    form_class = CreateNewsForm
+    template_name = 'common/create-news.html'
+    success_url = reverse_lazy('club-news')  # Redirect back to the news list on success
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return redirect("login")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class UpdateNewsView(UserPassesTestMixin, UpdateView):
+    model = ClubNews
+    template_name = 'common/create-news.html'
+    form_class = UpdateNewsForm
+    success_url = reverse_lazy('club-news')
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return redirect("login")

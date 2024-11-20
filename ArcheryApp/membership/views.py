@@ -19,7 +19,7 @@ from ..news.models import ClubAnnouncements
 class RegisterUserView(FormView):
     template_name = "membership/register.html"
     form_class = UserRegistrationForm
-    success_url = reverse_lazy("complete_profile")
+    success_url = reverse_lazy("complete-profile")
 
     def form_valid(self, form):
         email = form.cleaned_data["email"]
@@ -38,7 +38,7 @@ class RegisterUserView(FormView):
 class CreateUserView(UserPassesTestMixin, FormView):
     template_name = "membership/create-user.html"
     form_class = MemberProfileCreationForm
-    success_url = reverse_lazy("create_user")
+    success_url = reverse_lazy("create-user")
 
     # Only allow access to staff members
     def test_func(self):
@@ -178,7 +178,7 @@ def logout_view(request):
 class RequestResetTokenView(FormView):
     template_name = "membership/request_reset_token.html"
     form_class = PasswordResetRequestForm
-    success_url = reverse_lazy("reset_password")
+    success_url = reverse_lazy("reset-password")
 
     def form_valid(self, form):
         email = form.cleaned_data['email']

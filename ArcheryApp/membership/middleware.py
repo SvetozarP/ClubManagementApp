@@ -9,6 +9,6 @@ class ProfileCompletionMiddleware:
 
         if request.user.is_authenticated and not request.user.profile_completed:
 
-            if not request.path == reverse("complete_profile"):
-                return redirect("complete_profile")
+            if not request.path == reverse("complete-profile"):
+                return redirect("complete-profile")
         return self.get_response(request)
