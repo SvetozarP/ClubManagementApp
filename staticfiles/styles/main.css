@@ -279,3 +279,17 @@ footer ul {
 .socials li i {
     font-size: 2em;
 }
+
+.errorlist {
+    list-style: none;
+}
+
+.errorlist li {
+    color: red;
+    padding: 5px 0;
+}
+
+.guidance {
+    font-size: 0.7em;
+    font-style: italic;
+}

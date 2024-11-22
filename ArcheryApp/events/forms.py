@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.timezone import make_aware
 
 from ArcheryApp.events.models import ClubEvents
 

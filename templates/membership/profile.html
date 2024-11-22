@@ -1,3 +1,12 @@
+{# TODO: Admin panel - filters, lists, fields #}
+{# TODO: Club announcements functionality - "is read" #}
+{# TODO: Contact us functionality "answered by" #}
+{# TODO: Training details functionality #}
+{# TODO: Field booking functionality #}
+{# TODO: Members directory functionality - enable admins to create recovery tokens #}
+{# TODO: Create user profile base template? #}
+{# TODO: DateTimeField models receiving dates without timezone #}
+
 {% extends 'common/base.html' %}
 {% block content %}
     {% load static %}
@@ -8,53 +17,106 @@
     <div class="profile-wrapper">
         <section class="profile-menu">
             {# TODO: fix links and make views for standard user functionality #}
-            <ul class="profile-menu-items">
-                <li><a href="#">Edit profile</a></li>
-                <li><a href="#">Book Shooting session</a></li>
-                <li><a href="#">Record training details</a></li>
-                <li><a href="#">Field Bookings summary</a></li>
-            </ul>
+            {% if request.user.is_authenticated %}
+                <ul class="profile-menu-items">
+                    <li><a href="{% url 'edit-profile' %}">Edit profile</a></li>
+                    <li><a href="#">Book Shooting session</a></li>
+                    <li><a href="#">Record training details</a></li>
+                    <li><a href="#">Field Bookings summary</a></li>
+                </ul>
+            {% endif %}
             {# TODO: Make is_staff functionality, only visible to staff and amend links #}
-            <ul class="admin-functions">
-                <li><a href="#">Members Directory</a></li>
-                <li><a href="../common/create-new-event.html">Announcements</a></li>
-                <li><a href="{% url 'club-news-create' %}">Create news</a></li>
-                <li><a href="{% url 'club-create-event' %}">Create event</a></li>
-                <li><a href="{% url 'create-user' %}">Create user</a></li>
-            </ul>
+            {% if request.user.is_staff %}
+                <ul class="admin-functions">
+                    <li><a href="#">Members Directory</a></li>
+                    <li><a href="../common/create_new_event.html">Announcements</a></li>
+                    <li><a href="{% url 'club-news-create' %}">Create news</a></li>
+                    <li><a href="{% url 'club-create-event' %}">Create event</a></li>
+                    <li><a href="{% url 'create-user' %}">Create user</a></li>
+                </ul>
+            {% endif %}
         </section>
         {# TODO: functionality to edit profile #}
         <section class="profile-content">
             <div class="contents-wrapper">
                 <div class="profile-details">
                     <h3>Profile Details</h3>
-                    <div class="profile-picture"><img
-                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                            alt="Profile picture"/></div>
+                    {% if user.image %}
+                        <div class="profile-picture"><img
+                                src="{{ user.image.url }}"
+                                alt="Profile picture"/></div>
+                    {% else %}
+                        <div class="profile-picture"><img
+                                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                                alt="Profile picture"/></div>
+                    {% endif %}
                     <ul>
-                        <li>Name: Archer Smith</li>
-                        <li>Email: archer@croesoswallt.co.uk</li>
-                        <li>Phone: 01234 567890</li>
-                        <li>Address: 123 Main Street, Shropshire, England</li>
+                        <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
+                        <li>Email: {{ user.email }}</li>
+                        <li>Phone: {{ user.phone_number }}</li>
+                        <li>Address: {{ user.address }}</li>
                     </ul>
                 </div>
                 <div class="announcements">
                     {# TODO: show announcements, create announcements logic #}
                     <h3>Unread announcements:</h3>
                     <ul>
-                        <li>Archer Smith - Archery Club Application has been submitted</li>
-                        <li>Archer Smith - Membership renewal for 2023</li>
+                        {% if unread_announcements %}
+                            {% for announcement in unread_announcements %}
+                                <li><a href="#">{{ announcement.title }}</a></li>
+                            {% endfor %}
+                        {% else %}
+                            <li>No unread announcements</li>
+                        {% endif %}
                     </ul>
                 </div>
-                {# TODO: show next 7 days of events #}
+                {# TODO: show next 7 days of events - think how bookings are to be included #}
                 <div class="announcements">
-                    <h3>Upcoming events in the next 7 days:</h3>
+                    <h3>Your upcoming events in the next 7 days:</h3>
                     <ul>
-                        <li>Club competition - 2024-11-23 9:00</li>
-                        <li>Shooting - 2024-11-24 10:00</li>
+                        {% if upcoming_events %}
+                            {% for event in upcoming_events %}
+                                {% if user in event.participants.all %}
+                                    <li><a href="{% url 'club-event-detail' event.pk %}">{{ event.title }}
+                                        - {{ event.start_date }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
-                {# TODO: contact requests display and buttons to delete / deactivate #}
+                <div class="announcements">
+                    <h3>Your upcoming shooting sessions in the next 7 days:</h3>
+                    <ul>
+                        {% if field_bookings %}
+                            {% for booking in field_bookings %}
+                                <li><a href="#">bookingtest</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                {% if request.user.is_staff %}
+                    <div class="announcements">
+                        <h3>Contact requests</h3>
+                        <ul>
+                            {% if contact_requests %}
+                                {% for request in contact_requests %}
+                                    <li><a href="#">bookingtest</a></li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="announcements">
+                    <h3>Your latest training notes</h3>
+                    <ul>
+                        {% if session_details %}
+                            {% for session in session_details %}
+                                <li><a href="#">{{ session.details }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                {# TODO: contact requests display and buttons to mark answered, recording who answered #}
             </div>
         </section>
     </div>

@@ -41,7 +41,7 @@ class NewsDetailView(DetailView):
 class CreateNewsView(UserPassesTestMixin, CreateView):
     model = ClubNews
     form_class = CreateNewsForm
-    template_name = 'common/create-news.html'
+    template_name = 'common/create_news.html'
     success_url = reverse_lazy('club-news')  # Redirect back to the news list on success
 
     def test_func(self):
@@ -58,7 +58,7 @@ class CreateNewsView(UserPassesTestMixin, CreateView):
 
 class UpdateNewsView(UserPassesTestMixin, UpdateView):
     model = ClubNews
-    template_name = 'common/create-news.html'
+    template_name = 'common/create_news.html'
     form_class = UpdateNewsForm
     success_url = reverse_lazy('club-news')
 

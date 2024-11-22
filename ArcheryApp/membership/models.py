@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.exceptions import ValidationError
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils.timezone import now
@@ -20,6 +21,7 @@ def validate_unique_email(value):
 class MemberProfile(AbstractBaseUser, PermissionsMixin):
     MAX_PHONE_NO_LEN = 11
     USERNAME_MAX_LEN = 150
+    USERNAME_MIN_LEN = 5
     CSRF_MAX_LEN = 64
     NAME_MAX_LEN = 50
     MAX_PICTURE_SIZE = 5 * 1024 * 1024
@@ -32,6 +34,9 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(
         max_length=USERNAME_MAX_LEN,
+        validators=[
+            MinLengthValidator(USERNAME_MIN_LEN),
+        ],
         unique=True,
         blank=True,
         null=True,
@@ -87,7 +92,9 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
         validators=[
             PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
             PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
-        ]
+        ],
+        blank=True,
+        null=True,
     )
 
     profile_completed = models.BooleanField(

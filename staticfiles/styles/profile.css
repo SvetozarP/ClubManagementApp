@@ -52,13 +52,15 @@
 }
 
 .profile-content {
-    flex: 0 0 calc(80% - 20px)
+    flex: 0 0 calc(80% - 20px);
 }
 
 .contents-wrapper {
     display: flex;
     /* justify-content: center; */
     gap: 40px;
+    flex-wrap: wrap;
+    padding-bottom: 30px;
 }
 
 .contents-wrapper > div {
@@ -92,4 +94,11 @@
     border-radius: 50%;
     width: 100%;
     height: auto;
+}
+
+.create-section-div form {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-end;
 }

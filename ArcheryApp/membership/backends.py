@@ -1,5 +1,5 @@
 from django.contrib.auth.backends import ModelBackend
-from .models import MemberProfile
+from ArcheryApp.membership.models import MemberProfile
 
 class EmailOrUsernameModelBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):

@@ -11,7 +11,10 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <p><input type="submit" value="Login"></p>
-                <p>Forgot your password? <a href="{% url 'request-reset-token' %}">Click here</a></p>
+                <p>Forgot your password?</p> 
+                <p><a href="{% url 'request-reset-token' %}">Click here</a></p>
+                <p>Already have a token?</p>
+                <p><a href="{% url 'reset-password' %}">Click here</a></p>
             </form>
         </div>
     </section>

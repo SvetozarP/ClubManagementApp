@@ -1,0 +1,41 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    {% load static %}
+    {% include 'common/hero-top.html' %}
+    <div class="profile-welcome"></div>
+    <div class="profile-wrapper">
+        {# TODO: sort menus - user menu, admin menu. Sort links. Check form format #}
+        <section class="profile-menu">
+            <ul class="profile-menu-items">
+                <li><a href="#">Edit profile</a></li>
+                <li><a href="#">Book Shooting session</a></li>
+                <li><a href="#">Record training details</a></li>
+                <li><a href="#">Field Bookings summary</a></li>
+            </ul>
+            <ul class="admin-functions">
+                <li><a href="#">Members Directory</a></li>
+                <li><a href="../common/create_new_event.html">Announcements</a></li>
+                <li><a href="../common/create_new_event.html">Create news</a></li>
+                <li><a href="../common/create_new_event.html">Create events</a></li>
+                <li><a href="create_user.html">Create user</a></li>
+            </ul>
+        </section>
+        <section class="create-section">
+            <div class="create-section-div">
+                <p class="create-user-title">Create new user</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="admin-submit-btn">Create</button>
+                </form>
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+{% endblock %}

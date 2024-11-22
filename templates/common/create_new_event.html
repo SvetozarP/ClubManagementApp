@@ -2,23 +2,32 @@
 {% block content %}
     {% load static %}
     {% include 'common/hero-top.html' %}
-    {% if form.is_active %}
-        <h2 class="create-new-title">Update News</h2>
+    {% if form.is_archived %}
+        <h2 class="create-new-title">Update Event</h2>
     {% else %}
-        <h2 class="create-new-title">Create News</h2>
+        <h2 class="create-new-title">Create New Event</h2>
     {% endif %}
     <div class="create-form-container">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ form.title }}</p>
+            <p>{{ form.start_date }}</p>
+            <p>{{ form.start_date.help_text }}</p>
+            <p>{{ form.end_date }}</p>
+            <p>{{ form.end_date.help_text }}</p>
             <p>{{ form.image }}</p>
             <p>{{ form.image.help_text }}</p>
             <p>Current image:</p>
-            <p><img src="{{ form.image.value.url }}" alt="Current Image" style="max-width: 200px; max-height: 200px;"></p>
-            <p>{{ form.news_text }}</p>
-            {% if form.is_active %}
-                <p>{{ form.is_active.label }}</p>
-                <p>{{ form.is_active }}</p>
+            {% if form.image.value.url %}
+                <p><img src="{{ form.image.value.url }}" alt="Current Image"
+                        style="max-width: 200px; max-height: 200px;">
+                </p>
+            {% endif %}
+            <p>{{ form.hosted_by }}</p>
+            <p>{{ form.event_description }}</p>
+            {% if form.is_archived %}
+                <p>{{ form.is_archived.label }}</p>
+                <p>{{ form.is_archived }}</p>
                 <p>{{ form.author.label }}</p>
                 <p>{{ form.author }}</p>
                 <p><input type="submit" value="Update"></p>
@@ -30,7 +39,6 @@
                     {{ form.errors }}
                 </div>
             {% endif %}
-        
         </form>
 
     </div>

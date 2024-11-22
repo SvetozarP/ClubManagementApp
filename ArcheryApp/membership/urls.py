@@ -2,7 +2,8 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path
 
 from ArcheryApp.membership.views import RegisterUserView, CompleteProfileView, MemberProfileView, \
-    logout_view, CreateUserView, LoginUserView, RequestResetTokenView, PasswordResetView
+    logout_view, CreateUserView, LoginUserView, RequestResetTokenView, PasswordResetView, EditProfileView, \
+    StaffEditProfileView
 
 urlpatterns = [
     path('register-user/', RegisterUserView.as_view(), name='register-user'),
@@ -13,4 +14,6 @@ urlpatterns = [
     path('profile/', MemberProfileView.as_view(), name='profile-view'),
     path("request-reset-token/", RequestResetTokenView.as_view(), name="request-reset-token"),
     path("reset-password/", PasswordResetView.as_view(), name="reset-password"),
+    path("edit/", EditProfileView.as_view(), name="edit-profile"),
+    path("<int:pk>/edit/", StaffEditProfileView.as_view(), name="staff-edit-profile"),
 ]

@@ -13,10 +13,10 @@ from django.views.generic import ListView, TemplateView, DetailView, CreateView,
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .forms import CreateEventForm, UpdateEventForm
-from .models import ClubEvents
-from .serializers import BookingSerializer, FieldBookingSerializer
-from ..fieldbookings.models import FieldBookings
+from ArcheryApp.events.forms import CreateEventForm, UpdateEventForm
+from ArcheryApp.events.models import ClubEvents
+from ArcheryApp.events.serializers import BookingSerializer, FieldBookingSerializer
+from ArcheryApp.fieldbookings.models import FieldBookings
 
 
 @login_required
@@ -81,7 +81,7 @@ class EventDetailsView(DetailView):
 class CreateNewEventView(UserPassesTestMixin, CreateView):
     model = ClubEvents
     form_class = CreateEventForm
-    template_name = 'common/create-new-event.html'
+    template_name = 'common/create_new_event.html'
     success_url = reverse_lazy('club-events')  # Redirect back to the events list on success
 
     def test_func(self):
@@ -98,7 +98,7 @@ class CreateNewEventView(UserPassesTestMixin, CreateView):
 
 class UpdateEventView(UserPassesTestMixin, UpdateView):
     model = ClubEvents
-    template_name = 'common/create-new-event.html'
+    template_name = 'common/create_new_event.html'
     form_class = UpdateEventForm
     success_url = reverse_lazy('club-events')
 

@@ -18,12 +18,16 @@
     list-style: none;
 }
 
-.create-section-div form input[type="email"] {
+.create-section-div form input[type="email"],
+.create-section-div form input[type="text"],
+.create-section-div form textarea
+{
     width: 50ch;
     border: 1px solid #fff;
     border-radius: 5px;
     color: #000;
     outline: none;
+    margin-bottom: 10px;
 }
 
 .admin-submit-btn {

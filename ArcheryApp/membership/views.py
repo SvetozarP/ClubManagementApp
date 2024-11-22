@@ -2,18 +2,22 @@ from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash, logout
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseForbidden
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.db.models import Q
+from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.timezone import now
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, UpdateView
 
-from .forms import UserRegistrationForm, LoginForm, CompleteProfileForm, MemberProfileCreationForm, \
-    PasswordResetRequestForm, PasswordResetForm
-from .models import MemberProfile
-from ..events.models import ClubEvents
-from ..news.models import ClubAnnouncements
+from ArcheryApp.fieldbookings.models import FieldBookings
+from ArcheryApp.membership.forms import UserRegistrationForm, LoginForm, CompleteProfileForm, MemberProfileCreationForm, \
+    PasswordResetRequestForm, PasswordResetForm, UserEditProfileForm, StaffEditProfileForm
+from ArcheryApp.membership.models import MemberProfile
+from ArcheryApp.events.models import ClubEvents
+from ArcheryApp.news.models import ClubAnnouncements
+from ArcheryApp.training.models import ShootSessionDetails
+from ArcheryApp.web.models import ContactRequest
 
 
 class RegisterUserView(FormView):
@@ -36,7 +40,7 @@ class RegisterUserView(FormView):
 
 
 class CreateUserView(UserPassesTestMixin, FormView):
-    template_name = "membership/create-user.html"
+    template_name = "membership/create_user.html"
     form_class = MemberProfileCreationForm
     success_url = reverse_lazy("create-user")
 
@@ -50,6 +54,10 @@ class CreateUserView(UserPassesTestMixin, FormView):
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
+        first_name = form.cleaned_data.get("first_name")
+        last_name = form.cleaned_data.get("last_name")
+        phone = form.cleaned_data.get("phone_number")
+        address = form.cleaned_data.get("address")
 
         # Check if the profile already exists
         if MemberProfile.objects.filter(email=email).exists():
@@ -57,7 +65,13 @@ class CreateUserView(UserPassesTestMixin, FormView):
             return self.form_invalid(form)  # Re-render the form with errors
         else:
             # Create profile and generate CSRF token
-            profile = MemberProfile(email=email)
+            profile = MemberProfile(
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                phone_number=phone,
+                address=address,
+            )
             profile.generate_csrf_token()
             profile.save()
             messages.success(self.request, f"Profile created. CSRF token: {profile.csrf_token}")
@@ -137,6 +151,10 @@ class CompleteProfileView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy("home")
 
     def dispatch(self, request, *args, **kwargs):
+
+        if not request.user.is_authenticated:
+            return redirect("home")
+
         if request.user.profile_completed:
             return redirect("home")
         return super().dispatch(request, *args, **kwargs)
@@ -150,7 +168,7 @@ class CompleteProfileView(LoginRequiredMixin, FormView):
 
         update_session_auth_hash(self.request, user)
 
-        messages.success(self.request, "Your profile has been completed successfully.")
+        # messages.success(self.request, "Your profile has been completed successfully.")
         return super().form_valid(form)
 
 
@@ -167,6 +185,10 @@ class MemberProfileView(LoginRequiredMixin, TemplateView):
                                            .exclude(read_by__username=self.request.user.username))
                                            .order_by('-created_at'))
         context['upcoming_events'] = ClubEvents.objects.filter(end_date__lte=next_week)
+        context['field_bookings'] = FieldBookings.objects.filter(Q(archer=self.request.user) & Q(date__lte=next_week))
+        context['contact_requests'] = ContactRequest.objects.filter(is_answered=False)
+        context['session_details'] = (ShootSessionDetails.objects.filter(archer=self.request.user)
+                                        .order_by('-shoot_session__date')[:5])
 
         return context
 
@@ -216,3 +238,59 @@ class PasswordResetView(FormView):
 
         messages.success(self.request, "Your password has been reset. You can now log in.")
         return super().form_valid(form)
+
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    model = MemberProfile
+    form_class = UserEditProfileForm
+    template_name = 'membership/edit_profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            return redirect('staff-edit-profile', pk=self.request.user.pk)
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, **args):
+        return self.request.user
+
+    def form_valid(self, form):
+        # Save profile picture
+        form.save()
+
+        # Update password if provided
+        password = form.cleaned_data.get('password')
+        if password:
+            self.request.user.set_password(password)
+            self.request.user.save()
+            update_session_auth_hash(self.request, self.request.user)
+
+        messages.success(self.request, "Profile updated successfully.")
+        return redirect('profile')  # Replace 'profile' with your success URL
+
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error updating your profile.")
+        return super().form_invalid(form)
+
+
+class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
+    model = MemberProfile
+    form_class = StaffEditProfileForm
+    template_name = 'membership/edit_profile.html'
+    permission_required = 'auth.change_user'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Profile updated successfully.")
+        return redirect('profile-view')
+
+    def post(self, request, *args, **kwargs):
+        if 'generate_reset_token' in request.POST:
+            profile = self.get_object()
+            try:
+                profile.generate_reset_token()
+                messages.success(request, f"Reset token generated: {profile.reset_token}")
+            except Exception as e:
+                messages.error(request, str(e))
+
+        return super().post(request, *args, **kwargs)
