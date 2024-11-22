@@ -1,0 +1,39 @@
+{# TODO: Admin panel - filters, lists, fields #}
+{# TODO: Contact us functionality "answered by" #}
+{# TODO: Training details functionality #}
+{# TODO: Field booking functionality #}
+{% extends 'common/base.html' %}
+{% block content %}
+    {% load static %}
+    {% include 'common/hero-top.html' %}
+    <div class="profile-welcome">
+        {#            <h2>Welcome, Archer!</h2>#}
+    </div>
+    <div class="profile-wrapper">
+        <section class="profile-menu">
+            {# TODO: fix links and make views for standard user functionality #}
+            {% if request.user.is_authenticated %}
+                <ul class="profile-menu-items">
+                    <li><a href="{% url 'edit-profile' %}">Edit profile</a></li>
+                    <li><a href="#">Book Shooting session</a></li>
+                    <li><a href="#">Record training details</a></li>
+                    <li><a href="#">Field Bookings summary</a></li>
+                    <li><a href="{% url 'club-announcements' %}">See all announcements</a></li>
+                </ul>
+            {% endif %}
+            {% if request.user.is_staff %}
+                <ul class="admin-functions">
+                    <li><a href="{% url 'members-list' %}">Members Directory</a></li>
+                    <li><a href="{% url 'create-club-announcements' %}">Create Announcement</a></li>
+                    <li><a href="{% url 'club-news-create' %}">Create news</a></li>
+                    <li><a href="{% url 'club-create-event' %}">Create event</a></li>
+                    <li><a href="{% url 'create-user' %}">Create user</a></li>
+                </ul>
+            {% endif %}
+        </section>
+    
+        {% block member_content %}
+        {% endblock %}
+    
+    </div>
+{% endblock %}

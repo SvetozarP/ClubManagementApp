@@ -1,6 +1,6 @@
 from django import forms
 
-from ArcheryApp.news.models import ClubNews
+from ArcheryApp.news.models import ClubNews, ClubAnnouncements
 
 
 class NewsBaseForm(forms.ModelForm):
@@ -41,3 +41,39 @@ class CreateNewsForm(NewsBaseForm):
 class UpdateNewsForm(NewsBaseForm):
     class Meta(NewsBaseForm.Meta):
         pass
+
+
+class AnnouncementBaseForm(forms.ModelForm):
+    class Meta:
+        model = ClubAnnouncements
+        labels = {
+            'title': '',
+            'text': '',
+        }
+        help_texts = {
+            'title': '',
+            'text': ''
+        }
+        fields = "__all__"
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'placeholder': 'Announcement Title',
+                }
+            ),
+            'text': forms.Textarea(
+                attrs={
+                    'placeholder': 'Announcement Text',
+                }
+            ),
+        }
+
+
+class CreateNewAnnouncementForm(AnnouncementBaseForm):
+    class Meta(AnnouncementBaseForm.Meta):
+        exclude = ['created_at', 'author', 'read_by']
+
+
+class UpdateAnnouncementForm(AnnouncementBaseForm):
+    class Meta(AnnouncementBaseForm.Meta):
+        exclude = ['created_at', 'author', 'read_by']

@@ -2,22 +2,22 @@
 {% block member_content %}
     <section class="create-section">
         <div class="create-section-div">
-            <p class="create-user-title">Edit user</p>
+            {% if edit_announcement %}
+                <p class="create-user-title">Edit announcement</p>
+            {% endif %}
+            {% if is_announcement %}
+                <p class="create-user-title">Create new announcement</p>
+            {% endif %}
+            {% if create_user %}
+                <p class="create-user-title">Create new user</p>
+            {% endif %}
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                {% if edit_user %}
+                {% if edit_announcement %}
                     <button type="submit" class="admin-submit-btn">Update</button>
                 {% else %}
                     <button type="submit" class="admin-submit-btn">Create</button>
-                {% endif %}
-                {% if request.user.is_staff %}
-                    <form method="post">
-                        {% csrf_token %}
-                        <button class="admin-submit-btn" name="generate_reset_token" type="submit">Generate Reset
-                            Token
-                        </button>
-                    </form>
                 {% endif %}
             </form>
             {% if messages %}
@@ -27,7 +27,6 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-
         </div>
     </section>
 {% endblock %}

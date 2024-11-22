@@ -1,0 +1,18 @@
+{% extends 'common/base-profile.html' %}
+        {% block member_content %}
+        <section class="profile-content">
+        <h2 style="text-align: left">Members Directory</h2>
+            <div class="contents-wrapper">
+                <div class="profile-details-announcement">
+                    <ul>
+                        {% for member in object_list %}
+                            <li><a href="{% url 'staff-edit-profile' member.pk %}">User: {{ member.username }}
+                                - Name: {{ member.first_name }} {{ member.last_name }}</a></li>
+                        {% empty %}
+                            <li>No users found</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+{% endblock %}

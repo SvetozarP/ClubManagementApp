@@ -1,42 +1,5 @@
-{# TODO: Admin panel - filters, lists, fields #}
-{# TODO: Club announcements functionality - "is read" #}
-{# TODO: Contact us functionality "answered by" #}
-{# TODO: Training details functionality #}
-{# TODO: Field booking functionality #}
-{# TODO: Members directory functionality - enable admins to create recovery tokens #}
-{# TODO: Create user profile base template? #}
-{# TODO: DateTimeField models receiving dates without timezone #}
-
-{% extends 'common/base.html' %}
-{% block content %}
-    {% load static %}
-    {% include 'common/hero-top.html' %}
-    <div class="profile-welcome">
-        {#            <h2>Welcome, Archer!</h2>#}
-    </div>
-    <div class="profile-wrapper">
-        <section class="profile-menu">
-            {# TODO: fix links and make views for standard user functionality #}
-            {% if request.user.is_authenticated %}
-                <ul class="profile-menu-items">
-                    <li><a href="{% url 'edit-profile' %}">Edit profile</a></li>
-                    <li><a href="#">Book Shooting session</a></li>
-                    <li><a href="#">Record training details</a></li>
-                    <li><a href="#">Field Bookings summary</a></li>
-                </ul>
-            {% endif %}
-            {# TODO: Make is_staff functionality, only visible to staff and amend links #}
-            {% if request.user.is_staff %}
-                <ul class="admin-functions">
-                    <li><a href="#">Members Directory</a></li>
-                    <li><a href="../common/create_new_event.html">Announcements</a></li>
-                    <li><a href="{% url 'club-news-create' %}">Create news</a></li>
-                    <li><a href="{% url 'club-create-event' %}">Create event</a></li>
-                    <li><a href="{% url 'create-user' %}">Create user</a></li>
-                </ul>
-            {% endif %}
-        </section>
-        {# TODO: functionality to edit profile #}
+{% extends 'common/base-profile.html' %}
+        {% block member_content %}
         <section class="profile-content">
             <div class="contents-wrapper">
                 <div class="profile-details">
@@ -58,19 +21,17 @@
                     </ul>
                 </div>
                 <div class="announcements">
-                    {# TODO: show announcements, create announcements logic #}
                     <h3>Unread announcements:</h3>
                     <ul>
                         {% if unread_announcements %}
                             {% for announcement in unread_announcements %}
-                                <li><a href="#">{{ announcement.title }}</a></li>
+                                <li><a href="{% url 'detail-club-announcements' announcement.pk %}">{{ announcement.title }}</a></li>
                             {% endfor %}
                         {% else %}
                             <li>No unread announcements</li>
                         {% endif %}
                     </ul>
                 </div>
-                {# TODO: show next 7 days of events - think how bookings are to be included #}
                 <div class="announcements">
                     <h3>Your upcoming events in the next 7 days:</h3>
                     <ul>
@@ -84,6 +45,7 @@
                         {% endif %}
                     </ul>
                 </div>
+                {# TODO: fix bookings functionality #}
                 <div class="announcements">
                     <h3>Your upcoming shooting sessions in the next 7 days:</h3>
                     <ul>
@@ -119,5 +81,4 @@
                 {# TODO: contact requests display and buttons to mark answered, recording who answered #}
             </div>
         </section>
-    </div>
 {% endblock %}

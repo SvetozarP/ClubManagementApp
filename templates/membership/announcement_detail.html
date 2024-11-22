@@ -1,0 +1,19 @@
+{% extends 'common/base-profile.html' %}
+{% block member_content %}
+    <section class="profile-content">
+        <div class="contents-wrapper">
+            <div class="profile-details-announcement">
+                <ul>
+                    <li><h3 style="text-align: left">{{ object.title }}</h3></li>
+                    <li>{{ object.text }}</li>
+                    <li>Created by: {{ object.author.username }}</li>
+                    <li>On: {{ object.created_at }}</li>
+                </ul>
+            </div>
+        </div>
+        {% if request.user.is_staff %}
+            <a class="admin-submit-btn" href="{% url 'update-club-announcements' object.pk %}">Update announcement</a>
+            <a class="admin-submit-btn" href="{% url 'delete-club-announcements' object.pk %}">Delete announcement</a>
+        {% endif %}
+    </section>
+{% endblock %}

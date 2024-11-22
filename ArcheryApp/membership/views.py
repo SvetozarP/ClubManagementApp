@@ -4,11 +4,11 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.db.models import Q
-from django.http import HttpResponseForbidden, Http404
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.timezone import now
-from django.views.generic import FormView, TemplateView, UpdateView
+from django.views.generic import FormView, TemplateView, UpdateView, ListView
 
 from ArcheryApp.fieldbookings.models import FieldBookings
 from ArcheryApp.membership.forms import UserRegistrationForm, LoginForm, CompleteProfileForm, MemberProfileCreationForm, \
@@ -40,7 +40,7 @@ class RegisterUserView(FormView):
 
 
 class CreateUserView(UserPassesTestMixin, FormView):
-    template_name = "membership/create_user.html"
+    template_name = "membership/create.html"
     form_class = MemberProfileCreationForm
     success_url = reverse_lazy("create-user")
 
@@ -51,6 +51,11 @@ class CreateUserView(UserPassesTestMixin, FormView):
     def handle_no_permission(self):
         messages.error(self.request, "You do not have permission to access this page.")
         return redirect("login")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['create_user'] = True
+        return context
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
@@ -236,7 +241,7 @@ class PasswordResetView(FormView):
         profile.set_password(new_password)
         profile.clear_reset_token()
 
-        messages.success(self.request, "Your password has been reset. You can now log in.")
+        # messages.success(self.request, "Your password has been reset. You can now log in.")
         return super().form_valid(form)
 
 
@@ -255,22 +260,24 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
     def form_valid(self, form):
-        # Save profile picture
         form.save()
 
-        # Update password if provided
         password = form.cleaned_data.get('password')
         if password:
             self.request.user.set_password(password)
             self.request.user.save()
             update_session_auth_hash(self.request, self.request.user)
 
-        messages.success(self.request, "Profile updated successfully.")
-        return redirect('profile')  # Replace 'profile' with your success URL
+        return redirect('profile')
 
     def form_invalid(self, form):
         messages.error(self.request, "There was an error updating your profile.")
         return super().form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['edit_user'] = True
+        return context
 
 
 class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
@@ -281,7 +288,7 @@ class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.save()
-        messages.success(self.request, "Profile updated successfully.")
+        # messages.success(self.request, "Profile updated successfully.")
         return redirect('profile-view')
 
     def post(self, request, *args, **kwargs):
@@ -294,3 +301,23 @@ class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
                 messages.error(request, str(e))
 
         return super().post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['edit_user'] = True
+        return context
+
+
+class MembersListView(UserPassesTestMixin, ListView):
+    model = MemberProfile
+    template_name = 'membership/members_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return redirect("login")
+
+    def get_queryset(self):
+        return MemberProfile.objects.filter(is_superuser=False)

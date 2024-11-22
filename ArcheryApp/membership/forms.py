@@ -274,7 +274,7 @@ class UserEditProfileForm(forms.ModelForm):
 
     class Meta:
         model = MemberProfile
-        fields = ['image']
+        fields = ['image', 'phone_number', 'address']
 
     def clean_password(self):
         password = self.cleaned_data.get('password')

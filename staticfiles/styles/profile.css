@@ -102,3 +102,11 @@
     flex-direction: column;
     align-items: flex-end;
 }
+
+.profile-details-announcement {
+    flex: 0 0 auto !important;
+}
+
+.profile-details-announcement ul li {
+    font-size: 1em !important;
+}
