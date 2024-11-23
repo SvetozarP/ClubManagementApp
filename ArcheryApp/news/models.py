@@ -65,3 +65,6 @@ class ClubAnnouncements(models.Model):
         related_name='read_announcements',
         blank=True,
     )
+
+    def __str__(self):
+        return f'{self.title}'

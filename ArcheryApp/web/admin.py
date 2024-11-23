@@ -1,33 +1,32 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
+from unfold.admin import ModelAdmin
 
-from ArcheryApp.news.models import ClubNews
 from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, MembershipInfo, ContactRequest
 
 
 # Register your models here.
-
 @admin.register(ClubMission)
-class ClubMissionAdmin(admin.ModelAdmin):
+class ClubMissionAdmin(ModelAdmin, SimpleHistoryAdmin):
     pass
 
-
-@admin.register(Testimonials)
-class TestimonialsAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(ClubHistory)
-class ClubHistoryAdmin(admin.ModelAdmin):
+class ClubHistoryAdmin(ModelAdmin, SimpleHistoryAdmin):
     pass
+
 
 @admin.register(MembershipInfo)
-class MembershipInfoAdmin(admin.ModelAdmin):
+class MembershipInfoAdmin(ModelAdmin, SimpleHistoryAdmin):
     pass
 
-@admin.register(ClubNews)
-class ClubNewsAdmin(admin.ModelAdmin):
+@admin.register(Testimonials)
+class TestimonialsAdmin(ModelAdmin):
     pass
+
 
 @admin.register(ContactRequest)
-class ContactRequestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'created_at')
-    search_fields = ('name', 'email', 'message')
+class ContactRequestAdmin(ModelAdmin):
+    list_display = ['name', 'email', 'created_at']
+    search_fields = ['name', 'email', 'message']
+    list_filter = ['created_at']

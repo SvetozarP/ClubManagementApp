@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 from ArcheryApp.common.choices import FieldDistanceChoices
 from ArcheryApp.membership.models import MemberProfile
@@ -26,6 +27,8 @@ class FieldConfiguration(models.Model):
         blank=True,
         null=True,
     )
+
+    history = HistoricalRecords()
 
 
 class FieldBookings(models.Model):

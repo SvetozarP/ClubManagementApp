@@ -1,4 +1,5 @@
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 
@@ -19,6 +20,8 @@ class ClubMission(models.Model):
     )
 
     mission_text = models.TextField()
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"Mission: {self.mission_text}"
@@ -46,6 +49,8 @@ class ClubHistory(models.Model):
 
     history_text = models.TextField()
 
+    history = HistoricalRecords()
+
     def __str__(self):
         return f"History: {self.history_title}"
 
@@ -71,6 +76,8 @@ class MembershipInfo(models.Model):
     updated_on = models.DateTimeField(
         auto_now=True,
     )
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return f'Last updated: {self.updated_on}'
