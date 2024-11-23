@@ -135,7 +135,7 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
             raise Exception("You can only request a reset token once per hour.")
 
         self.reset_token = uuid.uuid4()
-        self.reset_token_expiry = now() + timedelta(hours=1)
+        self.reset_token_expiry = now() + timedelta(days=1)
         self.last_reset_request = now()
         self.save()
 

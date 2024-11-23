@@ -52,7 +52,7 @@
 }
 
 .profile-content {
-    flex: 0 0 calc(80% - 20px);
+    flex: 0 0 calc(80% - 50px);
 }
 
 .contents-wrapper {

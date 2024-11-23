@@ -219,11 +219,18 @@ class RequestResetTokenView(FormView):
         # Generate reset token
         profile.generate_reset_token()
 
-        # Inform the user
-        messages.success(
-            self.request,
-            f"Your password reset token is: {profile.reset_token}. Use it within 1 hour."
+        ContactRequest.objects.create(
+            name=f"{profile.first_name} {profile.last_name}" if profile.first_name and profile.last_name else "N/A",
+            email=profile.email,
+            message=f"Password reset token requested - {profile.reset_token}",
         )
+
+
+        # # Inform the user
+        # messages.success(
+        #     self.request,
+        #     f"Your password reset token is: {profile.reset_token}. Use it within 1 hour."
+        # )
         return super().form_valid(form)
 
 
@@ -320,4 +327,4 @@ class MembersListView(UserPassesTestMixin, ListView):
         return redirect("login")
 
     def get_queryset(self):
-        return MemberProfile.objects.filter(is_superuser=False)
+        return MemberProfile.objects.filter(Q(is_superuser=False) & Q(is_staff=False))

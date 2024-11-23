@@ -2,12 +2,13 @@ from django.contrib import admin
 from unfold.admin import ModelAdmin
 from unfold.contrib.filters.admin import RangeDateFilter
 
+from ArcheryApp.common.mixins import RestrictedToStaffMixin
 from ArcheryApp.events.models import ClubEvents
 
 
 # Register your models here.
 @admin.register(ClubEvents)
-class ClubEventsAdmin(ModelAdmin):
+class ClubEventsAdmin(RestrictedToStaffMixin, ModelAdmin):
     list_display = ['title', 'hosted_by', 'start_date', 'end_date', 'is_archived']
     list_filter = [
         ('start_date', RangeDateFilter),
