@@ -103,6 +103,8 @@ Majority of the views, giving access to the site's resources are class-based. Th
 The app also contains 2 main templates (base website and profile base website) which are extended by further over custom built DTL templates, some with JavaScript functionality. Styling is achieved through 14 separate cascading style sheets,
 describing the schemas for the different templates.
 
+For enhanced functionality and data security, the site also utilises SimpleDjangoHistory, monitoring changes in the Mission statament, Club history, Field configuration and Membership Info models.
+
 Future developments and extensions:
 - Ability to manage scores, provide users with feedback on their performance and dashboards, based on the scores that they have achieved.
 - Classification / handicap management
