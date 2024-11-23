@@ -19,7 +19,7 @@ class ShootSessionDetails(models.Model):
         null=False,
     )
 
-    shoot_session = models.ForeignKey(
+    shoot_session = models.OneToOneField(
         to=FieldBookings,
         on_delete=models.CASCADE,
         related_name='shoot_session_details',
@@ -30,4 +30,8 @@ class ShootSessionDetails(models.Model):
     details = models.TextField(
         blank=True,
         null=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
     )

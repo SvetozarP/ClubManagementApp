@@ -1,0 +1,21 @@
+{% extends 'common/base-profile.html' %}
+{% block member_content %}
+    <section class="profile-content">
+        <h2 style="text-align: left">Field Bookings</h2>
+        <div class="contents-wrapper">
+            <div class="profile-details-announcement">
+                <ul>
+                    {% for booking in object_list %}
+                        <li>{{ booking.date }}: {{ booking.time_from }} - {{ booking.time_to }}
+                            {% if booking.shoot_session_details %}
+                                Note recorded on: {{ booking.shoot_session_details.created_at }}
+                                </li>
+                            {% endif %}
+                    {% empty %}
+                        <li>No bookings found</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}

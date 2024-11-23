@@ -17,8 +17,10 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import handler404
 
 from ArcheryApp import settings
+from ArcheryApp.web.views import custom_404_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +31,8 @@ urlpatterns = [
     path('training/', include('ArcheryApp.training.urls')),
     path('membership/', include('ArcheryApp.membership.urls')),
 ]
+
+handler404 = custom_404_view
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -28,8 +28,10 @@
         <div class="calendar-legend">
             <p class="clb-event event">Event - please select an event to see more information</p>
             <p class="flb-event event">Booking - shows if an archer is shooting on this date</p>
+            <p class="flb-event event">Hint: You can select a date in the calendar to book a session.</p>
         </div>
     </div>
+    <div id="calendar" data-booking-url="{% url 'create_date_booking' 'PLACEHOLDER' %}"></div>
     <script>
 
         let currentDate = new Date();
@@ -61,13 +63,28 @@
                 calendarDays.innerHTML += '<div class="day-cell"></div>';
             }
 
-
+            // I have to pass the URL from HTML otherwise DTL won't replace.
+            const calendar = document.getElementById('calendar');
+            const baseUrl = calendar.getAttribute('data-booking-url')
+            
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayCell = document.createElement('div');
                 dayCell.classList.add('day-cell');
                 dayCell.setAttribute('data-date', `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
                 dayCell.innerHTML = `<strong>${day}</strong>`;
-                calendarDays.appendChild(dayCell);
+
+                // Create link for booking
+                const linkToBook = document.createElement('a');
+                const selectedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                // Update the URL dynamically
+                
+                linkToBook.href = baseUrl.replace('PLACEHOLDER', selectedDate);
+                // Append dayCell to link
+                linkToBook.appendChild(dayCell);
+
+                // Append link to calendar days
+                calendarDays.appendChild(linkToBook);
             }
 
 
@@ -121,7 +138,7 @@
             renderCalendar();
         }
 
-    
+
         renderCalendar();
     </script>
 {% endblock %}

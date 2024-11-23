@@ -1,0 +1,44 @@
+{% extends 'common/base-profile.html' %}
+{% block member_content %}
+    {% load static %}
+    <section class="profile-content">
+        <div class="contents-wrapper">
+            <div class="profile-details-announcement">
+                <ul class="contact-detail-ul">
+                    <li>Request by: {{ object.name }}</li>
+                    <li>Requester email: {{ object.email }}</li>
+                    <li>
+                        <div class="contact-message">
+                            Message:
+                            <p>{{ object.message }}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% if object.is_answered %}
+
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% else %}
+            <h3>Respond to Request</h3>
+            <form method="post" class="response-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="admin-submit-btn">Submit</button>
+            </form>
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </section>
+{% endblock %}

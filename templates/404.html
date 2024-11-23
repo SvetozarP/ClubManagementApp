@@ -1,0 +1,15 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    {% include 'common/hero-top.html' %}
+    {% load static %}
+    <section class="missed-url">
+        <div class="missed">
+            <img src="{% static 'images/arrow-miss.png' %}" alt="missed target">
+        </div>
+        <div class="missed-content">
+            <p>Oops... You seem to have missed the target. Unfortunately, we don't have the address
+                you are looking for.</p>
+            <p>How about <a href="{% url 'contact-us' %}">contacting us</a> so we can help?</p>
+        </div>
+    </section>
+{% endblock %}

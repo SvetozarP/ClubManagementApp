@@ -1,0 +1,20 @@
+.missed-url {
+    background-color: #A5C2CB;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.missed-content p {
+    text-align: center;
+}
+
+.missed-content p a {
+    text-decoration: underline;
+}
+
+.missed-content p a:hover {
+    opacity: 50%;
+}

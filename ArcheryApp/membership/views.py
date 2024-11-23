@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, update_session_auth_hash, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.db.models import Q
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.timezone import now
@@ -190,7 +190,7 @@ class MemberProfileView(LoginRequiredMixin, TemplateView):
                                            .exclude(read_by__username=self.request.user.username))
                                            .order_by('-created_at'))
         context['upcoming_events'] = ClubEvents.objects.filter(end_date__lte=next_week)
-        context['field_bookings'] = FieldBookings.objects.filter(Q(archer=self.request.user) & Q(date__lte=next_week))
+        context['field_bookings'] = FieldBookings.objects.filter(Q(archer=self.request.user) & Q(date__lte=next_week) & Q(date__gte=datetime.now()))
         context['contact_requests'] = ContactRequest.objects.filter(is_answered=False)
         context['session_details'] = (ShootSessionDetails.objects.filter(archer=self.request.user)
                                         .order_by('-shoot_session__date')[:5])
@@ -287,11 +287,46 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
+# Doesn't work - is_staff cannot edit other is_staff users
+# class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
+#     model = MemberProfile
+#     form_class = StaffEditProfileForm
+#     template_name = 'membership/edit_profile.html'
+#     permission_required = 'auth.change_user'
+#
+#     def form_valid(self, form):
+#         form.save()
+#         # messages.success(self.request, "Profile updated successfully.")
+#         return redirect('profile-view')
+#
+#     def post(self, request, *args, **kwargs):
+#         if 'generate_reset_token' in request.POST:
+#             profile = self.get_object()
+#             try:
+#                 profile.generate_reset_token()
+#                 messages.success(request, f"Reset token generated: {profile.reset_token}")
+#             except Exception as e:
+#                 messages.error(request, str(e))
+#
+#         return super().post(request, *args, **kwargs)
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['edit_user'] = True
+#         return context
+
+class StaffEditProfileView(UserPassesTestMixin, UpdateView):
     model = MemberProfile
     form_class = StaffEditProfileForm
     template_name = 'membership/edit_profile.html'
-    permission_required = 'auth.change_user'
+    # permission_required = 'auth.change_user' or owner
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return redirect("login")
 
     def form_valid(self, form):
         form.save()
@@ -299,9 +334,13 @@ class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
         return redirect('profile-view')
 
     def post(self, request, *args, **kwargs):
+        # If 'generate_reset_token' action is triggered, process reset token generation
         if 'generate_reset_token' in request.POST:
             profile = self.get_object()
             try:
+                # Generate reset token only if the user is the owner or has the right permissions
+                if profile != request.user:
+                    raise PermissionError("You do not have permission to generate a reset token for this user.")
                 profile.generate_reset_token()
                 messages.success(request, f"Reset token generated: {profile.reset_token}")
             except Exception as e:
@@ -313,6 +352,13 @@ class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['edit_user'] = True
         return context
+
+    def get_object(self, queryset=None):
+
+        obj = super().get_object(queryset)
+        if obj != self.request.user and not self.request.user.has_perm('auth.change_user') and obj.is_staff:
+            raise Http404("You do not have permission to edit this profile.")
+        return obj
 
 
 class MembersListView(UserPassesTestMixin, ListView):

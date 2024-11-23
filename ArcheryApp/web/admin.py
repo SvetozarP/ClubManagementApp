@@ -3,7 +3,8 @@ from simple_history.admin import SimpleHistoryAdmin
 from unfold.admin import ModelAdmin
 
 from ArcheryApp.common.mixins import StaffRestrictedAdminMixin, RestrictedToStaffMixin
-from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, MembershipInfo, ContactRequest
+from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, MembershipInfo, ContactRequest, \
+    HandleContactRequest
 
 
 # Register your models here.
@@ -31,3 +32,8 @@ class ContactRequestAdmin(RestrictedToStaffMixin, ModelAdmin):
     list_display = ['name', 'email', 'created_at']
     search_fields = ['name', 'email', 'message']
     list_filter = ['created_at']
+
+
+@admin.register(HandleContactRequest)
+class HandleContactRequest(RestrictedToStaffMixin, ModelAdmin):
+    list_display = ['action_by', 'contact_request']

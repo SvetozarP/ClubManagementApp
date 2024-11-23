@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
 
 from django.urls import reverse_lazy
@@ -29,9 +29,11 @@ NEW_SECRET_KEY = config('DJANGO_NEW_SECRET_KEY', default=get_random_secret_key()
 SECRET_KEY = NEW_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
+
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='localhost', cast=Csv())
 
 MY_APPS = [
     'ArcheryApp.web',
@@ -170,4 +172,8 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ]
+}
+
+UNFOLD = {
+    "SITE_HEADER": "Croesoswallt Archers Admin Panel",
 }

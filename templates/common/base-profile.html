@@ -1,6 +1,5 @@
-{# TODO: Contact us functionality "answered by" #}
+{# TODO: Field booking functionality - edit and delete#}
 {# TODO: Training details functionality #}
-{# TODO: Field booking functionality #}
 {% extends 'common/base.html' %}
 {% block content %}
     {% load static %}
@@ -14,9 +13,9 @@
             {% if request.user.is_authenticated %}
                 <ul class="profile-menu-items">
                     <li><a href="{% url 'edit-profile' %}">Edit profile</a></li>
-                    <li><a href="#">Book Shooting session</a></li>
+                    <li><a href="{% url 'create-booking' %}">Book Shooting session</a></li>
                     <li><a href="#">Record training details</a></li>
-                    <li><a href="#">Field Bookings summary</a></li>
+                    <li><a href="{% url 'list-bookings' %}">Field Bookings summary</a></li>
                     <li><a href="{% url 'club-announcements' %}">See all announcements</a></li>
                 </ul>
             {% endif %}

@@ -45,13 +45,13 @@
                         {% endif %}
                     </ul>
                 </div>
-                {# TODO: fix bookings functionality #}
+                {# TODO: fix bookings functionality - detail view with option to delete if active #}
                 <div class="announcements">
                     <h3>Your upcoming shooting sessions in the next 7 days:</h3>
                     <ul>
                         {% if field_bookings %}
                             {% for booking in field_bookings %}
-                                <li><a href="#">bookingtest</a></li>
+                                <li><a href="#">{{ booking.date }}: {{ booking.time_from }} - {{ booking.time_to }}</a></li>
                             {% endfor %}
                         {% endif %}
                     </ul>
@@ -62,7 +62,7 @@
                         <ul>
                             {% if contact_requests %}
                                 {% for request in contact_requests %}
-                                    <li><a href="#">bookingtest</a></li>
+                                    <li>Request from: <a href="{% url 'contact-us-detail' request.pk %}">{{ request.name }} - {{ request.email }}</a></li>
                                 {% endfor %}
                             {% endif %}
                         </ul>
@@ -71,6 +71,7 @@
                 <div class="announcements">
                     <h3>Your latest training notes</h3>
                     <ul>
+                    {# TODO: session details and link to individual sessions #}
                         {% if session_details %}
                             {% for session in session_details %}
                                 <li><a href="#">{{ session.details }}</a></li>
@@ -78,7 +79,6 @@
                         {% endif %}
                     </ul>
                 </div>
-                {# TODO: contact requests display and buttons to mark answered, recording who answered #}
             </div>
         </section>
 {% endblock %}

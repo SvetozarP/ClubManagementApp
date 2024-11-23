@@ -2,6 +2,7 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 
 from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
+from ArcheryApp.membership.models import MemberProfile
 
 
 # Create your models here.
@@ -123,3 +124,27 @@ class ContactRequest(models.Model):
 
     def __str__(self):
         return f"Message from {self.name} ({self.email})"
+
+
+class HandleContactRequest(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Request answers"
+
+    action_by = models.ForeignKey(
+        to=MemberProfile,
+        on_delete=models.CASCADE,
+        related_name='handled_contact_requests',
+    )
+
+    contact_request = models.ForeignKey(
+        to=ContactRequest,
+        on_delete=models.CASCADE,
+        related_name='handled_contact_requests',
+    )
+
+    action_taken = models.TextField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )

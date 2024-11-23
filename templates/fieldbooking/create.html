@@ -1,0 +1,20 @@
+{% extends 'common/base-profile.html' %}
+{% block member_content %}
+    <section class="create-section">
+        <div class="create-section-div">
+                <p class="create-user-title">Create booking</p>
+            <form method="post" class="booking-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                    <button type="submit" class="admin-submit-btn">Create</button>
+            </form>
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
