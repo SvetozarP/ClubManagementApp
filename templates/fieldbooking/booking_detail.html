@@ -1,0 +1,35 @@
+{% extends 'common/base-profile.html' %}
+{% block member_content %}
+    {% load static %}
+    <section class="profile-content">
+        <h2 style="text-align: left">Field Booking: {{ object.date }}</h2>
+        <div class="contents-wrapper">
+            <div class="profile-details-announcement">
+                <ul>
+                    {% if object.lane %}
+                        <li>Lane: {{ object.lane.lane_no }} - {{ object.lane.distance }}</li>
+                    {% endif %}
+                    <li>Start Time: {{ object.time_from }}</li>
+                    <li>End Time: {{ object.time_to }}</li>
+                    {% if user.is_authenticated and user.pk == object.archer.pk and object.is_active %}
+                        <li><a href="{% url 'edit-field-booking' object.pk %}">Edit Booking</a></li>
+                        <li><a href="{% url 'cancel-field-booking' object.pk %}">Cancel Booking</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="profile-details-announcement">
+                {% if object.shoot_session_details %}
+                    <li>Notes: {{ object.shoot_session_details.details }}</li>
+                    <p><a href="{% url 'edit-notes' object.shoot_session_details.id %}">Edit Notes</a></p>
+                    <p><a href="{% url 'delete-notes' object.shoot_session_details.id %}">Delete Notes</a></p>
+                {% else %}
+                    <form method="post" class="response-form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="admin-submit-btn">Add notes</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

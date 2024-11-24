@@ -6,15 +6,26 @@
             <div class="profile-details-announcement">
                 <ul>
                     {% for booking in object_list %}
-                        <li>{{ booking.date }}: {{ booking.time_from }} - {{ booking.time_to }}
+                        <li><a href="{% url 'booking-detail' booking.pk %}"
+                               class="highlight_link">{{ booking.date }}: {{ booking.time_from }}
+                            - {{ booking.time_to }}</a>
                             {% if booking.shoot_session_details %}
-                                Note recorded on: {{ booking.shoot_session_details.created_at }}
+                                - <a href="{% url 'edit-notes' booking.shoot_session_details.id %}"
+                                    class="highlight_link">Note recorded
+                                on: {{ booking.shoot_session_details.created_at }}</a>
                                 </li>
                             {% endif %}
                     {% empty %}
                         <li>No bookings found</li>
                     {% endfor %}
                 </ul>
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </section>

@@ -1,14 +1,17 @@
 from datetime import datetime
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic.edit import FormMixin
 
-from ArcheryApp.fieldbookings.forms import CreateBookingForm
+from ArcheryApp.fieldbookings.forms import CreateBookingForm, UpdateBookingForm
 from ArcheryApp.fieldbookings.models import FieldBookings
+from ArcheryApp.training.forms import AddTrainingNotesForm
 
 
 # Create your views here.
@@ -54,3 +57,46 @@ def create_event(request, date):
         form = CreateBookingForm(initial={'date': event_date})
 
     return render(request, "fieldbooking/create.html", {"form": form})
+
+
+class FieldBookingDetailView(LoginRequiredMixin, FormMixin, DetailView):
+    model=FieldBookings
+    template_name = 'fieldbooking/booking_detail.html'
+    form_class = AddTrainingNotesForm
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+
+            add_details = form.save(commit=False)
+            add_details.archer_id = request.user.id
+            add_details.shoot_session = self.object
+            add_details.save()
+
+            return redirect("booking-detail", pk=self.object.pk)
+        else:
+            messages.error(request, "There was an error with your submission.")
+            return self.form_invalid(form)
+
+
+class EditBookingView(LoginRequiredMixin, UpdateView):
+    model = FieldBookings
+    template_name = 'fieldbooking/edit_booking.html'
+    form_class = UpdateBookingForm
+    success_url = reverse_lazy('list-bookings')
+
+    def form_valid(self, form):
+        form.instance.archer = self.request.user
+        return super().form_valid(form)
+
+
+class DeleteBookingView(LoginRequiredMixin, DeleteView):
+    model = FieldBookings
+    success_url = reverse_lazy('list-bookings')
+
+    def get(self, request, *args, **kwargs):
+
+        self.object = self.get_object()
+        self.object.delete()
+        return redirect(self.success_url)

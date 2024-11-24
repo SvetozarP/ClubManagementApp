@@ -293,3 +293,7 @@ footer ul {
     font-size: 0.7em;
     font-style: italic;
 }
+
+.highlight_link:hover {
+    opacity: 50%;
+}

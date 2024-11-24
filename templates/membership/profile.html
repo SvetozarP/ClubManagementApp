@@ -1,84 +1,92 @@
 {% extends 'common/base-profile.html' %}
-        {% block member_content %}
-        <section class="profile-content">
-            <div class="contents-wrapper">
-                <div class="profile-details">
-                    <h3>Profile Details</h3>
-                    {% if user.image %}
-                        <div class="profile-picture"><img
-                                src="{{ user.image.url }}"
-                                alt="Profile picture"/></div>
-                    {% else %}
-                        <div class="profile-picture"><img
-                                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                                alt="Profile picture"/></div>
-                    {% endif %}
-                    <ul>
-                        <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
-                        <li>Email: {{ user.email }}</li>
-                        <li>Phone: {{ user.phone_number }}</li>
-                        <li>Address: {{ user.address }}</li>
-                    </ul>
-                </div>
-                <div class="announcements">
-                    <h3>Unread announcements:</h3>
-                    <ul>
-                        {% if unread_announcements %}
-                            {% for announcement in unread_announcements %}
-                                <li><a href="{% url 'detail-club-announcements' announcement.pk %}">{{ announcement.title }}</a></li>
-                            {% endfor %}
-                        {% else %}
-                            <li>No unread announcements</li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <div class="announcements">
-                    <h3>Your upcoming events in the next 7 days:</h3>
-                    <ul>
-                        {% if upcoming_events %}
-                            {% for event in upcoming_events %}
-                                {% if user in event.participants.all %}
-                                    <li><a href="{% url 'club-event-detail' event.pk %}">{{ event.title }}
-                                        - {{ event.start_date }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div>
-                {# TODO: fix bookings functionality - detail view with option to delete if active #}
-                <div class="announcements">
-                    <h3>Your upcoming shooting sessions in the next 7 days:</h3>
-                    <ul>
-                        {% if field_bookings %}
-                            {% for booking in field_bookings %}
-                                <li><a href="#">{{ booking.date }}: {{ booking.time_from }} - {{ booking.time_to }}</a></li>
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div>
-                {% if request.user.is_staff %}
-                    <div class="announcements">
-                        <h3>Contact requests</h3>
-                        <ul>
-                            {% if contact_requests %}
-                                {% for request in contact_requests %}
-                                    <li>Request from: <a href="{% url 'contact-us-detail' request.pk %}">{{ request.name }} - {{ request.email }}</a></li>
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    </div>
+{% block member_content %}
+    <section class="profile-content">
+        <div class="contents-wrapper">
+            <div class="profile-details">
+                <h3>Profile Details</h3>
+                {% if user.image %}
+                    <div class="profile-picture"><img
+                            src="{{ user.image.url }}"
+                            alt="Profile picture"/></div>
+                {% else %}
+                    <div class="profile-picture"><img
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                            alt="Profile picture"/></div>
                 {% endif %}
+                <ul>
+                    <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
+                    <li>Email: {{ user.email }}</li>
+                    <li>Phone: {{ user.phone_number }}</li>
+                    <li>Address: {{ user.address }}</li>
+                </ul>
+            </div>
+            <div class="announcements">
+                <h3>Unread announcements:</h3>
+                <ul>
+                    {% if unread_announcements %}
+                        {% for announcement in unread_announcements %}
+                            <li>
+                                <a href="{% url 'detail-club-announcements' announcement.pk %}"
+                                   class="highlight_link">{{ announcement.title }}</a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li>No unread announcements</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="announcements">
+                <h3>Your upcoming events in the next 7 days:</h3>
+                <ul>
+                    {% if upcoming_events %}
+                        {% for event in upcoming_events %}
+                            {% if user in event.participants.all %}
+                                <li><a href="{% url 'club-event-detail' event.pk %}"
+                                       class="highlight_link">{{ event.title }}
+                                    - {{ event.start_date }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="announcements">
+                <h3>Your upcoming shooting sessions in the next 7 days:</h3>
+                <ul>
+                    {% if field_bookings %}
+                        {% for booking in field_bookings %}
+                            <li>
+                                <a href="{% url 'booking-detail' booking.pk %}"
+                                   class="highlight_link">{{ booking.date }}: {{ booking.time_from }}
+                                    - {{ booking.time_to }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            {% if request.user.is_staff %}
                 <div class="announcements">
-                    <h3>Your latest training notes</h3>
+                    <h3>Contact requests</h3>
                     <ul>
-                    {# TODO: session details and link to individual sessions #}
-                        {% if session_details %}
-                            {% for session in session_details %}
-                                <li><a href="#">{{ session.details }}</a></li>
+                        {% if contact_requests %}
+                            {% for request in contact_requests %}
+                                <li>Request from: <a href="{% url 'contact-us-detail' request.pk %}"
+                                                     class="highlight_link">{{ request.name }}
+                                    - {{ request.email }}</a></li>
                             {% endfor %}
                         {% endif %}
                     </ul>
                 </div>
+            {% endif %}
+            <div class="announcements">
+                <h3>Your latest training notes</h3>
+                <ul>
+                    {% if session_details %}
+                        {% for session in session_details %}
+                            <li><a href="{% url 'edit-notes' session.pk %}"
+                                   class="highlight_link">{{ session.shoot_session.date }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
             </div>
-        </section>
+        </div>
+    </section>
 {% endblock %}

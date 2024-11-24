@@ -1,13 +1,13 @@
 {% extends 'common/base.html' %}
 {% block content %}
-{% load static %}
-{% include 'common/hero-top.html' %}
-        <h2>Becoming a member</h2>
+    {% load static %}
+    {% include 'common/hero-top.html' %}
+    <h2>Becoming a member</h2>
     {% if membership_info %}
         <section class="event-item">
             <div class="event-wrapper">
                 {% if membership_info.image %}
-                <div class="event-media"><img src="{{ membership_info.image.url }}" alt="Club logo"></div>
+                    <div class="event-media"><img src="{{ membership_info.image.url }}" alt="Club logo"></div>
                 {% endif %}
                 <div class="event-text">
                     <p>{{ membership_info.description }}</p>
@@ -15,21 +15,22 @@
             </div>
         </section>
     {% else %}
-            <section class="event-item">
+        <section class="event-item">
             <div class="event-wrapper">
                 <div class="event-text">
-                    <p>We are sorry, but this information is not available right now. Why not contact us to receive details?</p>
+                    <p>We are sorry, but this information is not available right now. Why not contact us to receive
+                        details?</p>
                 </div>
             </div>
         </section>
     {% endif %}
-        <div class="membership-button-wrapper">
-            <div class="membership-contact-us">
-                {# TODO: captcha #}
-                <a href="{% url 'contact-us' %}">Contact us!</a>
-            </div>
-            <div class="membership-contact-us">
-                <a href="{% url 'register-user' %}">Register</a>
-            </div>
+    <div class="membership-button-wrapper">
+        <div class="membership-contact-us">
+            {# TODO: captcha #}
+            <a href="{% url 'contact-us' %}">Contact us!</a>
         </div>
+        <div class="membership-contact-us">
+            <a href="{% url 'register-user' %}">Register</a>
+        </div>
+    </div>
 {% endblock %}

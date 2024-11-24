@@ -1,17 +1,20 @@
 {% extends 'common/base-profile.html' %}
-        {% block member_content %}
-        <section class="profile-content">
+{% block member_content %}
+    <section class="profile-content">
         <h2 style="text-align: left">Club Announcements</h2>
-            <div class="contents-wrapper">
-                <div class="profile-details-announcement">
-                    <ul>
-                        {% for announcement in object_list %}
-                            <li><a href="{% url 'detail-club-announcements' announcement.pk %}">Title: {{ announcement.title }} - Created by: {{ announcement.author.username }} - On: {{ announcement.created_at }} - Read by: {{ announcement.read_by.count }}</a></li>
-                        {% empty %}
-                            <li>No announcements found</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+        <div class="contents-wrapper">
+            <div class="profile-details-announcement">
+                <ul>
+                    {% for announcement in object_list %}
+                        <li>
+                            <a href="{% url 'detail-club-announcements' announcement.pk %}" class="highlight_link">Title: {{ announcement.title }}
+                                - Created by: {{ announcement.author.username }} - On: {{ announcement.created_at }} -
+                                Read by: {{ announcement.read_by.count }}</a></li>
+                    {% empty %}
+                        <li>No announcements found</li>
+                    {% endfor %}
+                </ul>
             </div>
-        </section>
+        </div>
+    </section>
 {% endblock %}

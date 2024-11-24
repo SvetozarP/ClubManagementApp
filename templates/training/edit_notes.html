@@ -1,0 +1,18 @@
+{% extends 'common/base-profile.html' %}
+{% block member_content %}
+    <section class="create-section">
+        <div class="create-section-div">
+            <p class="create-user-title">Edit notes</p>
+            <form method="post" class="booking-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="admin-submit-btn">Update</button>
+            </form>
+            <p>Shot on: {{ object.shoot_session.date }}</p>
+            {% if object.shoot_session.lane %}
+                <p>Using lane: {{ object.shoot_session.lane.lane_no }}</p>
+                <p>Distance: {{ object.shoot_session.lane.distance }}</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

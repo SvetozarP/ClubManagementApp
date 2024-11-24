@@ -1,7 +1,8 @@
 from django.urls import path
 
-from ArcheryApp.training.views import training
+from ArcheryApp.training.views import training, EditNotesView, DeleteNoteView
 
 urlpatterns = [
-    path('', training, name='training'),
+    path('<int:pk>/edit/', EditNotesView.as_view(), name='edit-notes'),
+    path('<int:pk>/delete/', DeleteNoteView.as_view(), name='delete-notes'),
 ]
