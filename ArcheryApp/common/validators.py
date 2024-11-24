@@ -1,3 +1,5 @@
+import sys
+
 from django.core.exceptions import ValidationError
 from PIL import Image
 from django.utils.deconstruct import deconstructible
@@ -37,6 +39,11 @@ class PhotoTypeValidator:
 class ArcheryAppPasswordValidator:
 
     def validate(self, password, user=None):
+
+        # Skip validation for createsuperuser command
+        if 'createsuperuser' in sys.argv:
+            return  # Skip validation for createsuperuser command
+
         if len(password) < 10:
             raise ValidationError(
                 _("The password must be at least 10 characters long."),
