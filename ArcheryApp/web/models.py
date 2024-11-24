@@ -53,10 +53,6 @@ class ClubHistory(models.Model):
 
     image = CloudinaryField(
         'image',
-        validators=[
-            PhotoSizeValidator(max_size=5 * 1024 * 1024),
-            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp'])
-        ],
         blank=True,
         null=True,
     )
@@ -93,10 +89,6 @@ class MembershipInfo(models.Model):
 
     image = CloudinaryField(
         'image',
-        validators=[
-            PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
-            PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
-        ],
         blank=True,
         null=True,
     )

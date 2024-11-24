@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from simple_history.models import HistoricalRecords
 
@@ -74,3 +75,13 @@ class FieldBookings(models.Model):
     def is_active(self):
         event_datetime = datetime.combine(self.date, self.time_to)
         return event_datetime >= datetime.now()
+
+    def clean(self):
+        """
+        Validates that time_from is before time_to.
+        """
+        if self.time_from and self.time_to and self.time_from >= self.time_to:
+            raise ValidationError({
+                'time_from': 'Start time must be before the end time.',
+                'time_to': 'End time must be after the start time.',
+            })

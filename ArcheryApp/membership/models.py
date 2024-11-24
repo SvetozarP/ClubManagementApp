@@ -100,10 +100,6 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
 
     image = CloudinaryField(
         'image',
-        validators=[
-            PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
-            PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
-        ],
         blank=True,
         null=True,
     )

@@ -1,6 +1,7 @@
 from datetime import date, datetime
 import pytz
 from cloudinary.models import CloudinaryField
+from django.core.exceptions import ValidationError
 
 from django.db import models
 
@@ -36,10 +37,6 @@ class ClubEvents(models.Model):
 
     image = CloudinaryField(
         'image',
-        validators=[
-            PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
-            PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
-        ],
         null=True,
         blank=True,
     )
@@ -82,3 +79,13 @@ class ClubEvents(models.Model):
     def is_active(self):
         today_datetime = datetime.now(pytz.UTC)
         return self.end_date >= today_datetime
+
+    def clean(self):
+        """
+        Validates that the start_date is before the end_date.
+        """
+        if self.start_date and self.end_date and self.start_date >= self.end_date:
+            raise ValidationError({
+                'start_date': 'Start date must be before the end date.',
+                'end_date': 'End date must be after the start date.',
+            })
