@@ -1,5 +1,6 @@
 from datetime import date, datetime
 import pytz
+from cloudinary.models import CloudinaryField
 
 from django.db import models
 
@@ -25,12 +26,22 @@ class ClubEvents(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
-    image = models.ImageField(
-        upload_to = 'clubevents/',
+    # image = models.ImageField(
+    #     upload_to = 'clubevents/',
+    #     validators=[
+    #         PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
+    #         PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
+    #     ]
+    # )
+
+    image = CloudinaryField(
+        'image',
         validators=[
             PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
             PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
-        ]
+        ],
+        null=True,
+        blank=True,
     )
 
     hosted_by = models.CharField(

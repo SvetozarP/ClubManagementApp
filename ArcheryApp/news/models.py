@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 from ArcheryApp.membership.models import MemberProfile
 from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
@@ -15,12 +16,22 @@ class ClubNews(models.Model):
         max_length=100
     )
 
-    image = models.ImageField(
-        upload_to = 'clubnews/',
+    # image = models.ImageField(
+    #     upload_to = 'clubnews/',
+    #     validators=[
+    #         PhotoSizeValidator(max_size=5 * 1024 * 1024),
+    #         PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
+    #     ]
+    # )
+
+    image = CloudinaryField(
+        'image',
         validators=[
             PhotoSizeValidator(max_size=5 * 1024 * 1024),
             PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
-        ]
+        ],
+        null=True,
+        blank=True,
     )
 
     news_text = models.TextField()

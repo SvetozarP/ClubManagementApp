@@ -3,7 +3,7 @@
     <section class="create-section">
         <div class="create-section-div">
             <p class="create-user-title">Edit user</p>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 {% if edit_user %}

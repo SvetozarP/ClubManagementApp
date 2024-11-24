@@ -11,7 +11,7 @@
             {% if create_user %}
                 <p class="create-user-title">Create new user</p>
             {% endif %}
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 {% if edit_announcement %}

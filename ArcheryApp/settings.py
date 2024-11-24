@@ -14,6 +14,10 @@ from pathlib import Path
 from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,7 +60,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'simple_history'
+    'simple_history',
+    'cloudinary',
+    'cloudinary_storage',
 ] + MY_APPS
 
 MIDDLEWARE = [
@@ -155,7 +161,7 @@ STATICFILES_DIRS = [
     BASE_DIR /  'staticfiles',
 ]
 
-MEDIA_URL = 'media/'
+#MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 # Default primary key field type
@@ -177,6 +183,22 @@ REST_FRAMEWORK = {
 UNFOLD = {
     "SITE_HEADER": "Croesoswallt Archers Admin Panel",
 }
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET')
+)
+
+MEDIA_URL = 'https://res.cloudinary.com/{}/'.format(CLOUDINARY_STORAGE['CLOUD_NAME'])
+#MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # SECURE_HSTS_SECONDS = 31536000

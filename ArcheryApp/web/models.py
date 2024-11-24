@@ -1,5 +1,6 @@
 from django.db import models
 from simple_history.models import HistoricalRecords
+from cloudinary.models import CloudinaryField
 
 from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 from ArcheryApp.membership.models import MemberProfile
@@ -12,12 +13,18 @@ class ClubMission(models.Model):
     class Meta:
         verbose_name_plural = "Club Mission"
 
-    image_url = models.ImageField(
-        upload_to = 'mediafiles/',
-        validators=[
-            PhotoSizeValidator(max_size=5 * 1024 * 1024),
-            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp'])
-        ]
+    # image_url = models.ImageField(
+    #     upload_to = 'mediafiles/',
+    #     validators=[
+    #         PhotoSizeValidator(max_size=5 * 1024 * 1024),
+    #         PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp'])
+    #     ]
+    # )
+
+    image_url = CloudinaryField(
+        'image_url',
+        blank=True,
+        null=True
     )
 
     mission_text = models.TextField()
@@ -34,8 +41,18 @@ class ClubHistory(models.Model):
     class Meta:
         verbose_name_plural = "Club History"
 
-    image = models.ImageField(
-        upload_to = 'history/',
+    # image = models.ImageField(
+    #     upload_to = 'history/',
+    #     validators=[
+    #         PhotoSizeValidator(max_size=5 * 1024 * 1024),
+    #         PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp'])
+    #     ],
+    #     blank=True,
+    #     null=True,
+    # )
+
+    image = CloudinaryField(
+        'image',
         validators=[
             PhotoSizeValidator(max_size=5 * 1024 * 1024),
             PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp'])
@@ -64,8 +81,18 @@ class MembershipInfo(models.Model):
         verbose_name_plural = "Membership Information"
 
     description = models.TextField()
-    image = models.ImageField(
-        upload_to = 'membershipinfo/',
+    # image = models.ImageField(
+    #     upload_to = 'membershipinfo/',
+    #     validators=[
+    #         PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
+    #         PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
+    #     ],
+    #     blank=True,
+    #     null=True,
+    # )
+
+    image = CloudinaryField(
+        'image',
         validators=[
             PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
             PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),

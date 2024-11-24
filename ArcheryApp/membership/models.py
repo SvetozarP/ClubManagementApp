@@ -1,5 +1,6 @@
 import uuid
 from datetime import timedelta
+from cloudinary.models import CloudinaryField
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.exceptions import ValidationError
@@ -87,8 +88,18 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
         auto_now_add=True,
     )
 
-    image = models.ImageField(
-        upload_to = 'mediafiles/',
+    # image = models.ImageField(
+    #     upload_to = 'mediafiles/',
+    #     validators=[
+    #         PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
+    #         PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
+    #     ],
+    #     blank=True,
+    #     null=True,
+    # )
+
+    image = CloudinaryField(
+        'image',
         validators=[
             PhotoSizeValidator(max_size=MAX_PICTURE_SIZE),
             PhotoTypeValidator(allowed_formats=PICTURE_ALLOWED_FORMATS),
