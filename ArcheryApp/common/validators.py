@@ -1,39 +1,12 @@
 import sys
-
+import requests
 from django.core.exceptions import ValidationError
 from PIL import Image
+from io import BytesIO
 from django.utils.deconstruct import deconstructible
 import re
 from django.utils.translation import gettext as _
 
-
-
-# @deconstructible
-# class PhotoSizeValidator:
-#     def __init__(self, max_size=5 * 1024 * 1024):  # Default is 5 MB
-#         self.max_size = max_size
-#
-#     def __call__(self, value):
-#         if value.size > self.max_size:
-#             raise ValidationError(f"File size should not exceed {self.max_size / (1024 * 1024)} MB.")
-#
-# @deconstructible
-# class PhotoTypeValidator:
-#     def __init__(self, allowed_formats=None):
-#         if allowed_formats is None:
-#             allowed_formats = ['jpeg', 'png', 'gif', 'webp']  # Default formats
-#         self.allowed_formats = allowed_formats
-#
-#     def __call__(self, value):
-#         try:
-#             # Open the image to check its format
-#             img = Image.open(value)
-#             img_format = img.format.lower()
-#
-#             if img_format not in self.allowed_formats:
-#                 raise ValidationError(f"Unsupported image format. Allowed formats are: {', '.join(self.allowed_formats)}.")
-#         except Exception:
-#             raise ValidationError("Invalid image file.")
 
 @deconstructible
 class PhotoSizeValidator:
@@ -45,6 +18,7 @@ class PhotoSizeValidator:
         if hasattr(value, 'size') and value.size > self.max_size:
             raise ValidationError(f"File size should not exceed {self.max_size / (1024 * 1024):.2f} MB.")
 
+
 @deconstructible
 class PhotoTypeValidator:
     def __init__(self, allowed_formats=None):
@@ -54,8 +28,12 @@ class PhotoTypeValidator:
 
     def __call__(self, value):
         try:
-            # Use PIL to validate the image format
-            img = Image.open(value)
+            # Fetch the file from Cloudinary using its URL
+            response = requests.get(value.url, stream=True)
+            response.raise_for_status()  # Ensure the request was successful
+
+            # Open the file with Pillow
+            img = Image.open(BytesIO(response.content))
             img_format = img.format.lower()  # Get format in lowercase (e.g., 'jpeg')
 
             if img_format not in self.allowed_formats:
@@ -64,6 +42,7 @@ class PhotoTypeValidator:
                 )
         except Exception as e:
             raise ValidationError(f"Invalid image file: {str(e)}")
+
 
 class ArcheryAppPasswordValidator:
 
