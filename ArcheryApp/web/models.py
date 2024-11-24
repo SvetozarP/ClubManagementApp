@@ -23,6 +23,10 @@ class ClubMission(models.Model):
 
     image_url = CloudinaryField(
         'image_url',
+        validators=[
+            PhotoSizeValidator(max_size=5 * 1024 * 1024),
+            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
+        ],
         blank=True,
         null=True
     )
@@ -53,6 +57,10 @@ class ClubHistory(models.Model):
 
     image = CloudinaryField(
         'image',
+        validators=[
+            PhotoSizeValidator(max_size=5 * 1024 * 1024),
+            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
+        ],
         blank=True,
         null=True,
     )
@@ -70,8 +78,6 @@ class ClubHistory(models.Model):
 
 
 class MembershipInfo(models.Model):
-    MAX_PICTURE_SIZE = 5 * 1024 * 1024
-    PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
 
     class Meta:
         verbose_name_plural = "Membership Information"
@@ -89,6 +95,10 @@ class MembershipInfo(models.Model):
 
     image = CloudinaryField(
         'image',
+        validators=[
+            PhotoSizeValidator(max_size=5 * 1024 * 1024),
+            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
+        ],
         blank=True,
         null=True,
     )

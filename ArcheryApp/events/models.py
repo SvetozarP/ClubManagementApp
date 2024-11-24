@@ -13,8 +13,6 @@ from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 
 class ClubEvents(models.Model):
     MAX_TITLE_LENGTH = 100
-    MAX_PICTURE_SIZE = 5 * 1024 * 1024
-    PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
     MAX_HOSTED_BY_LEN = 255
 
     class Meta:
@@ -37,6 +35,10 @@ class ClubEvents(models.Model):
 
     image = CloudinaryField(
         'image',
+        validators=[
+            PhotoSizeValidator(max_size=5 * 1024 * 1024),
+            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
+        ],
         null=True,
         blank=True,
     )

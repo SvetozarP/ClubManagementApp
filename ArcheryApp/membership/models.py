@@ -25,8 +25,6 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
     USERNAME_MIN_LEN = 5
     CSRF_MAX_LEN = 64
     NAME_MAX_LEN = 50
-    MAX_PICTURE_SIZE = 5 * 1024 * 1024
-    PICTURE_ALLOWED_FORMATS = ['jpeg', 'png', 'gif', 'webp']
 
     email = models.EmailField(
         validators=[validate_unique_email],
@@ -100,6 +98,10 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
 
     image = CloudinaryField(
         'image',
+        validators=[
+            PhotoSizeValidator(max_size=5 * 1024 * 1024),
+            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp']),
+        ],
         blank=True,
         null=True,
     )

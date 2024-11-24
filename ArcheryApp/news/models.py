@@ -26,6 +26,10 @@ class ClubNews(models.Model):
 
     image = CloudinaryField(
         'image',
+        validators=[
+            PhotoSizeValidator(max_size=5 * 1024 * 1024),
+            PhotoTypeValidator(allowed_formats=['jpeg', 'png', 'gif', 'webp'])
+        ],
         null=True,
         blank=True,
     )
