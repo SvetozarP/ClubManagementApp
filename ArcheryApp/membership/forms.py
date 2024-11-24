@@ -303,7 +303,7 @@ class StaffEditProfileForm(forms.ModelForm):
         model = MemberProfile
         fields = [
             'first_name', 'last_name', 'username',
-            'phone_number', 'address', 'email',
+            'phone_number', 'address',
             'is_active', 'image'
         ]
 

@@ -7,6 +7,13 @@
     {% else %}
         <h2>Events</h2>
     {% endif %}
+{#    {% if messages %}#}
+{#        <ul>#}
+{#            {% for message in messages %}#}
+{#                <li>{{ message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% endif %}#}
     {% if object_list %}
         {% for event in object_list %}
             <section class="event-item">

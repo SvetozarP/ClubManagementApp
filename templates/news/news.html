@@ -41,5 +41,12 @@
         {% else %}
             <a href="{% url 'club-past-news' %}" class="past-news">See past news...</a>
         {% endif %}
+{#        {% if messages %}#}
+{#            <ul>#}
+{#                {% for message in messages %}#}
+{#                    <li>{{ message }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        {% endif %}#}
     </section>
 {% endblock %}

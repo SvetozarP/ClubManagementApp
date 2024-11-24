@@ -9,6 +9,15 @@
 </head>
 <body>
 <header>
+    {% if messages %}
+        <div id="message-container">
+            {% for message in messages %}
+                <div class="custom-alert custom-{{ message.tags }}">
+                    <span class="alert-message">{{ message }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     <nav class="main-navigation">
         <ul>
             {% if request.user.is_authenticated %}
@@ -63,6 +72,21 @@
         <li><a href="https://www.instagram.com/croesoswallt_archers"><i class="fa-brands fa-instagram"></i></a></li>
     </ul>
 </footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const messageContainer = document.getElementById('message-container');
+        if (messageContainer) {
+            setTimeout(() => {
+                messageContainer.style.opacity = '1';
+                messageContainer.style.transition = 'opacity 0.5s ease-in-out';
+            }, 10);  
+        }
 
+        setTimeout(() => {
+            messageContainer.style.opacity = '0';
+            messageContainer.style.transition = 'opacity 0.5s ease-out';  //
+        }, 10000);  
+    });
+</script>
 </body>
 </html>

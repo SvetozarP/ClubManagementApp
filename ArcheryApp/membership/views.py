@@ -226,7 +226,7 @@ class RequestResetTokenView(FormView):
         )
 
 
-        # # Inform the user
+        # Security issue - not informing the user, as email can be guessed. Admin to communicate with user.
         # messages.success(
         #     self.request,
         #     f"Your password reset token is: {profile.reset_token}. Use it within 1 hour."
@@ -339,7 +339,7 @@ class StaffEditProfileView(UserPassesTestMixin, UpdateView):
             profile = self.get_object()
             try:
                 # Generate reset token only if the user is the owner or has the right permissions
-                if profile != request.user:
+                if profile != request.user and not request.user.is_superuser:
                     raise PermissionError("You do not have permission to generate a reset token for this user.")
                 profile.generate_reset_token()
                 messages.success(request, f"Reset token generated: {profile.reset_token}")
@@ -373,4 +373,7 @@ class MembersListView(UserPassesTestMixin, ListView):
         return redirect("login")
 
     def get_queryset(self):
-        return MemberProfile.objects.filter(Q(is_superuser=False) & Q(is_staff=False))
+        if self.request.user.is_staff and not self.request.user.is_superuser:
+            return MemberProfile.objects.filter(Q(is_superuser=False) & Q(is_staff=False))
+        elif self.request.user.is_superuser:
+            return MemberProfile.objects.filter(is_superuser=False)

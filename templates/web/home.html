@@ -2,6 +2,13 @@
 {% block content %}
     {% load static %}
     {% include 'common/hero-top.html' %}
+{#    {% if messages %}#}
+{#        <ul>#}
+{#            {% for message in messages %}#}
+{#                <li>{{ message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% endif %}#}
     <section class="introduction">
         {% if mission %}
             {% if mission.image_url %}

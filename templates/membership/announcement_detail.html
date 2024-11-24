@@ -15,5 +15,12 @@
             <a class="admin-submit-btn" href="{% url 'update-club-announcements' object.pk %}">Update announcement</a>
             <a class="admin-submit-btn" href="{% url 'delete-club-announcements' object.pk %}">Delete announcement</a>
         {% endif %}
+{#        {% if messages %}#}
+{#            <ul>#}
+{#                {% for message in messages %}#}
+{#                    <li>{{ message }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        {% endif %}#}
     </section>
 {% endblock %}
