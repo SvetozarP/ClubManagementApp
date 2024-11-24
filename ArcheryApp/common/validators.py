@@ -23,17 +23,22 @@ class PhotoSizeValidator:
 class PhotoTypeValidator:
     def __init__(self, allowed_formats=None):
         if allowed_formats is None:
-            allowed_formats = ['jpeg', 'png', 'gif', 'webp']  # Default formats
+            allowed_formats = ['jpeg', 'png', 'gif', 'webp']
         self.allowed_formats = allowed_formats
 
     def __call__(self, value):
         try:
-            # Fetch the file from Cloudinary using its URL
-            response = requests.get(value.url, stream=True)
-            response.raise_for_status()  # Ensure the request was successful
+            if hasattr(value, 'url'):
+                response = requests.get(value.url, stream=True)
+                response.raise_for_status()  # Ensure the request was successful
+                file_content = BytesIO(response.content)
+            elif hasattr(value, 'file'):  # InMemoryUploadedFile case
+                file_content = value.file
+            else:
+                raise ValidationError("The provided file is not valid.")
 
             # Open the file with Pillow
-            img = Image.open(BytesIO(response.content))
+            img = Image.open(file_content)
             img_format = img.format.lower()  # Get format in lowercase (e.g., 'jpeg')
 
             if img_format not in self.allowed_formats:
