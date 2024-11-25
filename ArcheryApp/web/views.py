@@ -65,7 +65,7 @@ async def contact_us(request):
             return JsonResponse({'success': False, 'errors': form.errors}, status=400)
 
     form = ContactForm()
-    return render(request, 'web/contact-us.html', {'form': form})
+    return render(request, 'web/contact_us.html', {'form': form})
 
 # Async view for staff to see submissions
 @user_passes_test(lambda u: u.is_staff)
