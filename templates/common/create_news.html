@@ -1,13 +1,16 @@
-{% extends 'common/base.html' %}
-{% block content %}
-    {% load static %}
-    {% include 'common/hero-top.html' %}
-    {% if form.is_active %}
-        <h2 class="create-new-title">Update News</h2>
-    {% else %}
-        <h2 class="create-new-title">Create News</h2>
-    {% endif %}
+{#{% extends 'common/base.html' %}#}
+{#{% block content %}#}
+{#    {% load static %}#}
+{#    {% include 'common/hero_top.html' %}#}
+{% extends 'common/base_profile.html' %}
+{% block member_content %}
+
     <div class="create-form-container">
+        {% if form.is_active %}
+            <h2 class="create-new-title" style="color: #fff;">Update News</h2>
+        {% else %}
+            <h2 class="create-new-title" style="color: #fff;">Create News</h2>
+        {% endif %}
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ form.title }}</p>
@@ -37,11 +40,11 @@
         </form>
 
     </div>
-{#    {% if messages %}#}
-{#        <ul>#}
-{#            {% for message in messages %}#}
-{#                <li>{{ message }}</li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#    {% endif %}#}
+    {#    {% if messages %}#}
+    {#        <ul>#}
+    {#            {% for message in messages %}#}
+    {#                <li>{{ message }}</li>#}
+    {#            {% endfor %}#}
+    {#        </ul>#}
+    {#    {% endif %}#}
 {% endblock %}
