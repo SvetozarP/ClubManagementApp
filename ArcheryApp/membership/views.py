@@ -189,7 +189,7 @@ class MemberProfileView(LoginRequiredMixin, TemplateView):
         context['unread_announcements'] = ((ClubAnnouncements.objects
                                            .exclude(read_by__username=self.request.user.username))
                                            .order_by('-created_at'))
-        context['upcoming_events'] = ClubEvents.objects.filter(end_date__lte=next_week)
+        context['upcoming_events'] = ClubEvents.objects.filter(Q(end_date__lte=next_week) & Q(end_date__gte=datetime.now()))
         context['field_bookings'] = FieldBookings.objects.filter(Q(archer=self.request.user) & Q(date__lte=next_week) & Q(date__gte=datetime.now()))
         context['contact_requests'] = ContactRequest.objects.filter(is_answered=False)
         context['session_details'] = (ShootSessionDetails.objects.filter(archer=self.request.user)
