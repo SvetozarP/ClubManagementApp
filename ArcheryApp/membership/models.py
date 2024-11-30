@@ -28,7 +28,7 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(
         validators=[validate_unique_email],
-        # unique=True
+        #unique=True
     )
 
     username = models.CharField(
