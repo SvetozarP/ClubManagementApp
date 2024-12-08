@@ -19,7 +19,8 @@ from ArcheryApp.news.models import ClubAnnouncements
 from ArcheryApp.training.models import ShootSessionDetails
 from ArcheryApp.web.models import ContactRequest
 
-
+# After is_staff creates a new user and issues CSRF token to the user, he can then register himself.
+# Profile must be completed before the user can login and see protected information.
 class RegisterUserView(FormView):
     template_name = "membership/register.html"
     form_class = UserRegistrationForm
@@ -38,7 +39,9 @@ class RegisterUserView(FormView):
         return super().form_valid(form)
 
 
-
+# Is_staff creates a user, completes the initial information and obtains CSRF token. This is displayed then in the
+# template for 10 seconds. The CSRF token must be passed to the user, so he can register. CSRF token can be obtained
+# if missed by is_staff from the members view list.
 class CreateUserView(UserPassesTestMixin, FormView):
     template_name = "membership/create.html"
     form_class = MemberProfileCreationForm
@@ -83,6 +86,7 @@ class CreateUserView(UserPassesTestMixin, FormView):
 
         return super().form_valid(form)
 
+# FBV for login. Converted to CBV below.
 # def login_user(request):
 #     if request.method == "POST":
 #         form = LoginForm(request.POST)
@@ -100,6 +104,8 @@ class CreateUserView(UserPassesTestMixin, FormView):
 #     return render(request, "membership/login.html", {"form": form})
 
 
+# User Login view. Limiting attempts to 5, after which there's 15 min timeout. Successful login will reset the attempt count.
+# We are basing the login attempt count on the client IP.
 class LoginUserView(FormView):
     template_name = "membership/login.html"
     form_class = LoginForm
@@ -149,7 +155,7 @@ class LoginUserView(FormView):
     def form_invalid(self, form):
         return super().form_invalid(form)
 
-
+# Once registered, the user must complete his profile by setting password and username.
 class CompleteProfileView(LoginRequiredMixin, FormView):
     template_name = "membership/register.html"
     form_class = CompleteProfileForm
@@ -178,6 +184,8 @@ class CompleteProfileView(LoginRequiredMixin, FormView):
 
 
 
+# Profile page view. Passing info for the profile itself, any announcements that have not been read by the user,
+# Upcoming events, Any field bookings for the user, unanswered contact requests (for is_staff) and session details - last 5.
 class MemberProfileView(LoginRequiredMixin, TemplateView):
     template_name = "membership/profile.html"
 
@@ -197,11 +205,14 @@ class MemberProfileView(LoginRequiredMixin, TemplateView):
 
         return context
 
+# simple logout - just press the button.
 def logout_view(request):
     logout(request)
     return redirect("home")
 
-
+# View for forgotten password. Reset password happens with is_staff interference. The request creates record in contact
+# request with the newly generated CSRF token, which is_staff needs to pass to the correct user, based on the details
+# in the member profile. User can request new password only once per hour.
 class RequestResetTokenView(FormView):
     template_name = "membership/request_reset_token.html"
     form_class = PasswordResetRequestForm
@@ -226,7 +237,7 @@ class RequestResetTokenView(FormView):
         )
 
 
-        # Security issue - not informing the user, as email can be guessed. Admin to communicate with user.
+        # Security issue - not informing the user, as email can be guessed. is_staff to communicate with user.
         # messages.success(
         #     self.request,
         #     f"Your password reset token is: {profile.reset_token}. Use it within 1 hour."
@@ -234,6 +245,8 @@ class RequestResetTokenView(FormView):
         return super().form_valid(form)
 
 
+# View for resetting password. User must have a CSRF token, obtained from is_staff to be able to reset his password.
+# No auto login for security reasons.
 class PasswordResetView(FormView):
     template_name = "membership/reset_password.html"
     form_class = PasswordResetForm
@@ -248,10 +261,13 @@ class PasswordResetView(FormView):
         profile.set_password(new_password)
         profile.clear_reset_token()
 
+        # Message disabled for security reasons
         # messages.success(self.request, "Your password has been reset. You can now log in.")
         return super().form_valid(form)
 
 
+# profile update view. View for ordinary members. They can update only their details. If is_staff, redirect to more
+# advanced view
 class EditProfileView(LoginRequiredMixin, UpdateView):
     model = MemberProfile
     form_class = UserEditProfileForm
@@ -287,7 +303,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         return context
 
 
-# Doesn't work - is_staff cannot edit other is_staff users
+# Doesn't work - is_staff must not edit other is_staff users
 # class StaffEditProfileView(PermissionRequiredMixin, UpdateView):
 #     model = MemberProfile
 #     form_class = StaffEditProfileForm
@@ -315,6 +331,9 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 #         context['edit_user'] = True
 #         return context
 
+# Advanced view for is_staff members. is_staff can edit regular users, and cannot edit other is_staff members, only
+# their own information. SuperUser can edit everything. When editing other users, is_staff can only generate reset
+# token. They cannot update or handle passwords raw.
 class StaffEditProfileView(UserPassesTestMixin, UpdateView):
     model = MemberProfile
     form_class = StaffEditProfileForm
@@ -361,6 +380,8 @@ class StaffEditProfileView(UserPassesTestMixin, UpdateView):
         return obj
 
 
+# Members list. is_staff can see only normal users, is_superuser can see everything, apart of other is_superuser members.
+# is_superuser can be edited through the admin panel.
 class MembersListView(UserPassesTestMixin, ListView):
     model = MemberProfile
     template_name = 'membership/members_list.html'

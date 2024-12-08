@@ -9,6 +9,7 @@ from ArcheryApp.news.models import ClubNews, ClubAnnouncements
 
 
 # Create your views here.
+# Select only active news to be visible. Order them by date.
 class NewsListView(TemplateView):
     template_name = 'news/news.html'
 
@@ -18,6 +19,7 @@ class NewsListView(TemplateView):
         return context
 
 
+# Show past news, if someone needs to reference
 class PastNewsView(TemplateView):
     template_name = 'news/news.html'
 
@@ -28,6 +30,8 @@ class PastNewsView(TemplateView):
         return context
 
 
+# Details for chosen news - full text etc. is_admin can edit news. Passing is_news variable to the template as one
+# template serves news and events.
 class NewsDetailView(DetailView):
     model = ClubNews
     template_name = 'common/detail.html'
@@ -37,7 +41,7 @@ class NewsDetailView(DetailView):
         context['is_news'] = True
         return context
 
-
+# Is_staff can create news
 class CreateNewsView(UserPassesTestMixin, CreateView):
     model = ClubNews
     form_class = CreateNewsForm
@@ -55,7 +59,7 @@ class CreateNewsView(UserPassesTestMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-
+# Is_staff can update news
 class UpdateNewsView(UserPassesTestMixin, UpdateView):
     model = ClubNews
     template_name = 'common/create_news.html'
@@ -69,13 +73,14 @@ class UpdateNewsView(UserPassesTestMixin, UpdateView):
         messages.error(self.request, "You do not have permission to access this page.")
         return redirect("login")
 
-
+# List of club announcements - visible for people who have not read them
 class ClubAnnouncementView(LoginRequiredMixin, ListView):
     model = ClubAnnouncements
     template_name = 'membership/club_announcements.html'
     exclude = ['read_by']
 
 
+# Is_staff can create new announcements. These are visible in all profiles details
 class CreateAnnouncementView(UserPassesTestMixin, CreateView):
     model = ClubAnnouncements
     template_name = 'membership/create.html'
@@ -99,6 +104,8 @@ class CreateAnnouncementView(UserPassesTestMixin, CreateView):
         context['is_announcement'] = True
         return context
 
+# When announcement is opened, we record that the user has read the announcement. We do not display announcements that
+# have been read by the user to the user.
 class AnnouncementDetailView(LoginRequiredMixin, DetailView):
     model = ClubAnnouncements
     template_name = 'membership/announcement_detail.html'
@@ -112,6 +119,9 @@ class AnnouncementDetailView(LoginRequiredMixin, DetailView):
 
         return obj
 
+
+# Is_staff can update announcements. When announcement is updated, we clear the read_by field to ensure that all users
+# read the updated announcement
 class AnnouncementUpdateView(UserPassesTestMixin, UpdateView):
     model = ClubAnnouncements
     template_name = 'membership/create.html'
@@ -140,6 +150,7 @@ class AnnouncementUpdateView(UserPassesTestMixin, UpdateView):
         return context
 
 
+# is_staff can delete announcements.
 class DeleteAnnouncementView(UserPassesTestMixin, DeleteView):
     model = ClubAnnouncements
     success_url = reverse_lazy('club-announcements')

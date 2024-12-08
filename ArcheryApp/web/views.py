@@ -20,6 +20,8 @@ from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, Member
 
 
 # Create your views here.
+
+# IndexView - collects data from mission, events, news, shooting sessions and testimonials and passes them to the main template
 class IndexView(TemplateView):
     template_name = 'web/home.html'
 
@@ -34,11 +36,13 @@ class IndexView(TemplateView):
 
         return context
 
+# Club History - ListView which simply displays entries for club history. Used to get better formatting in the template
 class HistoryList(ListView):
     model = ClubHistory
     template_name = 'web/history.html'
 
 
+# This is only the front page where users are told how to become members.
 class MembershipDetailsView(TemplateView):
     template_name = 'membership/membership.html'
 
@@ -49,7 +53,7 @@ class MembershipDetailsView(TemplateView):
 
         return context
 
-
+# contact us form. Not working with Celery / Redis currently. This can be added as additional logic.
 async def contact_us(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -67,7 +71,8 @@ async def contact_us(request):
     form = ContactForm()
     return render(request, 'web/contact_us.html', {'form': form})
 
-# Async view for staff to see submissions
+# Async view for staff to see submissions - All contact requests are saved in the database. Response to requests is recorded (action taken)
+# Only is_staff users can see contact requests and answer contact_requests. This is visible in the profile page for is_staff users
 @user_passes_test(lambda u: u.is_staff)
 async def contact_requests(request):
     contact_requests = await sync_to_async(list)(ContactRequest.objects.all())
@@ -76,6 +81,7 @@ async def contact_requests(request):
 def custom_404_view(request, exception=None):
     return render(request, '404.html', status=404)
 
+# is_staff users can see contact requests and answer contact_requests. Answers are recorded as one-to-one with the request.
 class ContactRequestDetailsView(UserPassesTestMixin, FormMixin, DetailView):
     model = ContactRequest
     fields = ['name', 'email', 'message']

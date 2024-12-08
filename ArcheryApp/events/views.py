@@ -19,6 +19,7 @@ from ArcheryApp.events.serializers import BookingSerializer, FieldBookingSeriali
 from ArcheryApp.fieldbookings.models import FieldBookings
 
 
+# Display the calendar. We want to see when someone is shooting and we want to see events on some date
 @login_required
 def calendar_view(request):
     bookings = ClubEvents.objects.all()
@@ -34,7 +35,7 @@ def calendar_view(request):
 
     return render(request, 'events/calendar.html', {'data': data})
 
-
+# API for calendar events - combine events and shooting sessions to show everyone field activity.
 class CalendarAPIView(APIView):
     def get(self, request, *args, **kwargs):
         bookings = ClubEvents.objects.all()
@@ -49,6 +50,7 @@ class CalendarAPIView(APIView):
         })
 
 
+# Show all events which are active, sorted by date
 class EventsListView(ListView):
     model = ClubEvents
     template_name = 'events/events.html'
@@ -58,6 +60,7 @@ class EventsListView(ListView):
         context['object_list'] = ClubEvents.objects.filter(Q(end_date__gte=date.today()) & Q(is_archived=False)).order_by('-created_at')
         return context
 
+# Show past events
 class PastEventsView(TemplateView):
     template_name = 'events/events.html'
 
@@ -68,6 +71,7 @@ class PastEventsView(TemplateView):
         return context
 
 
+# Details for event. Passing is_event to template so it can handle the event.
 class EventDetailsView(DetailView):
     model = ClubEvents
     template_name = 'common/detail.html'
@@ -77,7 +81,7 @@ class EventDetailsView(DetailView):
         context['is_event'] = True
         return context
 
-
+# Creating new event. This is for is_staff.
 class CreateNewEventView(UserPassesTestMixin, CreateView):
     model = ClubEvents
     form_class = CreateEventForm
@@ -96,6 +100,7 @@ class CreateNewEventView(UserPassesTestMixin, CreateView):
         return super().form_valid(form)
 
 
+# is_staff can update the event
 class UpdateEventView(UserPassesTestMixin, UpdateView):
     model = ClubEvents
     template_name = 'common/create_new_event.html'
@@ -109,6 +114,9 @@ class UpdateEventView(UserPassesTestMixin, UpdateView):
         messages.error(self.request, "You do not have permission to access this page.")
         return redirect("login")
 
+
+# FBV - register participation in the event. We can register or withdraw participation. Events, for which we are registered
+# will be displayed in the member profile page.
 @login_required
 def participation_functionality(request, pk: int):
     event_object = get_object_or_404(ClubEvents, id=pk)

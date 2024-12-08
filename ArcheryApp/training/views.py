@@ -7,9 +7,8 @@ from ArcheryApp.training.models import ShootSessionDetails
 
 
 # Create your views here.
-def training(request):
-    pass
 
+# View to edit notes for shooting sessions. This can be expanded further if added functionality to talk to Golden Records
 class EditNotesView(LoginRequiredMixin, UpdateView):
     model = ShootSessionDetails
     fields = ['details']
@@ -17,6 +16,7 @@ class EditNotesView(LoginRequiredMixin, UpdateView):
     template_name = 'training/edit_notes.html'
 
 
+# Option to delete notes from shooting sessions. Visible to owner only - the URL is not passed to anyone else but the owner.
 class DeleteNoteView(LoginRequiredMixin, DeleteView):
     model = ShootSessionDetails
     success_url = reverse_lazy('list-bookings')

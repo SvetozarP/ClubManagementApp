@@ -1,6 +1,7 @@
 from django.contrib.auth.backends import ModelBackend
 from ArcheryApp.membership.models import MemberProfile
 
+# We have to be able to login with email or with username.
 class EmailOrUsernameModelBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:

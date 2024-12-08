@@ -5,7 +5,7 @@ from ArcheryApp.membership.models import MemberProfile
 
 
 # Create your models here.
-
+# Hold details for any shooting sessions
 class ShootSessionDetails(models.Model):
 
     class Meta:

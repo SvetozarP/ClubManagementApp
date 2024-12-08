@@ -7,12 +7,13 @@ from ArcheryApp.membership.models import MemberProfile
 
 
 # Create your models here.
-
+# ClubMission holds information about the Club mission part of the landing page. This can be modified by the SuperUser
 class ClubMission(models.Model):
 
     class Meta:
         verbose_name_plural = "Club Mission"
 
+    # Had to convert to Cloudinary as Superhosting does not support mediafiles over HTTPS
     # image_url = models.ImageField(
     #     upload_to = 'mediafiles/',
     #     validators=[
@@ -38,13 +39,15 @@ class ClubMission(models.Model):
     def __str__(self):
         return f"Mission: {self.mission_text}"
 
-
+# Information about club history. All separate entries create their own section in club history, which then gets
+# different style for odd and even.
 class ClubHistory(models.Model):
     HISTORY_MAX_TITLE_LEN = 100
 
     class Meta:
         verbose_name_plural = "Club History"
 
+    # Convert to Cloudinary field.
     # image = models.ImageField(
     #     upload_to = 'history/',
     #     validators=[
@@ -76,13 +79,15 @@ class ClubHistory(models.Model):
     def __str__(self):
         return f"History: {self.history_title}"
 
-
+# Membership info - show people how to become members and give option to contact the club. If user has token, option to
+# Register account.
 class MembershipInfo(models.Model):
 
     class Meta:
         verbose_name_plural = "Membership Information"
 
     description = models.TextField()
+    # Convert to Cloudinary field
     # image = models.ImageField(
     #     upload_to = 'membershipinfo/',
     #     validators=[
@@ -112,6 +117,8 @@ class MembershipInfo(models.Model):
     def __str__(self):
         return f'Last updated: {self.updated_on}'
 
+# Hold info for any testimonials collected from participants in events / beginners courses / sessions and display in the
+# main landing page. This can be modified by SuperUser.
 class Testimonials(models.Model):
     CUSTOMER_MAX_LEN = 100
 
@@ -133,6 +140,7 @@ class Testimonials(models.Model):
         return f'{self.customer} - {self.date_given}'
 
 
+# Hold information about any contact requests. One-to-One with HandleContactRequests and mark answered ones
 class ContactRequest(models.Model):
     NAME_MAX_LEN = 100
 
@@ -155,6 +163,7 @@ class ContactRequest(models.Model):
         return f"Message from {self.name} ({self.email})"
 
 
+# One-to-One with Contact requests - record who answered the request, when and what was done over the request
 class HandleContactRequest(models.Model):
 
     class Meta:

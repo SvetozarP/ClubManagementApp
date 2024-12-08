@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret! - New secret key configured.
 NEW_SECRET_KEY = config('DJANGO_NEW_SECRET_KEY', default=get_random_secret_key())
 
 SECRET_KEY = NEW_SECRET_KEY
@@ -35,8 +35,10 @@ SECRET_KEY = NEW_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
+# Taking debug from env variables and casting to bool.
 DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
+# CSV format of allowed hosts from env variables (CSV from python decouple)
 ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='localhost', cast=Csv())
 
 MY_APPS = [
@@ -51,18 +53,18 @@ MY_APPS = [
 # Application definition
 
 INSTALLED_APPS = [
-    "unfold",  # before django.contrib.admin
+    "unfold",  # before django.contrib.admin - Adding Unfold for admin
     "unfold.contrib.filters",  # optional, if special filters are needed
-    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+    "unfold.contrib.simple_history",  # using django-simple-history to monitor changes in Club history / mission etc.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'simple_history',
-    'cloudinary',
-    'cloudinary_storage',
+    'simple_history', # Simple history module - tracking changes in modules and able to revert changes
+    'cloudinary', # Cloudinary module
+    'cloudinary_storage', # Cloudinary storage module
 ] + MY_APPS
 
 MIDDLEWARE = [
@@ -73,13 +75,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'ArcheryApp.membership.middleware.ProfileCompletionMiddleware',
-    'simple_history.middleware.HistoryRequestMiddleware',
+    'ArcheryApp.membership.middleware.ProfileCompletionMiddleware', # middleware for profile completion - Not allowing user to continue if profile not completed
+    'simple_history.middleware.HistoryRequestMiddleware', # middleware for Django simple history
 ]
 
 AUTHENTICATION_BACKENDS = [
-    # 'django.contrib.auth.backends.ModelBackend',
-    'ArcheryApp.membership.backends.EmailOrUsernameModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend', - relying on custom logic only. This is not needed
+    'ArcheryApp.membership.backends.EmailOrUsernameModelBackend', # backend to allow auth with username or email (one of)
 ]
 
 ROOT_URLCONF = 'ArcheryApp.urls'
@@ -105,7 +107,7 @@ WSGI_APPLICATION = 'ArcheryApp.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.1/ref/settings/#databases - all in .env; deployed version uses MySQL
 
 DATABASES = {
     'default': {
@@ -136,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
     {
-        'NAME': 'ArcheryApp.common.validators.ArcheryAppPasswordValidator',
+        'NAME': 'ArcheryApp.common.validators.ArcheryAppPasswordValidator', # custom validator for the password logic
     },
 ]
 
@@ -158,23 +160,23 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR /  'staticfiles',
+    BASE_DIR /  'staticfiles', # Deployed version uses Whitenoise
 ]
 
 #MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles') # All in Cloudinary for the deployed version
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'membership.MemberProfile'
+AUTH_USER_MODEL = 'membership.MemberProfile' # Custom member profile, inherits AbstractBaseUser and adds custom fields
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
-REST_FRAMEWORK = {
+REST_FRAMEWORK = { # Used for the calendar
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ]
@@ -200,7 +202,7 @@ MEDIA_URL = 'https://res.cloudinary.com/{}/'.format(CLOUDINARY_STORAGE['CLOUD_NA
 #MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
+# below config is active in the deployed version.
 # SECURE_HSTS_SECONDS = 31536000
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 # SECURE_HSTS_PRELOAD = True

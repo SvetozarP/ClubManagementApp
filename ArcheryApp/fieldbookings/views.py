@@ -16,9 +16,7 @@ from ArcheryApp.training.forms import AddTrainingNotesForm
 
 # Create your views here.
 
-def bookings(request):
-    pass
-
+# Book a shooting session
 class CreateFieldBookingsView(LoginRequiredMixin, CreateView):
     model = FieldBookings
     form_class = CreateBookingForm
@@ -29,7 +27,7 @@ class CreateFieldBookingsView(LoginRequiredMixin, CreateView):
         form.instance.archer = self.request.user
         return super().form_valid(form)
 
-
+# See own bookings
 class ListBookingsView(LoginRequiredMixin, ListView):
     model = FieldBookings
     template_name = 'fieldbooking/bookings_list.html'
@@ -38,6 +36,7 @@ class ListBookingsView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return FieldBookings.objects.filter(archer=self.request.user)
 
+# FBV to create a new event.
 @login_required
 def create_event(request, date):
     try:
@@ -58,7 +57,7 @@ def create_event(request, date):
 
     return render(request, "fieldbooking/create.html", {"form": form})
 
-
+# See field booking sessions and add notes if necessary
 class FieldBookingDetailView(LoginRequiredMixin, FormMixin, DetailView):
     model=FieldBookings
     template_name = 'fieldbooking/booking_detail.html'
@@ -80,6 +79,7 @@ class FieldBookingDetailView(LoginRequiredMixin, FormMixin, DetailView):
             return self.form_invalid(form)
 
 
+# Edit booking
 class EditBookingView(LoginRequiredMixin, UpdateView):
     model = FieldBookings
     template_name = 'fieldbooking/edit_booking.html'
@@ -91,6 +91,7 @@ class EditBookingView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
+# Delete booking
 class DeleteBookingView(LoginRequiredMixin, DeleteView):
     model = FieldBookings
     success_url = reverse_lazy('list-bookings')

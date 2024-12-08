@@ -6,7 +6,7 @@ from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 
 
 # Create your models here.
-
+# Club news model
 class ClubNews(models.Model):
 
     class Meta:
@@ -16,6 +16,7 @@ class ClubNews(models.Model):
         max_length=100
     )
 
+    # Converted to Cloudinary
     # image = models.ImageField(
     #     upload_to = 'clubnews/',
     #     validators=[
@@ -52,6 +53,7 @@ class ClubNews(models.Model):
     def __str__(self):
         return f'{self.title} - {self.created_at}'
 
+# Announcements model
 class ClubAnnouncements(models.Model):
     MAX_TITLE_LENGTH = 100
 

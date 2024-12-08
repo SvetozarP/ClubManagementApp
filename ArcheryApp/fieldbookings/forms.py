@@ -2,7 +2,7 @@ from django import forms
 
 from ArcheryApp.fieldbookings.models import FieldBookings
 
-
+# Base form for field bookings
 class FieldBookingBaseForm(forms.ModelForm):
     class Meta:
         model = FieldBookings

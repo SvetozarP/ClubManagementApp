@@ -2,7 +2,7 @@ from django import forms
 
 from ArcheryApp.news.models import ClubNews, ClubAnnouncements
 
-
+# Base form for announcements. Allowing inheritance for different purposes.
 class NewsBaseForm(forms.ModelForm):
     class Meta:
         model = ClubNews
@@ -32,17 +32,17 @@ class NewsBaseForm(forms.ModelForm):
             ),
         }
 
-
+# Create news, inherits base form and disables author and is_active fields.
 class CreateNewsForm(NewsBaseForm):
     class Meta(NewsBaseForm.Meta):
         exclude = ['author', 'is_active']
 
-
+# News can be updated
 class UpdateNewsForm(NewsBaseForm):
     class Meta(NewsBaseForm.Meta):
         pass
 
-
+# Announcement base form, inherit for specific uses.
 class AnnouncementBaseForm(forms.ModelForm):
     class Meta:
         model = ClubAnnouncements
@@ -69,11 +69,12 @@ class AnnouncementBaseForm(forms.ModelForm):
         }
 
 
+# Create new announcement
 class CreateNewAnnouncementForm(AnnouncementBaseForm):
     class Meta(AnnouncementBaseForm.Meta):
         exclude = ['created_at', 'author', 'read_by']
 
-
+# Update new announcement
 class UpdateAnnouncementForm(AnnouncementBaseForm):
     class Meta(AnnouncementBaseForm.Meta):
         exclude = ['created_at', 'author', 'read_by']

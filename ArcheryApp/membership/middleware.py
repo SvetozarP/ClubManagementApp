@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.urls import reverse
 
+# We want user to complete their profile before using the website.
 class ProfileCompletionMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

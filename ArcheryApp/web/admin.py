@@ -8,6 +8,7 @@ from ArcheryApp.web.models import ClubMission, Testimonials, ClubHistory, Member
 
 
 # Register your models here.
+# Registering models for edit from the admin panel. Hold modification history with SimpleHistory
 @admin.register(ClubMission)
 class ClubMissionAdmin(StaffRestrictedAdminMixin, ModelAdmin, SimpleHistoryAdmin):
     pass
@@ -26,14 +27,14 @@ class MembershipInfoAdmin(StaffRestrictedAdminMixin, ModelAdmin, SimpleHistoryAd
 class TestimonialsAdmin(StaffRestrictedAdminMixin, ModelAdmin):
     pass
 
-
+# Enable search fields and filters for contact requests
 @admin.register(ContactRequest)
 class ContactRequestAdmin(RestrictedToStaffMixin, ModelAdmin):
     list_display = ['name', 'email', 'created_at']
     search_fields = ['name', 'email', 'message']
     list_filter = ['created_at']
 
-
+# Register actions taken for contact requests
 @admin.register(HandleContactRequest)
 class HandleContactRequest(RestrictedToStaffMixin, ModelAdmin):
     list_display = ['action_by', 'contact_request']

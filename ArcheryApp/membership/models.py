@@ -12,6 +12,8 @@ from django.utils.timezone import now
 from ArcheryApp.common.validators import PhotoSizeValidator, PhotoTypeValidator
 from ArcheryApp.membership.managers import MemberProfileManager
 
+# We need to ensure that email cannot be repeated. This cannot happen through unique in the model due to the logic of
+# creating user and resetting password. Ambiguous error message returned for security reasons.
 def validate_unique_email(value):
     if MemberProfile.objects.filter(email=value,profile_completed=True).exists():
         raise ValidationError(
@@ -19,6 +21,7 @@ def validate_unique_email(value):
             params={'value': value},
         )
 
+# Custom user model, inherits and extends AbstractBaseUser.
 class MemberProfile(AbstractBaseUser, PermissionsMixin):
     MAX_PHONE_NO_LEN = 11
     USERNAME_MAX_LEN = 150
@@ -130,6 +133,7 @@ class MemberProfile(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    # Methods for generating CSRF and reset tokens
     def generate_csrf_token(self):
         self.csrf_token = get_random_string(64)
         self.save()

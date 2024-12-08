@@ -4,7 +4,7 @@ from django.test import TestCase
 # Create your tests here.
 
 
-import cloudinary.uploader
+import cloudinary.uploader # Just testing if photos upload is successful and all env variables are transferred properly
 
 cloudinary.config(
     cloud_name=config('CLOUDINARY_CLOUD_NAME'),

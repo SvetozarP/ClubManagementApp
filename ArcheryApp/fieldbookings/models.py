@@ -9,6 +9,7 @@ from ArcheryApp.membership.models import MemberProfile
 
 
 # Create your models here.
+# Adds functionality for future - field can be configured with lanes and distances
 class FieldConfiguration(models.Model):
     MAX_DISTANCE_FIELD_LEN = 9
 
@@ -31,7 +32,7 @@ class FieldConfiguration(models.Model):
 
     history = HistoricalRecords()
 
-
+# List of bookings for shooting
 class FieldBookings(models.Model):
 
     class Meta:
