@@ -3,6 +3,7 @@ Creating an Archery club management app with Django.
 Deployed website can be seen here: https://www.sourcedev.tech/
 
 Web App Concept: "Archery Club Manager with Field Booking"
+
 Description: This web app will help club administrators and members manage events, track training sessions, and book archery fields. It will streamline the club’s daily operations by organizing event schedules, member profiles, training progress, and field availability.
 
 It comprises of 12 models, powered by PostgreSQL, managing:
@@ -119,3 +120,31 @@ Future developments and extensions:
 - Integration with user's calendars
 - Ability to integrate with mobile application
 
+#To set up the app:
+
+1. Clone the app from the repository into the server's directory:
+git clone https://github.com/SvetozarP/ClubManagementApp
+
+2. Create Python virtual environment:
+python -m venv .venv
+
+3. Activate the environment:
+./venv/Scripts/activate (for Windows) or source ./venv/bin/activate (Linux / MacOS)
+
+4. Install the required software:
+pip install -r requirements.txt
+
+Please note that the project was written for Windows environment, therefore, the psycopg2 driver may not install if used on another OS.
+To overcome this issue, please comment the psycopg2 line in requirements.txt and proceed with the install of the other modules.
+When the install was completed, manually install psycopg2-binary (pip install psycopg2-binary).
+If using different version of SQL (MySQL, MSSQL) please replace psycopg with the relevant driver.
+The project was designed to run with PostgreSQL.
+
+Please note that the project was not tested on python 3.13 or on psycopg3.
+
+5. Rename or Copy the .env.template file to .env
+6. Complete the required variables in the newly created .env file (including the address / port / user and password for the database that is to be used).
+7. Make the migrations - python manage.py migrate
+8. Create superuser for the app
+9. It is recommended that the project is started with DEBUG=True initially to ensure that everything has installed correctly.
+10. Follow the instructions of the hosting company to run in production.
