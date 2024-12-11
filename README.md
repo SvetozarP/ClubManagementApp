@@ -145,6 +145,20 @@ Please note that the project was not tested on python 3.13 or on psycopg3.
 5. Rename or Copy the .env.template file to .env
 6. Complete the required variables in the newly created .env file (including the address / port / user and password for the database that is to be used).
 7. Make the migrations - python manage.py migrate
-8. Create superuser for the app
+8. Create superuser for the app - The superuser can create Club Mission, information about membership, club history and add
+Testimonials if these are available. Events and News can also be created by the superuser. Superuser can register
+other users and distribute access tokens for those users to register themselves. The superuser can distribute access and
+grant access to the is_staff personnel.
+
+- Club Mission - displayed on the front page. Takes a picture and text which should describe the mission of the club.
+- Club History - Each entry takes a picture and text and are distributed in their own sections. This allows achieving
+good visual flow and allows segregation of the history to periods.
+- Testimonials can be just added as text, date and person who has given the testimonial (this can be recorded as Anonymous too)
+Testimonials are then automatically picked up by the carousel for display into the main page.
+- News and Events can be created by is_staff or is_superuser access. The newest 3 are displayed on the front page.
+
+The rest of the functionality can be seen in the comments to the views / forms / models or above in the general information
+about the app.
+
 9. It is recommended that the project is started with DEBUG=True initially to ensure that everything has installed correctly.
 10. Follow the instructions of the hosting company to run in production.
