@@ -63,6 +63,10 @@ class FieldBookingDetailView(LoginRequiredMixin, FormMixin, DetailView):
     template_name = 'fieldbooking/booking_detail.html'
     form_class = AddTrainingNotesForm
 
+    def get_queryset(self):
+        # Restrict queryset to bookings owned by the logged-in user
+        return FieldBookings.objects.filter(archer=self.request.user)
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = self.get_form()
@@ -90,14 +94,24 @@ class EditBookingView(LoginRequiredMixin, UpdateView):
         form.instance.archer = self.request.user
         return super().form_valid(form)
 
+    def get_queryset(self):
+        # Restrict queryset to bookings owned by the logged-in user
+        return FieldBookings.objects.filter(archer=self.request.user)
+
 
 # Delete booking
 class DeleteBookingView(LoginRequiredMixin, DeleteView):
     model = FieldBookings
     success_url = reverse_lazy('list-bookings')
 
-    def get(self, request, *args, **kwargs):
+    def get_queryset(self):
+        # Restrict queryset to bookings owned by the logged-in user
+        return FieldBookings.objects.filter(archer=self.request.user)
 
+    def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if self.object.archer != self.request.user:
+            # Optionally raise 404 to hide the existence of the booking
+            raise Http404("You do not have permission to delete this booking.")
         self.object.delete()
         return redirect(self.success_url)
